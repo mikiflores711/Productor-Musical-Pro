@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Cursos Disponibles - Productor Musical Pro</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+    -webkit-tap-highlight-color:transparent;
+}
+
+:root{
+    --bg:#000;
+    --gold:#FFD700;
+    --red:#ff0000;
+    --green:#00e676;
+    --muted:#bdbdbd;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    background:var(--bg);
+    color:#fff;
+}
+
+/* ENCABEZADO */
+
+.top-bar{
+    position:sticky;
+    top:0;
+    z-index:50;
+    background:rgba(0,0,0,.96);
+    border-bottom:1px solid rgba(255,215,0,.18);
+    padding:14px 15px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+}
+
+.back-btn{
+    background:var(--gold);
+    color:#000;
+    text-decoration:none;
+    padding:10px 14px;
+    border-radius:8px;
+    font-weight:bold;
+    font-size:14px;
+    white-space:nowrap;
+}
+
+.top-title{
+    color:#fff;
+    font-size:18px;
+    font-weight:bold;
+    text-align:right;
+}
+
+/* PORTADA */
+
+.banner{
+    width:100%;
+    height:260px;
+    overflow:hidden;
+    position:relative;
+    background:#111;
+}
+
+.banner img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+}
+
+.banner-info{
+    position:absolute;
+    inset:0;
+    background:linear-gradient(180deg,rgba(0,0,0,.1),rgba(0,0,0,.86));
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-end;
+    padding:22px 15px;
+}
+
+.banner-info h1{
+    color:var(--gold);
+    font-size:30px;
+    line-height:1.05;
+    margin-bottom:8px;
+}
+
+.banner-info p{
+    color:#e0e0e0;
+    font-size:14px;
+    line-height:1.5;
+    max-width:720px;
+}
+
+/* FILTROS */
+
+.filter-bar{
+    display:flex;
+    gap:10px;
+    overflow-x:auto;
+    padding:15px;
+    background:#050505;
+    border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.filter-bar::-webkit-scrollbar{
+    height:0;
+}
+
+.filter-btn{
+    border:none;
+    background:#151515;
+    color:#fff;
+    border:1px solid rgba(255,255,255,.12);
+    padding:10px 14px;
+    border-radius:999px;
+    font-weight:bold;
+    font-size:13px;
+    white-space:nowrap;
+    cursor:pointer;
+}
+
+.filter-btn.active{
+    background:var(--gold);
+    color:#000;
+    border-color:var(--gold);
+}
+
+/* SECCIONES */
+
+.section{
+    padding:20px 15px;
+}
+
+.section-title{
+    color:var(--gold);
+    font-size:24px;
+    font-weight:bold;
+    margin-bottom:15px;
+}
+
+/* GRID DE CURSOS */
+
+.course-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:16px;
+}
+
+.course-card{
+    text-align:center;
+}
+
+.card-cover{
+    width:100%;
+    aspect-ratio:180/260;
+    position:relative;
+    border-radius:12px;
+    overflow:hidden;
+    background:#111;
+    box-shadow:0 10px 30px rgba(0,0,0,.45);
+}
+
+.card-cover img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+    transition:.3s;
+}
+
+.card-cover:hover img{
+    transform:scale(1.05);
+}
+
+.badge{
+    position:absolute;
+    top:8px;
+    left:8px;
+    padding:6px 9px;
+    border-radius:999px;
+    font-size:10px;
+    font-weight:bold;
+    z-index:2;
+    box-shadow:0 4px 12px rgba(0,0,0,.35);
+}
+
+.badge-free{
+    background:var(--green);
+    color:#001b0b;
+}
+
+.badge-premium{
+    background:var(--red);
+    color:#fff;
+}
+
+.course-btn{
+    display:block;
+    margin-top:10px;
+    background:var(--gold);
+    color:#000;
+    text-decoration:none;
+    padding:10px;
+    border-radius:8px;
+    font-weight:bold;
+    font-size:13px;
+    transition:.3s;
+}
+
+.course-btn:hover{
+    opacity:.9;
+    transform:scale(1.03);
+}
+
+.course-title{
+    color:#fff;
+    margin-top:10px;
+    text-align:center;
+    font-size:14px;
+    line-height:1.3;
+}
+
+.course-meta{
+    color:var(--muted);
+    margin-top:5px;
+    font-size:12px;
+    line-height:1.35;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:900px){
+    .course-grid{
+        grid-template-columns:repeat(3,1fr);
+    }
+}
+
+@media(max-width:768px){
+    .banner{
+        height:220px;
+    }
+
+    .banner-info h1{
+        font-size:25px;
+    }
+
+    .section-title{
+        font-size:20px;
+    }
+
+    .course-grid{
+        grid-template-columns:repeat(2,1fr);
+        gap:14px;
+    }
+
+    .top-title{
+        font-size:15px;
+    }
+}
+
+@media(max-width:420px){
+    .course-grid{
+        gap:12px;
+    }
+
+    .course-title{
+        font-size:13px;
+    }
+
+    .course-meta{
+        font-size:11px;
+    }
+
+    .course-btn{
+        font-size:12px;
+        padding:9px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header class="top-bar">
+    <a href="index.html" class="back-btn">← Inicio</a>
+    <div class="top-title">Cursos Disponibles</div>
+</header>
+
+<div class="banner">
+    <img src="https://archive.org/download/file_00000000f2ec71fb8e2871224cd4aa13/file_00000000f2ec71fb8e2871224cd4aa13.png" alt="Cursos disponibles">
+    <div class="banner-info">
+        <h1>Todos los cursos</h1>
+        <p>Explora todos los cursos disponibles de Productor Musical Pro. Los cursos GRATIS abren directo y los PREMIUM piden anuncio por cada clase.</p>
+    </div>
+</div>
+
+<nav class="filter-bar">
+    <button class="filter-btn active" data-filter="todos">Todos</button>
+    <button class="filter-btn" data-filter="generales">Generales</button>
+    <button class="filter-btn" data-filter="beatmaker">Beatmaker</button>
+    <button class="filter-btn" data-filter="mezcla">Mezcla</button>
+    <button class="filter-btn" data-filter="mastering">Mastering</button>
+    <button class="filter-btn" data-filter="gratis">Gratis</button>
+    <button class="filter-btn" data-filter="premium">Premium</button>
+</nav>
+
+<section class="section">
+    <h2 class="section-title">Cursos disponibles</h2>
+
+    <div class="course-grid">
+
+        <div class="course-card" data-category="mastering premium">
+            <div class="card-cover">
+                <span class="badge badge-premium">PREMIUM</span>
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMxBfBmo8LFzcmOvk8twqHp7G7t52MnNHQBgrXtkzc5SRdFeXxSyaQwq4&s=10" alt="Mastering Profesional con Plugins de Alta Calidad">
+            </div>
+            <a href="top_mastering_curso_mastering_profesional_con_plugins_de_alta_calidad_premium.html" class="course-btn">Ver Curso</a>
+            <div class="course-title">Mastering Profesional con Plugins de Alta Calidad</div>
+            <div class="course-meta">Premium • 1 módulo • 15 clases</div>
+        </div>
+
+<div class="course-card" data-category="beatmaker gratis">
+            <div class="card-cover">
+                <span class="badge badge-free">GRATIS</span>
+                <img src="https://i.ytimg.com/vi/EpxyGCVEpMs/maxresdefault.jpg" alt="FL STUDIO 20 Curso Profesional Completo by Olbaid">
+            </div>
+            <a href="curso_fl_studio_20_profesional_completo_olbaid_gratis.html" class="course-btn">Ver Curso</a>
+            <div class="course-title">FL STUDIO 20 Curso Profesional Completo by Olbaid</div>
+            <div class="course-meta">Gratis • 1 módulo • 69 episodios</div>
+        </div>
+
+
+        <div class="course-card" data-category="beatmaker gratis">
+            <div class="card-cover">
+                <span class="badge badge-free">GRATIS</span>
+                <img src="https://i.ytimg.com/vi/ZC7CpCveh9U/maxresdefault.jpg" alt="Curso Avanzado FL STUDIO 20 by Olbaid">
+            </div>
+            <a href="curso_avanzado_fl_studio_20_olbaid_gratis.html" class="course-btn">Ver Curso</a>
+            <div class="course-title">Curso Avanzado FL STUDIO 20 by Olbaid</div>
+            <div class="course-meta">Gratis • 1 módulo • 41 episodios</div>
+        </div>
+
+
+        <div class="course-card" data-category="generales gratis">
+            <div class="card-cover">
+                <span class="badge badge-free">GRATIS</span>
+                <img src="https://i.ytimg.com/vi/zXhb4Eh-Nns/maxresdefault.jpg" alt="Curso de Sound Design - Full Course">
+            </div>
+            <a href="curso_sound_design_full_course_gratis.html" class="course-btn">Ver Curso</a>
+            <div class="course-title">Curso de Sound Design - Full Course</div>
+            <div class="course-meta">Gratis • 1 módulo • 40 episodios</div>
+        </div>
+
+
+        <div class="course-card" data-category="generales premium">
+            <div class="card-cover">
+                <span class="badge badge-premium">PREMIUM</span>
+                <img src="https://archive.org/download/covers-curso-avanzado-de-cubase-sin-limites/Covers%20Curso%20Avanzado%20de%20Cubase%20Sin%20L%C3%ADmites.rar/Covers%2F1.jpg" alt="Curso Avanzado de Cubase Sin Límites">
+            </div>
+            <a href="curso_avanzado_cubase_sin_limites.html" class="course-btn">Ver Curso</a>
+            <div class="course-title">Curso Avanzado de Cubase Sin Límites</div>
+            <div class="course-meta">Cubase • 7 módulos • 110 episodios</div>
+        </div>
+
+
+        <div class="course-card" data-category="generales premium">
+            <div class="card-cover">
+                <span class="badge badge-premium">PREMIUM</span>
+                <img src="https://archive.org/download/vip-club-pro/VIP%20Club%20Pro.png" alt="VIP Club PRO">
+            </div>
+            <a href="curso_v5_premium_con_anuncios.html" class="course-btn">Ver Curso</a>
+            <div class="course-title">VIP Club PRO</div>
+            <div class="course-meta">Cursos generales</div>
+        </div>
+
+        <div class="course-card" data-category="generales premium mezcla">
+            <div class="card-cover">
+                <span class="badge badge-premium">PREMIUM</span>
+                <img src="https://archive.org/download/cursos-sonido-pro/Cursos%20Sonido%20PRO.rar/Grabaci%C3%B3n%20y%20Mezcla%20de%20voces-%20Sonido%20Pro1.png" alt="Grabación y Mezcla de voces">
+            </div>
+            <a href="curso_v5_premium_con_anuncios.html" class="course-btn">Ver Curso</a>
+            <div class="course-title">Grabación y Mezcla de voces</div>
+            <div class="course-meta">Mezcla • Voces</div>
+        </div>
+
+        <div class="course-card" data-category="generales premium">
+            <div class="card-cover">
+                <span class="badge badge-premium">PREMIUM</span>
+                <img src="https://archive.org/download/cursos-sonido-pro/Cursos%20Sonido%20PRO.rar/Compresi%C3%B3n%20PRO%20-%20Sonido%20Pro1.png" alt="Compresión PRO">
+            </div>
+            <a href="curso_v5_premium_con_anuncios.html" class="course-btn">Ver Curso</a>
+            <div class="course-title">Compresión PRO</div>
+            <div class="course-meta">Procesamiento dinámico</div>
+        </div>
+
+        <div class="course-card" data-category="beatmaker gratis">
+            <div class="card-cover">
+                <span class="badge badge-free">GRATIS</span>
+                <img src="https://archive.org/download/cursos-como-crear-beats/Cursos%20Como%20Crear%20Beats.png" alt="Curso Como Crear Beats">
+            </div>
+            <a href="curso_v5_gratis_sin_anuncios.html" class="course-btn">Ver Curso</a>
+            <div class="course-title">Curso Como Crear Beats</div>
+            <div class="course-meta">Beatmaker • Gratis</div>
+        </div>
+
+        <div class="course-card" data-category="beatmaker premium">
+            <div class="card-cover">
+                <span class="badge badge-premium">PREMIUM</span>
+                <img src="https://archive.org/download/cursos-sonido-pro/Cursos%20Sonido%20PRO.rar/Como%20Hacer%20Beats-Sonido%20PRO1.png" alt="Como Hacer Beats">
+            </div>
+            <a href="curso_v5_premium_con_anuncios.html" class="course-btn">Ver Curso</a>
+            <div class="course-title">Curso Como Hacer Beats</div>
+            <div class="course-meta">Beatmaker • Premium</div>
+        </div>
+
+        <div class="course-card" data-category="beatmaker gratis">
+            <div class="card-cover">
+                <span class="badge badge-free">GRATIS</span>
+                <img src="https://archive.org/download/como-crear-melodias-en-fl-studio/Como%20Crear%20Melodias%20en%20FL%20Studio.png" alt="Como Crear Melodías">
+            </div>
+            <a href="curso_v5_gratis_sin_anuncios.html" class="course-btn">Ver Curso</a>
+            <div class="course-title">Curso Como Crear Melodías</div>
+            <div class="course-meta">Melodías • FL Studio</div>
+        </div>
+
+        <div class="course-card" data-category="beatmaker mezcla premium">
+            <div class="card-cover">
+                <span class="badge badge-premium">PREMIUM</span>
+                <img src="https://archive.org/download/cursos-sonido-pro/Cursos%20Sonido%20PRO.rar/Como%20Mezclar%20Beats-%20Sonido%20PRO1.png" alt="Cómo Mezclar Beats">
+            </div>
+            <a href="curso_v5_premium_con_anuncios.html" class="course-btn">Ver Curso</a>
+            <div class="course-title">Cómo Mezclar Beats</div>
+            <div class="course-meta">Mezcla • Beats</div>
+        </div>
+
+        <div class="course-card" data-category="beatmaker premium">
+            <div class="card-cover">
+                <span class="badge badge-premium">PREMIUM</span>
+                <img src="https://archive.org/download/diseno-sin-titulo-1_202606/Curso%20Como%20Mezclar%20Beats.png" alt="Curso Como Mezclar Beats">
+            </div>
+            <a href="curso_v5_premium_con_anuncios.html" class="course-btn">Ver Curso</a>
+            <div class="course-title">Curso Como Mezclar Beats</div>
+            <div class="course-meta">Beatmaker • Mezcla</div>
+        </div>
+
+        <div class="course-card" data-category="beatmaker premium">
+            <div class="card-cover">
+                <span class="badge badge-premium">PREMIUM</span>
+                <img src="https://archive.org/download/cursos-sonido-pro/Cursos%20Sonido%20PRO.rar/Como%20Vender%20Beats%20-%20Sonido%20Pro1.png" alt="Cómo Vender Beats">
+            </div>
+            <a href="curso_v5_premium_con_anuncios.html" class="course-btn">Ver Curso</a>
+            <div class="course-title">Cómo Vender Beats</div>
+            <div class="course-meta">Negocio musical</div>
+        </div>
+
+        <div class="course-card" data-category="mezcla premium">
+            <div class="card-cover">
+                <span class="badge badge-premium">PREMIUM</span>
+                <img src="https://archive.org/download/cursos-sonido-pro/Cursos%20Sonido%20PRO.rar/Grabaci%C3%B3n%20y%20Mezcla%20de%20voces-%20Sonido%20Pro1.png" alt="Grabación y Mezcla de voces">
+            </div>
+            <a href="curso_v5_premium_con_anuncios.html" class="course-btn">Ver Curso</a>
+            <div class="course-title">Grabación y Mezcla de voces</div>
+            <div class="course-meta">Voces • Mezcla</div>
+        </div>
+
+        <div class="course-card" data-category="mastering premium">
+            <div class="card-cover">
+                <span class="badge badge-premium">PREMIUM</span>
+                <img src="https://archive.org/download/cursos-sonido-pro/Cursos%20Sonido%20PRO.rar/Masterizaci%C3%B3n%20en%20Estudios%20Caseros%20-%20Sonido%20PRO1.png" alt="Masterización en Estudios Caseros">
+            </div>
+            <a href="curso_v5_premium_con_anuncios.html" class="course-btn">Ver Curso</a>
+            <div class="course-title">Masterización en Estudios Caseros</div>
+            <div class="course-meta">Mastering • Home Studio</div>
+        </div>
+
+        <div class="course-card" data-category="mastering gratis">
+            <div class="card-cover">
+                <span class="badge badge-free">GRATIS</span>
+                <img src="https://archive.org/download/cursos-como-crear-beats/Cursos%20Como%20Crear%20Beats.png" alt="Mastering Gratis">
+            </div>
+            <a href="curso_v5_gratis_sin_anuncios.html" class="course-btn">Ver Curso</a>
+            <div class="course-title">Mastering Gratis</div>
+            <div class="course-meta">Clase demo</div>
+        </div>
+
+    </div>
+</section>
+
+<script>
+const filterButtons = document.querySelectorAll(".filter-btn");
+const cards = document.querySelectorAll(".course-card");
+
+filterButtons.forEach(button=>{
+    button.addEventListener("click", ()=>{
+        const filter = button.dataset.filter;
+
+        filterButtons.forEach(btn=>btn.classList.remove("active"));
+        button.classList.add("active");
+
+        cards.forEach(card=>{
+            const categories = card.dataset.category || "";
+
+            if(filter === "todos" || categories.includes(filter)){
+                card.style.display = "";
+            }else{
+                card.style.display = "none";
+            }
+        });
+    });
+});
+</script>
+
+</body>
+</html>

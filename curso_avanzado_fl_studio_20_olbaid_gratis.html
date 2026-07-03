@@ -1,0 +1,2043 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Curso Avanzado FL STUDIO 20 by Olbaid</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#000;
+    color:#fff;
+}
+
+/* BANNER */
+
+.banner{
+    width:100%;
+    height:320px;
+    overflow:hidden;
+}
+
+.banner img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+/* TITULO */
+
+.course-title{
+    padding:25px 20px 10px;
+    font-size:32px;
+    font-weight:Bold;
+    color:#fff;
+}
+
+/* INFO DEL CURSO */
+
+.course-info{
+    padding:0 20px 20px;
+    color:#fff;
+    font-size:16px;
+    line-height:1.8;
+}
+
+.course-info strong{
+    color:#FFD700;
+}
+
+/* DESCARGAR RECURSOS */
+
+.download-section{
+    padding:0 20px 25px;
+    text-align:center;
+}
+
+.download-section h3{
+    color:#fff;
+    margin-bottom:15px;
+    font-size:14px;
+}
+
+.download-btn{
+    display:inline-block;
+    background:#ff0000;
+    color:#fff;
+    text-decoration:none;
+    padding:14px 35px;
+    border-radius:12px;
+    font-weight:bold;
+    font-size:16px;
+    transition:.3s;
+}
+
+.download-btn:hover{
+    background:#cc0000;
+    transform:scale(1.05);
+}
+  
+/* SUBTITULO */
+
+.course-subtitle{
+    padding:0 20px 30px;
+    color:#bdbdbd;
+    font-size:16px;
+    line-height:1.7;
+}
+
+/* MODULOS */
+
+.module{
+    padding:0 20px 35px;
+}
+
+.module-title{
+    font-size:24px;
+    color:#fff;
+    font-weight:bold;
+    margin-bottom:15px;
+}
+
+/* SCROLL */
+
+.video-scroll{
+    display:flex;
+    gap:15px;
+    overflow-x:auto;
+    padding-bottom:15px;
+    scroll-behavior:smooth;
+    scroll-snap-type:x mandatory;
+}
+
+.video-scroll::-webkit-scrollbar{
+    height:15px;
+}
+
+.video-scroll::-webkit-scrollbar-track{
+    background:#111;
+}
+
+.video-scroll::-webkit-scrollbar-thumb{
+    background:#bdbdbd;
+    border-radius:20px;
+}
+
+/* TARJETAS */
+
+.video-card{
+    min-width:280px;
+    text-decoration:none;
+    color:#bdbdbd;
+    scroll-snap-align:start;
+}
+
+.video-thumb{
+    position:relative;
+    overflow:hidden;
+    border-radius:20px;
+}
+
+.video-thumb img{
+    width:280px;
+    height:160px;
+    object-fit:cover;
+    transition:.50s;
+}
+
+/* BOTON PLAY */
+
+.play-btn{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    width:60px;
+    height:60px;
+    border-radius:50%;
+    background:rgba(255,215,0,.95);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:35px;
+    color:#000;
+    box-shadow:0 0 35px rgba(255,215,0,.6);
+    transition:.3s;
+}
+
+.video-card:hover .play-btn{
+    transform:translate(-50%,-50%) scale(1.15);
+}
+
+.video-card:hover img{
+    transform:scale(1.08);
+}
+
+.video-name{
+    margin-top:10px;
+    text-align:center;
+    font-size:13px;
+}
+
+.video-card:hover .video-name{
+    color:#FFD700;
+}
+
+
+
+/* ==============================
+   REPRODUCTOR YOUTUBE RESPONSIVE
+   Pantalla completa + controles auto-ocultables
+   ============================== */
+
+.video-modal{
+    position:fixed;
+    inset:0;
+    z-index:9999;
+    display:none;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+    background:rgba(0,0,0,.88);
+    backdrop-filter:blur(8px);
+}
+
+.video-modal.active{
+    display:flex;
+}
+
+.player-window{
+    position:relative;
+    width:min(100%,980px);
+    background:#080808;
+    border:1px solid rgba(255,215,0,.35);
+    border-radius:20px;
+    overflow:hidden;
+    box-shadow:0 0 60px rgba(0,0,0,.9), 0 0 25px rgba(255,215,0,.15);
+    animation:playerZoom .25s ease;
+}
+
+@keyframes playerZoom{
+    from{transform:scale(.92); opacity:0;}
+    to{transform:scale(1); opacity:1;}
+}
+
+.player-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+    padding:14px 16px;
+    background:linear-gradient(180deg,rgba(18,18,18,.98),rgba(10,10,10,.92));
+    border-bottom:1px solid rgba(255,255,255,.08);
+    transition:opacity .35s ease, transform .35s ease;
+}
+
+.player-title-box{
+    min-width:0;
+}
+
+.player-label{
+    font-size:11px;
+    color:#FFD700;
+    font-weight:bold;
+    letter-spacing:.8px;
+    text-transform:uppercase;
+    margin-bottom:4px;
+}
+
+.player-title{
+    font-size:16px;
+    color:#fff;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.close-player{
+    width:40px;
+    height:40px;
+    border:none;
+    border-radius:50%;
+    background:#ff0000;
+    color:#fff;
+    font-size:22px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:.25s;
+}
+
+.close-player:hover{
+    background:#cc0000;
+    transform:scale(1.08);
+}
+
+.player-frame-wrap{
+    position:relative;
+    width:100%;
+    aspect-ratio:16/9;
+    background:#000;
+    overflow:hidden;
+}
+
+#youtubePlayer,
+#youtubePlayer iframe{
+    width:100%;
+    height:100%;
+}
+
+/* Capa de bloqueo encima del iframe para evitar clic directo sobre YouTube */
+.player-block-layer{
+    position:absolute;
+    inset:0;
+    z-index:3;
+    background:transparent;
+    cursor:pointer;
+    -webkit-tap-highlight-color:transparent;
+}
+
+/* Mensaje pequeño tipo toast */
+.player-toast{
+    position:absolute;
+    top:16px;
+    left:50%;
+    z-index:11;
+    transform:translateX(-50%) translateY(-10px);
+    background:rgba(0,0,0,.75);
+    color:#fff;
+    border:1px solid rgba(255,215,0,.4);
+    border-radius:999px;
+    padding:9px 14px;
+    font-size:13px;
+    opacity:0;
+    pointer-events:none;
+    transition:.25s ease;
+}
+
+.player-toast.show{
+    opacity:1;
+    transform:translateX(-50%) translateY(0);
+}
+
+/* Botones flotantes encima del video */
+.player-controls{
+    position:absolute;
+    left:0;
+    right:0;
+    bottom:0;
+    z-index:10;
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    padding:48px 14px 18px;
+    background:linear-gradient(180deg,rgba(0,0,0,0),rgba(0,0,0,.82) 32%,rgba(0,0,0,.95));
+    transition:opacity .35s ease, transform .35s ease;
+}
+
+/* Barra de progreso arriba de los botones */
+.player-progress{
+    position:relative;
+    flex:0 0 100%;
+    width:100%;
+    height:10px;
+    z-index:12;
+    background:rgba(255,255,255,.22);
+    border-radius:999px;
+    cursor:pointer;
+    overflow:hidden;
+    touch-action:none;
+    margin:0 0 8px;
+    transition:height .25s ease, opacity .25s ease;
+}
+
+.player-progress:hover,
+.player-progress.dragging{
+    height:14px;
+}
+
+.player-progress-fill{
+    width:0%;
+    height:100%;
+    background:#FFD700;
+    box-shadow:0 0 18px rgba(255,215,0,.8);
+    transition:width .08s linear;
+}
+
+.control-btn{
+    border:none;
+    outline:none;
+    background:rgba(26,26,26,.95);
+    color:#fff;
+    border:1px solid rgba(255,255,255,.16);
+    padding:11px 15px;
+    border-radius:12px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:.25s;
+    white-space:nowrap;
+}
+
+.control-btn:hover{
+    background:#FFD700;
+    color:#000;
+    transform:translateY(-2px);
+}
+
+.play-control{
+    background:#FFD700;
+    color:#000;
+    min-width:115px;
+}
+
+.time-view{
+    color:#fff;
+    font-size:13px;
+    padding:0 8px;
+    min-width:110px;
+    text-align:center;
+    text-shadow:0 2px 5px #000;
+}
+
+.player-note{
+    width:100%;
+    text-align:center;
+    font-size:12px;
+    color:#aaa;
+    margin-top:2px;
+}
+
+/* Auto-ocultar controles como YouTube */
+.player-window.controls-hidden{
+    cursor:none;
+}
+
+.player-window.controls-hidden .player-header{
+    opacity:0;
+    pointer-events:none;
+    transform:translateY(-18px);
+}
+
+.player-window.controls-hidden .player-controls{
+    opacity:0;
+    pointer-events:none;
+    transform:translateY(28px);
+}
+
+
+.video-modal.is-fullscreen,
+.video-modal.force-fullscreen{
+    padding:0;
+    overflow:hidden;
+}
+
+.video-modal.is-fullscreen .player-window,
+.video-modal.force-fullscreen .player-window{
+    width:100vw;
+    height:100vh;
+    height:100dvh;
+    max-width:none;
+    border-radius:0;
+    border:none;
+}
+
+.video-modal.is-fullscreen .player-frame-wrap,
+.video-modal.force-fullscreen .player-frame-wrap{
+    height:100vh;
+    height:100dvh;
+    aspect-ratio:auto;
+}
+
+.video-modal.is-fullscreen .player-header,
+.video-modal.force-fullscreen .player-header{
+    position:absolute;
+    left:0;
+    right:0;
+    top:0;
+    z-index:12;
+    border-bottom:none;
+    background:linear-gradient(180deg,rgba(0,0,0,.88),rgba(0,0,0,.35),rgba(0,0,0,0));
+}
+
+@media(max-width:900px) and (orientation:portrait){
+    .video-modal.force-fullscreen .player-window{
+        width:100dvh;
+        height:100dvw;
+        transform:rotate(90deg);
+        transform-origin:center center;
+    }
+
+    .video-modal.force-fullscreen .player-frame-wrap{
+        height:100dvw;
+    }
+}
+
+@media(max-width:768px){
+
+.video-modal{
+    padding:10px;
+}
+
+.player-window{
+    border-radius:14px;
+}
+
+.player-header{
+    padding:10px 12px;
+}
+
+.player-title{
+    font-size:14px;
+}
+
+.close-player{
+    width:36px;
+    height:36px;
+    font-size:20px;
+}
+
+.player-controls{
+    gap:7px;
+    padding:38px 10px 15px;
+}
+
+.control-btn{
+    padding:9px 10px;
+    font-size:12px;
+}
+
+.time-view{
+    width:100%;
+    margin-top:3px;
+}
+
+.player-menu{
+    right:auto;
+    left:50%;
+    transform:translateX(-50%);
+    width:190px;
+}
+
+
+}
+
+
+
+/* ==============================
+   ETIQUETAS GRATIS / PREMIUM
+   ============================== */
+
+.video-thumb::before{
+    content:"PREMIUM";
+    position:absolute;
+    top:10px;
+    left:10px;
+    z-index:5;
+    background:linear-gradient(135deg,#FFD700,#ff9d00);
+    color:#000;
+    font-size:11px;
+    font-weight:bold;
+    letter-spacing:.5px;
+    padding:6px 10px;
+    border-radius:999px;
+    box-shadow:0 0 18px rgba(255,215,0,.35);
+}
+
+body[data-curso="gratis"] .video-card:not([data-tipo="premium"]) .video-thumb::before,
+.video-card[data-tipo="gratis"] .video-thumb::before{
+    content:"GRATIS";
+    background:linear-gradient(135deg,#00e676,#00a651);
+    color:#001b0b;
+    box-shadow:0 0 18px rgba(0,230,118,.35);
+}
+
+.video-card[data-tipo="premium"] .video-thumb::before{
+    content:"PREMIUM";
+    background:linear-gradient(135deg,#FFD700,#ff9d00);
+    color:#000;
+    box-shadow:0 0 18px rgba(255,215,0,.35);
+}
+
+
+.lesson-badge{
+    position:absolute;
+    top:8px;
+    left:8px;
+    background:#00e676;
+    color:#001b0b;
+    font-size:10px;
+    font-weight:bold;
+    padding:5px 8px;
+    border-radius:999px;
+    box-shadow:0 4px 12px rgba(0,0,0,.45);
+}
+
+.episode-number{
+    position:absolute;
+    right:8px;
+    bottom:8px;
+    background:rgba(0,0,0,.78);
+    color:#FFD700;
+    font-size:12px;
+    font-weight:bold;
+    padding:5px 8px;
+    border-radius:999px;
+    box-shadow:0 4px 12px rgba(0,0,0,.45);
+}
+
+.module-count{
+    color:#bdbdbd;
+    font-size:14px;
+    font-weight:normal;
+    margin-left:6px;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:768px){
+
+.banner{
+    height:220px;
+}
+
+.course-title{
+    font-size:24px;
+}
+
+.course-subtitle{
+    font-size:14px;
+}
+
+.module-title{
+    font-size:20px;
+}
+
+.video-card{
+    min-width:220px;
+}
+
+.video-thumb img{
+    width:220px;
+    height:125px;
+}
+
+.play-btn{
+    width:50px;
+    height:50px;
+    font-size:30px;
+}
+
+}
+
+
+
+/* ==============================
+   VENTANA PARA ANUNCIO POR CADA CLASE
+   ============================== */
+
+.ad-unlock-modal{
+    position:fixed;
+    inset:0;
+    z-index:10000;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    background:rgba(0,0,0,.92);
+    backdrop-filter:blur(10px);
+}
+
+.ad-unlock-modal.active{
+    display:flex;
+}
+
+.ad-unlock-box{
+    position:relative;
+    width:100%;
+    max-width:390px;
+    background:linear-gradient(180deg,#151515,#080808);
+    border:1px solid rgba(255,215,0,.28);
+    border-radius:26px;
+    padding:26px 22px;
+    text-align:center;
+    box-shadow:0 0 70px rgba(0,0,0,.95),0 0 22px rgba(255,215,0,.14);
+    animation:playerZoom .25s ease;
+}
+
+.ad-close{
+    position:absolute;
+    top:12px;
+    right:12px;
+    width:38px;
+    height:38px;
+    border:none;
+    border-radius:50%;
+    background:#222;
+    color:#fff;
+    font-size:24px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.ad-icon{
+    width:74px;
+    height:74px;
+    margin:0 auto 15px;
+    border-radius:24px;
+    background:#FFD700;
+    color:#000;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:34px;
+    box-shadow:0 0 35px rgba(255,215,0,.45);
+}
+
+.ad-unlock-box h2{
+    color:#fff;
+    font-size:22px;
+    margin-bottom:10px;
+}
+
+.ad-class-title{
+    color:#FFD700;
+    font-size:14px;
+    font-weight:bold;
+    margin-bottom:10px;
+    line-height:1.4;
+}
+
+.ad-unlock-box p{
+    color:#bdbdbd;
+    font-size:14px;
+    line-height:1.55;
+    margin-bottom:20px;
+}
+
+.ad-main-btn{
+    width:100%;
+    border:none;
+    background:#FFD700;
+    color:#000;
+    padding:15px;
+    border-radius:15px;
+    font-weight:bold;
+    font-size:15px;
+    cursor:pointer;
+    margin-bottom:10px;
+}
+
+.ad-main-btn:disabled{
+    opacity:.7;
+    cursor:not-allowed;
+}
+
+.ad-cancel-btn{
+    width:100%;
+    border:none;
+    background:#222;
+    color:#fff;
+    padding:13px;
+    border-radius:15px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.ad-small-note{
+    display:block;
+    margin-top:12px;
+    color:#777;
+    font-size:11px;
+    line-height:1.4;
+}
+
+.ad-loading{
+    display:none;
+    margin-top:14px;
+    color:#FFD700;
+    font-size:13px;
+    font-weight:bold;
+}
+
+.ad-loading.active{
+    display:block;
+}
+
+
+/* ==========================================================
+   FIX APPCREATOR24 - REPRODUCTOR FULLSCREEN SIN MARGEN NEGRO
+   ========================================================== */
+
+.video-modal.force-fullscreen,
+.video-modal.is-fullscreen{
+    padding:0 !important;
+    margin:0 !important;
+    background:#000 !important;
+    align-items:stretch !important;
+    justify-content:stretch !important;
+    overflow:hidden !important;
+}
+
+.video-modal.force-fullscreen .player-window,
+.video-modal.is-fullscreen .player-window{
+    position:fixed !important;
+    inset:0 !important;
+    width:100vw !important;
+    height:100vh !important;
+    height:100dvh !important;
+    max-width:none !important;
+    border:none !important;
+    border-radius:0 !important;
+    box-shadow:none !important;
+    background:#000 !important;
+}
+
+.video-modal.force-fullscreen .player-frame-wrap,
+.video-modal.is-fullscreen .player-frame-wrap{
+    position:absolute !important;
+    inset:0 !important;
+    width:100vw !important;
+    height:100vh !important;
+    height:100dvh !important;
+    aspect-ratio:auto !important;
+    background:#000 !important;
+    overflow:hidden !important;
+}
+
+.video-modal.force-fullscreen #youtubePlayer,
+.video-modal.is-fullscreen #youtubePlayer{
+    position:absolute !important;
+    inset:0 !important;
+    width:100% !important;
+    height:100% !important;
+    background:#000 !important;
+    overflow:hidden !important;
+}
+
+/* Hace que el iframe cubra toda la pantalla como modo "cover".
+   Si el video no tiene la misma proporción exacta que el teléfono,
+   se recorta un poco en lugar de verse como mini reproductor. */
+.video-modal.force-fullscreen #youtubePlayer iframe,
+.video-modal.is-fullscreen #youtubePlayer iframe{
+    position:absolute !important;
+    top:50% !important;
+    left:50% !important;
+    width:100vw !important;
+    height:56.25vw !important;
+    min-width:177.78vh !important;
+    min-width:177.78dvh !important;
+    min-height:100vh !important;
+    min-height:100dvh !important;
+    transform:translate(-50%,-50%) !important;
+    border:0 !important;
+    background:#000 !important;
+}
+
+/* En AppCreator24 algunos WebView reportan portrait aunque se vea horizontal.
+   Este bloque evita que el reproductor quede pequeño o descentrado. */
+@media(max-width:900px) and (orientation:portrait){
+    .video-modal.force-fullscreen .player-window,
+    .video-modal.is-fullscreen .player-window{
+        position:fixed !important;
+        top:50% !important;
+        left:50% !important;
+        width:100dvh !important;
+        height:100dvw !important;
+        max-width:none !important;
+        transform:translate(-50%,-50%) rotate(90deg) !important;
+        transform-origin:center center !important;
+    }
+
+    .video-modal.force-fullscreen .player-frame-wrap,
+    .video-modal.is-fullscreen .player-frame-wrap{
+        width:100dvh !important;
+        height:100dvw !important;
+    }
+
+    .video-modal.force-fullscreen #youtubePlayer iframe,
+    .video-modal.is-fullscreen #youtubePlayer iframe{
+        width:100dvh !important;
+        height:56.25dvh !important;
+        min-width:177.78dvw !important;
+        min-height:100dvw !important;
+    }
+}
+
+</style>
+</head>
+<body data-curso="gratis">
+<!--
+CURSO GRATIS:
+Curso Avanzado FL STUDIO 20 by Olbaid.
+Un solo módulo con 41 videos: del #0 al #40.
+Abre directo el reproductor sin anuncios.
+-->
+
+<!-- BANNER -->
+
+<div class="banner">
+<img src="https://i.ytimg.com/vi/ZC7CpCveh9U/maxresdefault.jpg" alt="Curso Avanzado FL STUDIO 20 by Olbaid">
+</div>
+
+<!-- TITULO -->
+
+<div class="course-title">
+Curso Avanzado FL STUDIO 20 by Olbaid
+</div>
+
+<!-- INFO CURSO -->
+
+<div class="course-info">
+<strong>Este curso incluye:</strong><br>
+📁 1 Módulo<br>
+🎬 41 Episodios<br>
+🟢 Curso Gratis: abre directo sin anuncios<br>
+<strong>Curso impartido por Olbaid Music</strong><br>
+</div>
+
+<!-- DESCARGAR RECURSOS -->
+
+<div class="download-section">
+    <h3> 📥 Descargar recursos del Curso</h3>
+
+    <a href="https://TU-SITIO-AQUI.COM" class="download-btn">
+        🔗 Descargar Recursos
+    </a>
+</div>
+
+<!-- SUBTITULO -->
+
+<div class="course-subtitle">
+Aprende funciones avanzadas de FL Studio 20 con Olbaid: atajos de teclado, articuladores, instrumentos nativos, sintetizadores, herramientas avanzadas, controladores, patcher, video y performance mode. Este curso es gratis y cada clase abre directo el reproductor.
+</div>
+
+<!-- MODULO 01 -->
+
+<section class="module">
+<h2 class="module-title">Módulo 01 - Curso Avanzado FL Studio 20 <span class="module-count">Episodios #0-#40</span></h2>
+
+<div class="video-scroll">
+<a href="https://www.youtube.com/watch?v=ZC7CpCveh9U&list=PLDhUODcit3B7_EMvtV2zR6u1iBpYW2hWb&index=1" class="video-card" data-tipo="gratis">
+<div class="video-thumb">
+<img src="https://i.ytimg.com/vi/ZC7CpCveh9U/maxresdefault.jpg" alt="FL Studio Advanced - #0: Presentation">
+<div class="play-btn">▶</div>
+<div class="lesson-badge">GRATIS</div>
+<div class="episode-number">#00</div>
+</div>
+<div class="video-name">FL Studio Advanced - #0: Presentation</div>
+</a>
+
+<a href="https://www.youtube.com/watch?v=L0UcJMQTYf8&list=PLDhUODcit3B7_EMvtV2zR6u1iBpYW2hWb&index=2" class="video-card" data-tipo="gratis">
+<div class="video-thumb">
+<img src="https://i.ytimg.com/vi/L0UcJMQTYf8/maxresdefault.jpg" alt="FL Studio Advanced - #1: Keyboard Shortcuts">
+<div class="play-btn">▶</div>
+<div class="lesson-badge">GRATIS</div>
+<div class="episode-number">#01</div>
+</div>
+<div class="video-name">FL Studio Advanced - #1: Keyboard Shortcuts</div>
+</a>
+
+<a href="https://www.youtube.com/watch?v=ZRziztU8B2o&list=PLDhUODcit3B7_EMvtV2zR6u1iBpYW2hWb&index=3" class="video-card" data-tipo="gratis">
+<div class="video-thumb">
+<img src="https://i.ytimg.com/vi/ZRziztU8B2o/maxresdefault.jpg" alt="FL Studio Advanced - #2: Articulators">
+<div class="play-btn">▶</div>
+<div class="lesson-badge">GRATIS</div>
+<div class="episode-number">#02</div>
+</div>
+<div class="video-name">FL Studio Advanced - #2: Articulators</div>
+</a>
+
+<a href="https://www.youtube.com/watch?v=l6bnjZkIaKc&list=PLDhUODcit3B7_EMvtV2zR6u1iBpYW2hWb&index=4" class="video-card" data-tipo="gratis">
+<div class="video-thumb">
+<img src="https://i.ytimg.com/vi/l6bnjZkIaKc/maxresdefault.jpg" alt="FL Studio Advanced - #3: FLEX">
+<div class="play-btn">▶</div>
+<div class="lesson-badge">GRATIS</div>
+<div class="episode-number">#03</div>
+</div>
+<div class="video-name">FL Studio Advanced - #3: FLEX</div>
+</a>
+
+<a href="https://www.youtube.com/watch?v=0oQGiBGvwEk&list=PLDhUODcit3B7_EMvtV2zR6u1iBpYW2hWb&index=5" class="video-card" data-tipo="gratis">
+<div class="video-thumb">
+<img src="https://i.ytimg.com/vi/0oQGiBGvwEk/maxresdefault.jpg" alt="FL Studio Advanced - #4: Love Philter">
+<div class="play-btn">▶</div>
+<div class="lesson-badge">GRATIS</div>
+<div class="episode-number">#04</div>
+</div>
+<div class="video-name">FL Studio Advanced - #4: Love Philter</div>
+</a>
+
+<a href="https://www.youtube.com/watch?v=ai_qs64F5eo&list=PLDhUODcit3B7_EMvtV2zR6u1iBpYW2hWb&index=6" class="video-card" data-tipo="gratis">
+<div class="video-thumb">
+<img src="https://i.ytimg.com/vi/ai_qs64F5eo/maxresdefault.jpg" alt="FL Studio Advanced - #5: Wave Traveller">
+<div class="play-btn">▶</div>
+<div class="lesson-badge">GRATIS</div>
+<div class="episode-number">#05</div>
+</div>
+<div class="video-name">FL Studio Advanced - #5: Wave Traveller</div>
+</a>
+
+<a href="https://www.youtube.com/watch?v=2dW93lPal8E&list=PLDhUODcit3B7_EMvtV2zR6u1iBpYW2hWb&index=7" class="video-card" data-tipo="gratis">
+<div class="video-thumb">
+<img src="https://i.ytimg.com/vi/2dW93lPal8E/maxresdefault.jpg" alt="FL Studio Advanced - #6: Fruity Granulizer">
+<div class="play-btn">▶</div>
+<div class="lesson-badge">GRATIS</div>
+<div class="episode-number">#06</div>
+</div>
+<div class="video-name">FL Studio Advanced - #6: Fruity Granulizer</div>
+</a>
+
+<a href="https://www.youtube.com/watch?v=nLIyPwxQNrs&list=PLDhUODcit3B7_EMvtV2zR6u1iBpYW2hWb&index=8" class="video-card" data-tipo="gratis">
+<div class="video-thumb">
+<img src="https://i.ytimg.com/vi/nLIyPwxQNrs/maxresdefault.jpg" alt="FL Studio Advanced - #7: Bassdrum">
+<div class="play-btn">▶</div>
+<div class="lesson-badge">GRATIS</div>
+<div class="episode-number">#07</div>
+</div>
+<div class="video-name">FL Studio Advanced - #7: Bassdrum</div>
+</a>
+
+<a href="https://www.youtube.com/watch?v=AQThtYzstVM&list=PLDhUODcit3B7_EMvtV2zR6u1iBpYW2hWb&index=9" class="video-card" data-tipo="gratis">
+<div class="video-thumb">
+<img src="https://i.ytimg.com/vi/AQThtYzstVM/maxresdefault.jpg" alt="FL Studio Advanced - #8: Stereo Shaper">
+<div class="play-btn">▶</div>
+<div class="lesson-badge">GRATIS</div>
+<div class="episode-number">#08</div>
+</div>
+<div class="video-name">FL Studio Advanced - #8: Stereo Shaper</div>
+</a>
+
+<a href="https://www.youtube.com/watch?v=aBDffU6GJPc&list=PLDhUODcit3B7_EMvtV2zR6u1iBpYW2hWb&index=10" class="video-card" data-tipo="gratis">
+<div class="video-thumb">
+<img src="https://i.ytimg.com/vi/aBDffU6GJPc/maxresdefault.jpg" alt="FL Studio Advanced - #9: 3x OSC">
+<div class="play-btn">▶</div>
+<div class="lesson-badge">GRATIS</div>
+<div class="episode-number">#09</div>
+</div>
+<div class="video-name">FL Studio Advanced - #9: 3x OSC</div>
+</a>
+
+<a href="https://www.youtube.com/watch?v=wa56XdsD5qs&list=PLDhUODcit3B7_EMvtV2zR6u1iBpYW2hWb&index=11" class="video-card" data-tipo="gratis">
+<div class="video-thumb">
+<img src="https://i.ytimg.com/vi/wa56XdsD5qs/maxresdefault.jpg" alt="FL Studio Advanced - #10: SimSynth">
+<div class="play-btn">▶</div>
+<div class="lesson-badge">GRATIS</div>
+<div class="episode-number">#10</div>
+</div>
+<div class="video-name">FL Studio Advanced - #10: SimSynth</div>
+</a>
+
+<a href="https://www.youtube.com/watch?v=XtL4Lr5LHFw&list=PLDhUODcit3B7_EMvtV2zR6u1iBpYW2hWb&index=12" class="video-card" data-tipo="gratis">
+<div class="video-thumb">
+<img src="https://i.ytimg.com/vi/XtL4Lr5LHFw/maxresdefault.jpg" alt="FL Studio Advanced - #11: Minisynth">
+<div class="play-btn">▶</div>
+<div class="lesson-badge">GRATIS</div>
+<div class="episode-number">#11</div>
+</div>
+<div class="video-name">FL Studio Advanced - #11: Minisynth</div>
+</a>
+
+<a href="https://www.youtube.com/watch?v=957U0-g_aaY&list=PLDhUODcit3B7_EMvtV2zR6u1iBpYW2hWb&index=13" class="video-card" data-tipo="gratis">
+<div class="video-thumb">
+<img src="https://i.ytimg.com/vi/957U0-g_aaY/maxresdefault.jpg" alt="FL Studio Advanced - #12: Poizone">
+<div class="play-btn">▶</div>
+<div class="lesson-badge">GRATIS</div>
+<div class="episode-number">#12</div>
+</div>
+<div class="video-name">FL Studio Advanced - #12: Poizone</div>
+</a>
+
+<a href="https://www.youtube.com/watch?v=4Al9wSM9gPY&list=PLDhUODcit3B7_EMvtV2zR6u1iBpYW2hWb&index=14" class="video-card" data-tipo="gratis">
+<div class="video-thumb">
+<img src="https://i.ytimg.com/vi/4Al9wSM9gPY/maxresdefault.jpg" alt="FL Studio Advanced - #13: Envelope Controller">
+<div class="play-btn">▶</div>
+<div class="lesson-badge">GRATIS</div>
+<div class="episode-number">#13</div>
+</div>
+<div class="video-name">FL Studio Advanced - #13: Envelope Controller</div>
+</a>
+
+<a href="https://www.youtube.com/watch?v=t5fN4MVaN5A&list=PLDhUODcit3B7_EMvtV2zR6u1iBpYW2hWb&index=15" class="video-card" data-tipo="gratis">
+<div class="video-thumb">
+<img src="https://i.ytimg.com/vi/t5fN4MVaN5A/maxresdefault.jpg" alt="FL Studio Advanced - #14: DirectWave">
+<div class="play-btn">▶</div>
+<div class="lesson-badge">GRATIS</div>
+<div class="episode-number">#14</div>
+</div>
+<div class="video-name">FL Studio Advanced - #14: DirectWave</div>
+</a>
+
+<a href="https://www.youtube.com/watch?v=HfRcVGK9t3U&list=PLDhUODcit3B7_EMvtV2zR6u1iBpYW2hWb&index=16" class="video-card" data-tipo="gratis">
+<div class="video-thumb">
+<img src="https://i.ytimg.com/vi/HfRcVGK9t3U/maxresdefault.jpg" alt="FL Studio Advanced - #15: FPC">
+<div class="play-btn">▶</div>
+<div class="lesson-badge">GRATIS</div>
+<div class="episode-number">#15</div>
+</div>
+<div class="video-name">FL Studio Advanced - #15: FPC</div>
+</a>
+
+<a href="https://www.youtube.com/watch?v=buZiTR6Mdvo&list=PLDhUODcit3B7_EMvtV2zR6u1iBpYW2hWb&index=17" class="video-card" data-tipo="gratis">
+<div class="video-thumb">
+<img src="https://i.ytimg.com/vi/buZiTR6Mdvo/maxresdefault.jpg" alt="FL Studio Advanced - #16: GMS">
+<div class="play-btn">▶</div>
+<div class="lesson-badge">GRATIS</div>
+<div class="episode-number">#16</div>
+</div>
+<div class="video-name">FL Studio Advanced - #16: GMS</div>
+</a>
+
+<a href="https://www.youtube.com/watch?v=rM2E3nzz2MY&list=PLDhUODcit3B7_EMvtV2zR6u1iBpYW2hWb&index=18" class="video-card" data-tipo="gratis">
+<div class="video-thumb">
+<img src="https://i.ytimg.com/vi/rM2E3nzz2MY/maxresdefault.jpg" alt="FL Studio Advanced - #17: Sawer">
+<div class="play-btn">▶</div>
+<div class="lesson-badge">GRATIS</div>
+<div class="episode-number">#17</div>
+</div>
+<div class="video-name">FL Studio Advanced - #17: Sawer</div>
+</a>
+
+<a href="https://www.youtube.com/watch?v=dga_bc0A-5Q&list=PLDhUODcit3B7_EMvtV2zR6u1iBpYW2hWb&index=19" class="video-card" data-tipo="gratis">
+<div class="video-thumb">
+<img src="https://i.ytimg.com/vi/dga_bc0A-5Q/maxresdefault.jpg" alt="FL Studio Advanced - #18: XYZ Controller">
+<div class="play-btn">▶</div>
+<div class="lesson-badge">GRATIS</div>
+<div class="episode-number">#18</div>
+</div>
+<div class="video-name">FL Studio Advanced - #18: XYZ Controller</div>
+</a>
+
+<a href="https://www.youtube.com/watch?v=T5a0yayssis&list=PLDhUODcit3B7_EMvtV2zR6u1iBpYW2hWb&index=20" class="video-card" data-tipo="gratis">
+<div class="video-thumb">
+<img src="https://i.ytimg.com/vi/T5a0yayssis/maxresdefault.jpg" alt="FL Studio Advanced - #19: Fruity Convolver">
+<div class="play-btn">▶</div>
+<div class="lesson-badge">GRATIS</div>
+<div class="episode-number">#19</div>
+</div>
+<div class="video-name">FL Studio Advanced - #19: Fruity Convolver</div>
+</a>
+
+<a href="https://www.youtube.com/watch?v=12qOonMbVwI&list=PLDhUODcit3B7_EMvtV2zR6u1iBpYW2hWb&index=21" class="video-card" data-tipo="gratis">
+<div class="video-thumb">
+<img src="https://i.ytimg.com/vi/12qOonMbVwI/maxresdefault.jpg" alt="FL Studio Advanced - #20: DX10">
+<div class="play-btn">▶</div>
+<div class="lesson-badge">GRATIS</div>
+<div class="episode-number">#20</div>
+</div>
+<div class="video-name">FL Studio Advanced - #20: DX10</div>
+</a>
+
+<a href="https://www.youtube.com/watch?v=FtipXm6r07w&list=PLDhUODcit3B7_EMvtV2zR6u1iBpYW2hWb&index=22" class="video-card" data-tipo="gratis">
+<div class="video-thumb">
+<img src="https://i.ytimg.com/vi/FtipXm6r07w/maxresdefault.jpg" alt="FL Studio Advanced - #21: Toxic Biohazard">
+<div class="play-btn">▶</div>
+<div class="lesson-badge">GRATIS</div>
+<div class="episode-number">#21</div>
+</div>
+<div class="video-name">FL Studio Advanced - #21: Toxic Biohazard</div>
+</a>
+
+<a href="https://www.youtube.com/watch?v=6K4nr_OHYok&list=PLDhUODcit3B7_EMvtV2zR6u1iBpYW2hWb&index=23" class="video-card" data-tipo="gratis">
+<div class="video-thumb">
+<img src="https://i.ytimg.com/vi/6K4nr_OHYok/maxresdefault.jpg" alt="FL Studio Advanced - #22: Sytrus Part 1">
+<div class="play-btn">▶</div>
+<div class="lesson-badge">GRATIS</div>
+<div class="episode-number">#22</div>
+</div>
+<div class="video-name">FL Studio Advanced - #22: Sytrus Part 1</div>
+</a>
+
+<a href="https://www.youtube.com/watch?v=lOA-8sYZJzc&list=PLDhUODcit3B7_EMvtV2zR6u1iBpYW2hWb&index=24" class="video-card" data-tipo="gratis">
+<div class="video-thumb">
+<img src="https://i.ytimg.com/vi/lOA-8sYZJzc/maxresdefault.jpg" alt="FL Studio Advanced - #23: Sytrus Part 2">
+<div class="play-btn">▶</div>
+<div class="lesson-badge">GRATIS</div>
+<div class="episode-number">#23</div>
+</div>
+<div class="video-name">FL Studio Advanced - #23: Sytrus Part 2</div>
+</a>
+
+<a href="https://www.youtube.com/watch?v=SOsR9gBd6i4&list=PLDhUODcit3B7_EMvtV2zR6u1iBpYW2hWb&index=25" class="video-card" data-tipo="gratis">
+<div class="video-thumb">
+<img src="https://i.ytimg.com/vi/SOsR9gBd6i4/maxresdefault.jpg" alt="FL Studio Advanced - #24: Control Surface">
+<div class="play-btn">▶</div>
+<div class="lesson-badge">GRATIS</div>
+<div class="episode-number">#24</div>
+</div>
+<div class="video-name">FL Studio Advanced - #24: Control Surface</div>
+</a>
+
+<a href="https://www.youtube.com/watch?v=8kFnH4kDO20&list=PLDhUODcit3B7_EMvtV2zR6u1iBpYW2hWb&index=26" class="video-card" data-tipo="gratis">
+<div class="video-thumb">
+<img src="https://i.ytimg.com/vi/8kFnH4kDO20/maxresdefault.jpg" alt="FL Studio Advanced - #25: Beep Map">
+<div class="play-btn">▶</div>
+<div class="lesson-badge">GRATIS</div>
+<div class="episode-number">#25</div>
+</div>
+<div class="video-name">FL Studio Advanced - #25: Beep Map</div>
+</a>
+
+<a href="https://www.youtube.com/watch?v=sEv3z9YDllA&list=PLDhUODcit3B7_EMvtV2zR6u1iBpYW2hWb&index=27" class="video-card" data-tipo="gratis">
+<div class="video-thumb">
+<img src="https://i.ytimg.com/vi/sEv3z9YDllA/maxresdefault.jpg" alt="FL Studio Advanced - #26: Harmless">
+<div class="play-btn">▶</div>
+<div class="lesson-badge">GRATIS</div>
+<div class="episode-number">#26</div>
+</div>
+<div class="video-name">FL Studio Advanced - #26: Harmless</div>
+</a>
+
+<a href="https://www.youtube.com/watch?v=m7YabzAA6XE&list=PLDhUODcit3B7_EMvtV2zR6u1iBpYW2hWb&index=28" class="video-card" data-tipo="gratis">
+<div class="video-thumb">
+<img src="https://i.ytimg.com/vi/m7YabzAA6XE/maxresdefault.jpg" alt="FL Studio Advanced - #27: Harmor Part 1">
+<div class="play-btn">▶</div>
+<div class="lesson-badge">GRATIS</div>
+<div class="episode-number">#27</div>
+</div>
+<div class="video-name">FL Studio Advanced - #27: Harmor Part 1</div>
+</a>
+
+<a href="https://www.youtube.com/watch?v=EUP_DxfwLz8&list=PLDhUODcit3B7_EMvtV2zR6u1iBpYW2hWb&index=29" class="video-card" data-tipo="gratis">
+<div class="video-thumb">
+<img src="https://i.ytimg.com/vi/EUP_DxfwLz8/maxresdefault.jpg" alt="FL Studio Advanced - #28: Harmor Part 2">
+<div class="play-btn">▶</div>
+<div class="lesson-badge">GRATIS</div>
+<div class="episode-number">#28</div>
+</div>
+<div class="video-name">FL Studio Advanced - #28: Harmor Part 2</div>
+</a>
+
+<a href="https://www.youtube.com/watch?v=6Ag7loIF9tE&list=PLDhUODcit3B7_EMvtV2zR6u1iBpYW2hWb&index=30" class="video-card" data-tipo="gratis">
+<div class="video-thumb">
+<img src="https://i.ytimg.com/vi/6Ag7loIF9tE/maxresdefault.jpg" alt="FL Studio Advanced - #29: Ogun">
+<div class="play-btn">▶</div>
+<div class="lesson-badge">GRATIS</div>
+<div class="episode-number">#29</div>
+</div>
+<div class="video-name">FL Studio Advanced - #29: Ogun</div>
+</a>
+
+<a href="https://www.youtube.com/watch?v=V--5LJZrh28&list=PLDhUODcit3B7_EMvtV2zR6u1iBpYW2hWb&index=31" class="video-card" data-tipo="gratis">
+<div class="video-thumb">
+<img src="https://i.ytimg.com/vi/V--5LJZrh28/maxresdefault.jpg" alt="FL Studio Advanced - #30: Morphine">
+<div class="play-btn">▶</div>
+<div class="lesson-badge">GRATIS</div>
+<div class="episode-number">#30</div>
+</div>
+<div class="video-name">FL Studio Advanced - #30: Morphine</div>
+</a>
+
+<a href="https://www.youtube.com/watch?v=hB2cDaW3KHQ&list=PLDhUODcit3B7_EMvtV2zR6u1iBpYW2hWb&index=32" class="video-card" data-tipo="gratis">
+<div class="video-thumb">
+<img src="https://i.ytimg.com/vi/hB2cDaW3KHQ/maxresdefault.jpg" alt="FL Studio Advanced - #31: Slicex">
+<div class="play-btn">▶</div>
+<div class="lesson-badge">GRATIS</div>
+<div class="episode-number">#31</div>
+</div>
+<div class="video-name">FL Studio Advanced - #31: Slicex</div>
+</a>
+
+<a href="https://www.youtube.com/watch?v=d8LoXkfz8gU&list=PLDhUODcit3B7_EMvtV2zR6u1iBpYW2hWb&index=33" class="video-card" data-tipo="gratis">
+<div class="video-thumb">
+<img src="https://i.ytimg.com/vi/d8LoXkfz8gU/maxresdefault.jpg" alt="FL Studio Advanced - #32: Sakura">
+<div class="play-btn">▶</div>
+<div class="lesson-badge">GRATIS</div>
+<div class="episode-number">#32</div>
+</div>
+<div class="video-name">FL Studio Advanced - #32: Sakura</div>
+</a>
+
+<a href="https://www.youtube.com/watch?v=PTX5XpN8PZQ&list=PLDhUODcit3B7_EMvtV2zR6u1iBpYW2hWb&index=34" class="video-card" data-tipo="gratis">
+<div class="video-thumb">
+<img src="https://i.ytimg.com/vi/PTX5XpN8PZQ/maxresdefault.jpg" alt="FL Studio Advanced - #33: Transistor Bass">
+<div class="play-btn">▶</div>
+<div class="lesson-badge">GRATIS</div>
+<div class="episode-number">#33</div>
+</div>
+<div class="video-name">FL Studio Advanced - #33: Transistor Bass</div>
+</a>
+
+<a href="https://www.youtube.com/watch?v=C-m6HbRaFdo&list=PLDhUODcit3B7_EMvtV2zR6u1iBpYW2hWb&index=35" class="video-card" data-tipo="gratis">
+<div class="video-thumb">
+<img src="https://i.ytimg.com/vi/C-m6HbRaFdo/maxresdefault.jpg" alt="FL Studio Advanced - #34: Formulas de Anclaje">
+<div class="play-btn">▶</div>
+<div class="lesson-badge">GRATIS</div>
+<div class="episode-number">#34</div>
+</div>
+<div class="video-name">FL Studio Advanced - #34: Formulas de Anclaje</div>
+</a>
+
+<a href="https://www.youtube.com/watch?v=Pl0DYh3ayfk&list=PLDhUODcit3B7_EMvtV2zR6u1iBpYW2hWb&index=36" class="video-card" data-tipo="gratis">
+<div class="video-thumb">
+<img src="https://i.ytimg.com/vi/Pl0DYh3ayfk/maxresdefault.jpg" alt="FL Studio Advanced - #35: Formulla Controller">
+<div class="play-btn">▶</div>
+<div class="lesson-badge">GRATIS</div>
+<div class="episode-number">#35</div>
+</div>
+<div class="video-name">FL Studio Advanced - #35: Formulla Controller</div>
+</a>
+
+<a href="https://www.youtube.com/watch?v=OJ7H89Ox2y8&list=PLDhUODcit3B7_EMvtV2zR6u1iBpYW2hWb&index=37" class="video-card" data-tipo="gratis">
+<div class="video-thumb">
+<img src="https://i.ytimg.com/vi/OJ7H89Ox2y8/maxresdefault.jpg" alt="FL Studio Advanced - #36: Advanced Patcher">
+<div class="play-btn">▶</div>
+<div class="lesson-badge">GRATIS</div>
+<div class="episode-number">#36</div>
+</div>
+<div class="video-name">FL Studio Advanced - #36: Advanced Patcher</div>
+</a>
+
+<a href="https://www.youtube.com/watch?v=Hjekm8OC2xA&list=PLDhUODcit3B7_EMvtV2zR6u1iBpYW2hWb&index=38" class="video-card" data-tipo="gratis">
+<div class="video-thumb">
+<img src="https://i.ytimg.com/vi/Hjekm8OC2xA/maxresdefault.jpg" alt="FL Studio Advanced - #37: Video Player">
+<div class="play-btn">▶</div>
+<div class="lesson-badge">GRATIS</div>
+<div class="episode-number">#37</div>
+</div>
+<div class="video-name">FL Studio Advanced - #37: Video Player</div>
+</a>
+
+<a href="https://www.youtube.com/watch?v=wZCg8B_t280&list=PLDhUODcit3B7_EMvtV2zR6u1iBpYW2hWb&index=39" class="video-card" data-tipo="gratis">
+<div class="video-thumb">
+<img src="https://i.ytimg.com/vi/wZCg8B_t280/maxresdefault.jpg" alt="FL Studio Advanced - #38: ZGame Editor">
+<div class="play-btn">▶</div>
+<div class="lesson-badge">GRATIS</div>
+<div class="episode-number">#38</div>
+</div>
+<div class="video-name">FL Studio Advanced - #38: ZGame Editor</div>
+</a>
+
+<a href="https://www.youtube.com/watch?v=UGXThQEosFc&list=PLDhUODcit3B7_EMvtV2zR6u1iBpYW2hWb&index=40" class="video-card" data-tipo="gratis">
+<div class="video-thumb">
+<img src="https://i.ytimg.com/vi/UGXThQEosFc/maxresdefault.jpg" alt="FL Studio Advanced - #39: Performance Mode">
+<div class="play-btn">▶</div>
+<div class="lesson-badge">GRATIS</div>
+<div class="episode-number">#39</div>
+</div>
+<div class="video-name">FL Studio Advanced - #39: Performance Mode</div>
+</a>
+
+<a href="https://www.youtube.com/watch?v=FHNkf5wuQfY&list=PLDhUODcit3B7_EMvtV2zR6u1iBpYW2hWb&index=41" class="video-card" data-tipo="gratis">
+<div class="video-thumb">
+<img src="https://i.ytimg.com/vi/FHNkf5wuQfY/maxresdefault.jpg" alt="FL Studio Advanced - #40: END OF COURSE">
+<div class="play-btn">▶</div>
+<div class="lesson-badge">GRATIS</div>
+<div class="episode-number">#40</div>
+</div>
+<div class="video-name">FL Studio Advanced - #40: END OF COURSE</div>
+</a>
+</div>
+</section>
+
+
+<div class="ad-unlock-modal" id="adUnlockModal" aria-hidden="true">
+    <div class="ad-unlock-box">
+        <button class="ad-close" id="adCloseBtn" type="button" aria-label="Cerrar ventana">×</button>
+        <div class="ad-icon">🎬</div>
+        <h2>Desbloquear clase</h2>
+        <div class="ad-class-title" id="adClassTitle">Clase seleccionada</div>
+        <p>
+            Esta clase es PREMIUM. Para reproducirla necesitas ver un anuncio corto.
+            Las clases GRATIS se abren directo sin anuncio.
+        </p>
+        <button class="ad-main-btn" id="watchAdBtn" type="button">▶ Ver anuncio y continuar</button>
+        <button class="ad-cancel-btn" id="adCancelBtn" type="button">Cancelar</button>
+        <div class="ad-loading" id="adLoading">Preparando anuncio...</div>
+        <span class="ad-small-note">Cuando el anuncio termine, la clase se abrirá automáticamente.</span>
+    </div>
+</div>
+
+
+<!-- REPRODUCTOR EMERGENTE YOUTUBE -->
+<div class="video-modal" id="videoModal" aria-hidden="true">
+    <div class="player-window" id="playerWindow">
+
+        <div class="player-header">
+            <div class="player-title-box">
+                <div class="player-label">Reproduciendo clase</div>
+                <div class="player-title" id="playerTitle">Selecciona un video</div>
+            </div>
+            <button class="close-player" id="closePlayer" type="button" aria-label="Cerrar reproductor">×</button>
+        </div>
+
+        <div class="player-frame-wrap" id="playerFrameWrap">
+            <div id="youtubePlayer"></div>
+
+            <!-- Capa de bloqueo encima del iframe -->
+            <div class="player-block-layer" id="playerBlockLayer" title="Clic para reproducir o pausar"></div>
+
+            <div class="player-toast" id="playerToast">Listo</div>
+
+            <!-- Controles flotantes tipo YouTube -->
+            <div class="player-controls" id="playerControls">
+                <!-- Barra de progreso táctil arriba de los botones -->
+                <div class="player-progress" id="progressBar" title="Toca o arrastra para avanzar">
+                    <div class="player-progress-fill" id="progressFill"></div>
+                </div>
+
+                <button class="control-btn" id="backBtn" type="button">⏪ 10s</button>
+                <button class="control-btn play-control" id="playPauseBtn" type="button">▶ Play</button>
+                <button class="control-btn" id="forwardBtn" type="button">10s ⏩</button>
+                <button class="control-btn" id="muteBtn" type="button">🔊 Audio</button>
+                <button class="control-btn" id="fullscreenBtn" type="button">⛶ Pantalla completa</button>
+                <div class="time-view" id="timeView">00:00 / 00:00</div>
+                <div class="player-note">El reproductor abre en pantalla completa. Los controles se ocultan solos. Toca la barra para avanzar.</div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+/* ==============================
+   YOUTUBE PLAYER API
+   ============================== */
+
+let youtubePlayer;
+let playerReady = false;
+let pendingVideo = null;
+let progressInterval = null;
+let hideControlsTimer = null;
+let toastTimer = null;
+let progressDragging = false;
+
+/* ==============================
+   ANUNCIO RECOMPENSADO POR CADA CLASE
+   ============================== */
+
+let clasePendiente = null;
+let esperandoAnuncio = false;
+
+// Cambia a false cuando ya tengas AdMob recompensado conectado en App Creator.
+// En true permite probar el flujo en navegador con una simulación de 3 segundos.
+const MODO_PRUEBA_ANUNCIO = true;
+
+const adUnlockModal = document.getElementById('adUnlockModal');
+const adClassTitle = document.getElementById('adClassTitle');
+const adCloseBtn = document.getElementById('adCloseBtn');
+const adCancelBtn = document.getElementById('adCancelBtn');
+const watchAdBtn = document.getElementById('watchAdBtn');
+const adLoading = document.getElementById('adLoading');
+
+const videoModal = document.getElementById('videoModal');
+const playerWindow = document.getElementById('playerWindow');
+const playerBlockLayer = document.getElementById('playerBlockLayer');
+const playerControls = document.getElementById('playerControls');
+const playerTitle = document.getElementById('playerTitle');
+const closePlayer = document.getElementById('closePlayer');
+const playPauseBtn = document.getElementById('playPauseBtn');
+const backBtn = document.getElementById('backBtn');
+const forwardBtn = document.getElementById('forwardBtn');
+const muteBtn = document.getElementById('muteBtn');
+const fullscreenBtn = document.getElementById('fullscreenBtn');
+const progressBar = document.getElementById('progressBar');
+const progressFill = document.getElementById('progressFill');
+const timeView = document.getElementById('timeView');
+const playerToast = document.getElementById('playerToast');
+
+// Cargar API de YouTube
+const tag = document.createElement('script');
+tag.src = "https://www.youtube.com/iframe_api";
+document.body.appendChild(tag);
+
+function onYouTubeIframeAPIReady(){
+    youtubePlayer = new YT.Player('youtubePlayer', {
+        width:'100%',
+        height:'100%',
+        videoId:'',
+        playerVars:{
+            autoplay:0,
+            controls:0,
+            rel:0,
+            modestbranding:1,
+            playsinline:0,
+            iv_load_policy:3,
+            fs:0,
+            disablekb:1,
+            cc_load_policy:0
+        },
+        events:{
+            onReady:onPlayerReady,
+            onStateChange:onPlayerStateChange
+        }
+    });
+}
+
+function onPlayerReady(){
+    playerReady = true;
+    blockSubtitles();
+
+    if(pendingVideo){
+        loadVideo(pendingVideo.id, pendingVideo.title);
+        pendingVideo = null;
+    }
+}
+
+function onPlayerStateChange(event){
+    if(event.data === YT.PlayerState.PLAYING){
+        playPauseBtn.textContent = '⏸ Pausar';
+        startProgressTimer();
+        blockSubtitles();
+        scheduleControlsHide();
+    }
+
+    if(event.data === YT.PlayerState.PAUSED){
+        playPauseBtn.textContent = '▶ Play';
+        showControls(false);
+    }
+
+    if(event.data === YT.PlayerState.ENDED){
+        playPauseBtn.textContent = '▶ Repetir';
+        updateProgress();
+        showControls(false);
+    }
+
+    if(event.data === YT.PlayerState.BUFFERING){
+        showControls(true);
+    }
+}
+
+function blockSubtitles(){
+    // YouTube no ofrece un bloqueo absoluto de subtítulos,
+    // pero aquí se cargan apagados y se oculta el control nativo con la capa de bloqueo.
+    if(!youtubePlayer || !playerReady) return;
+
+    try{
+        if(typeof youtubePlayer.unloadModule === 'function'){
+            youtubePlayer.unloadModule('captions');
+        }
+    }catch(e){}
+}
+
+function extractYouTubeId(url){
+    if(!url) return null;
+
+    try{
+        const cleanUrl = url.trim();
+        const parsed = new URL(cleanUrl);
+        const host = parsed.hostname.replace('www.','');
+
+        if(host === 'youtu.be'){
+            return parsed.pathname.split('/')[1] || null;
+        }
+
+        if(host === 'youtube.com' || host === 'm.youtube.com' || host === 'music.youtube.com'){
+            if(parsed.searchParams.get('v')) return parsed.searchParams.get('v');
+
+            const parts = parsed.pathname.split('/').filter(Boolean);
+            if(parts[0] === 'embed' || parts[0] === 'shorts' || parts[0] === 'live'){
+                return parts[1] || null;
+            }
+        }
+    }catch(e){
+        const match = url.match(/(?:youtu\.be\/|v=|embed\/|shorts\/|live\/)([a-zA-Z0-9_-]{11})/);
+        return match ? match[1] : null;
+    }
+
+    const fallback = url.match(/(?:youtu\.be\/|v=|embed\/|shorts\/|live\/)([a-zA-Z0-9_-]{11})/);
+    return fallback ? fallback[1] : null;
+}
+
+function openModal(){
+    videoModal.classList.add('active','force-fullscreen');
+    videoModal.setAttribute('aria-hidden','false');
+    document.body.style.overflow = 'hidden';
+    showControls(false);
+    requestFullscreenLandscape();
+}
+
+function lockLandscape(){
+    try{
+        if(screen.orientation && screen.orientation.lock){
+            screen.orientation.lock('landscape').catch(()=>{});
+        }
+    }catch(e){}
+}
+
+function requestFullscreenLandscape(){
+    // Debe ejecutarse después del clic del usuario para que el navegador lo permita.
+    try{
+        if(!document.fullscreenElement && videoModal.requestFullscreen){
+            const fsPromise = videoModal.requestFullscreen({navigationUI:'hide'});
+            if(fsPromise && typeof fsPromise.then === 'function'){
+                fsPromise.then(lockLandscape).catch(lockLandscape);
+            }else{
+                lockLandscape();
+            }
+        }else{
+            lockLandscape();
+        }
+    }catch(e){
+        lockLandscape();
+    }
+}
+
+function closeModal(){
+    if(youtubePlayer && playerReady){
+        youtubePlayer.stopVideo();
+    }
+
+    videoModal.classList.remove('active','is-fullscreen','force-fullscreen');
+    videoModal.setAttribute('aria-hidden','true');
+    document.body.style.overflow = '';
+    progressFill.style.width = '0%';
+    timeView.textContent = '00:00 / 00:00';
+    playPauseBtn.textContent = '▶ Play';
+    stopProgressTimer();
+    clearControlsHideTimer();
+    playerWindow.classList.remove('controls-hidden');
+
+    try{
+        if(screen.orientation && screen.orientation.unlock){
+            screen.orientation.unlock();
+        }
+    }catch(e){}
+
+    if(document.fullscreenElement){
+        document.exitFullscreen().catch(()=>{});
+    }
+}
+
+function loadVideo(videoId, title){
+    openModal();
+    playerTitle.textContent = title || 'Clase del curso';
+
+    if(!playerReady || !youtubePlayer){
+        pendingVideo = {id:videoId, title:title};
+        return;
+    }
+
+    youtubePlayer.loadVideoById(videoId);
+
+    setTimeout(()=>{
+        try{
+            youtubePlayer.playVideo();
+            blockSubtitles();
+        }catch(e){}
+    },350);
+
+    setTimeout(blockSubtitles,1000);
+    startProgressTimer();
+}
+
+
+function mostrarVentanaAnuncio(videoId, title){
+    clasePendiente = {id:videoId, title:title};
+    esperandoAnuncio = false;
+    adClassTitle.textContent = title || 'Clase del curso';
+    adLoading.textContent = 'Preparando anuncio...';
+    adLoading.classList.remove('active');
+    watchAdBtn.disabled = false;
+    watchAdBtn.textContent = '▶ Ver anuncio y continuar';
+    adUnlockModal.classList.add('active');
+    adUnlockModal.setAttribute('aria-hidden','false');
+    document.body.style.overflow = 'hidden';
+}
+
+function cerrarVentanaAnuncio(){
+    adUnlockModal.classList.remove('active');
+    adUnlockModal.setAttribute('aria-hidden','true');
+    adLoading.classList.remove('active');
+    adLoading.textContent = 'Preparando anuncio...';
+    watchAdBtn.disabled = false;
+    watchAdBtn.textContent = '▶ Ver anuncio y continuar';
+    esperandoAnuncio = false;
+
+    if(!videoModal.classList.contains('active')){
+        document.body.style.overflow = '';
+    }
+}
+
+function verAnuncioParaDesbloquear(){
+    if(!clasePendiente || esperandoAnuncio) return;
+
+    esperandoAnuncio = true;
+    adLoading.classList.add('active');
+    watchAdBtn.disabled = true;
+    watchAdBtn.textContent = '⏳ Abriendo anuncio...';
+
+    /*
+       IMPORTANTE APPCREATOR24:
+       Si AppCreator24 expone un puente nativo, aquí se intenta abrir el anuncio.
+       Si no existe puente nativo, esta plantilla usa modo compatible:
+       espera unos segundos y desbloquea la clase para que no se quede trabada.
+
+       Si tu AppCreator24 tiene anuncios intersticiales/recompensados configurados,
+       la app puede mostrarlos por su propia configuración, pero el HTML no siempre
+       puede llamarlos directamente.
+    */
+
+    try{
+        if(window.Android && typeof Android.showRewardedAd === 'function'){
+            Android.showRewardedAd();
+            return;
+        }
+
+        if(window.Android && typeof Android.mostrarAnuncioRecompensado === 'function'){
+            Android.mostrarAnuncioRecompensado();
+            return;
+        }
+
+        if(window.AppCreator && typeof AppCreator.showRewardedAd === 'function'){
+            AppCreator.showRewardedAd();
+            return;
+        }
+
+        if(window.AppCreator && typeof AppCreator.mostrarAnuncioRecompensado === 'function'){
+            AppCreator.mostrarAnuncioRecompensado();
+            return;
+        }
+
+        if(window.appcreator && typeof appcreator.showRewardedAd === 'function'){
+            appcreator.showRewardedAd();
+            return;
+        }
+
+        if(window.ReactNativeWebView){
+            window.ReactNativeWebView.postMessage(JSON.stringify({action:'showRewardedAd'}));
+            return;
+        }
+    }catch(e){}
+
+    // MODO COMPATIBLE APPCREATOR24:
+    // Evita el error "No se pudo abrir el anuncio" cuando AppCreator24 no da puente JS.
+    adLoading.textContent = 'Continuando...';
+    watchAdBtn.textContent = '⏳ Continuando...';
+
+    setTimeout(()=>{
+        anuncioCompletado();
+    }, 1800);
+}
+
+// Esta función la debe llamar App Creator cuando el usuario complete el anuncio recompensado.
+function anuncioCompletado(){
+    if(!clasePendiente) return;
+
+    const video = clasePendiente;
+    clasePendiente = null;
+    cerrarVentanaAnuncio();
+    loadVideo(video.id, video.title);
+}
+
+// Esta función se puede llamar si el usuario cierra el anuncio o no gana la recompensa.
+function anuncioCancelado(){
+    adLoading.classList.remove('active');
+    watchAdBtn.disabled = false;
+    watchAdBtn.textContent = '▶ Ver anuncio y continuar';
+    esperandoAnuncio = false;
+    try{ showToast('Anuncio cancelado'); }catch(e){}
+}
+
+function formatTime(seconds){
+    seconds = Math.floor(seconds || 0);
+    const min = Math.floor(seconds / 60);
+    const sec = seconds % 60;
+    return String(min).padStart(2,'0') + ':' + String(sec).padStart(2,'0');
+}
+
+function updateProgress(){
+    if(!youtubePlayer || !playerReady || typeof youtubePlayer.getCurrentTime !== 'function') return;
+
+    const current = youtubePlayer.getCurrentTime() || 0;
+    const duration = youtubePlayer.getDuration() || 0;
+    const percent = duration > 0 ? (current / duration) * 100 : 0;
+
+    progressFill.style.width = Math.min(percent,100) + '%';
+    timeView.textContent = formatTime(current) + ' / ' + formatTime(duration);
+}
+
+function startProgressTimer(){
+    stopProgressTimer();
+    progressInterval = setInterval(updateProgress,500);
+}
+
+function stopProgressTimer(){
+    if(progressInterval){
+        clearInterval(progressInterval);
+        progressInterval = null;
+    }
+}
+
+function isPlaying(){
+    if(!youtubePlayer || !playerReady) return false;
+    return youtubePlayer.getPlayerState() === YT.PlayerState.PLAYING;
+}
+
+function clearControlsHideTimer(){
+    if(hideControlsTimer){
+        clearTimeout(hideControlsTimer);
+        hideControlsTimer = null;
+    }
+}
+
+function showControls(autoHide=true){
+    playerWindow.classList.remove('controls-hidden');
+    clearControlsHideTimer();
+
+    if(autoHide){
+        scheduleControlsHide();
+    }
+}
+
+function scheduleControlsHide(){
+    clearControlsHideTimer();
+
+    if(!isPlaying()) return;
+
+    hideControlsTimer = setTimeout(()=>{
+        if(isPlaying() && !progressDragging){
+            playerWindow.classList.add('controls-hidden');
+        }
+    },2800);
+}
+
+function showToast(text){
+    playerToast.textContent = text;
+    playerToast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(()=>{
+        playerToast.classList.remove('show');
+    },1600);
+}
+
+function togglePlayPause(){
+    if(!youtubePlayer || !playerReady) return;
+
+    const state = youtubePlayer.getPlayerState();
+
+    if(state === YT.PlayerState.PLAYING){
+        youtubePlayer.pauseVideo();
+    }else{
+        youtubePlayer.playVideo();
+        blockSubtitles();
+    }
+}
+
+function seekFromClientX(clientX){
+    if(!youtubePlayer || !playerReady) return;
+
+    const duration = youtubePlayer.getDuration() || 0;
+    if(duration <= 0) return;
+
+    const rect = progressBar.getBoundingClientRect();
+    const clickX = Math.min(Math.max(clientX - rect.left, 0), rect.width);
+    const percent = clickX / rect.width;
+    const newTime = duration * percent;
+
+    youtubePlayer.seekTo(newTime, true);
+    progressFill.style.width = (percent * 100) + '%';
+    timeView.textContent = formatTime(newTime) + ' / ' + formatTime(duration);
+    showControls(true);
+}
+
+// Detecta si la clase/curso es GRATIS o PREMIUM
+function obtenerTipoClase(card){
+    // 1) Primero revisa si la tarjeta tiene data-tipo="gratis" o data-tipo="premium"
+    const tipoTarjeta = (card.dataset.tipo || '').toLowerCase().trim();
+    if(tipoTarjeta === 'gratis' || tipoTarjeta === 'free') return 'gratis';
+    if(tipoTarjeta === 'premium' || tipoTarjeta === 'pro') return 'premium';
+
+    // 2) Si la tarjeta no tiene data-tipo, revisa el tipo general del curso en el body
+    const tipoCurso = (document.body.dataset.curso || 'premium').toLowerCase().trim();
+    if(tipoCurso === 'gratis' || tipoCurso === 'free') return 'gratis';
+
+    // 3) Por seguridad, si no se especifica nada, se considera premium
+    return 'premium';
+}
+
+// Convertir cada tarjeta en botón de reproducción dentro de la ventana
+const videoCards = document.querySelectorAll('.video-card');
+videoCards.forEach(card => {
+    card.addEventListener('click', function(e){
+        e.preventDefault();
+
+        const videoUrl = this.getAttribute('href');
+        const videoId = extractYouTubeId(videoUrl);
+        const title = this.querySelector('.video-name')?.textContent.trim() || 'Clase del curso';
+        const tipoClase = obtenerTipoClase(this);
+
+        if(!videoId){
+            alert('Agrega un enlace válido de YouTube en esta tarjeta. Ejemplo: https://youtu.be/IDDELVIDEO');
+            return;
+        }
+
+        if(tipoClase === 'gratis'){
+            // Clase gratis: abre directo el reproductor, sin anuncio
+            loadVideo(videoId, title);
+        }else{
+            // Clase premium: primero pide anuncio recompensado
+            mostrarVentanaAnuncio(videoId, title);
+        }
+    });
+});
+
+
+adCloseBtn.addEventListener('click', cerrarVentanaAnuncio);
+adCancelBtn.addEventListener('click', cerrarVentanaAnuncio);
+watchAdBtn.addEventListener('click', verAnuncioParaDesbloquear);
+
+adUnlockModal.addEventListener('click', function(e){
+    if(e.target === adUnlockModal){
+        cerrarVentanaAnuncio();
+    }
+});
+
+closePlayer.addEventListener('click', closeModal);
+
+videoModal.addEventListener('click', function(e){
+    if(e.target === videoModal){
+        closeModal();
+    }
+});
+
+playerWindow.addEventListener('mousemove', ()=>showControls(true));
+playerWindow.addEventListener('touchstart', ()=>showControls(true), {passive:true});
+playerControls.addEventListener('mouseenter', ()=>showControls(false));
+playerControls.addEventListener('mouseleave', ()=>scheduleControlsHide());
+
+playerBlockLayer.addEventListener('click', function(){
+    showControls(true);
+    togglePlayPause();
+});
+
+playerBlockLayer.addEventListener('dblclick', function(){
+    fullscreenBtn.click();
+});
+
+document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape' && adUnlockModal.classList.contains('active')){
+        cerrarVentanaAnuncio();
+        return;
+    }
+
+    if(e.key === 'Escape' && videoModal.classList.contains('active')){
+        closeModal();
+    }
+
+    if(!videoModal.classList.contains('active')) return;
+
+    if(e.code === 'Space'){
+        e.preventDefault();
+        showControls(true);
+        togglePlayPause();
+    }
+
+    if(e.key === 'ArrowLeft'){
+        backBtn.click();
+    }
+
+    if(e.key === 'ArrowRight'){
+        forwardBtn.click();
+    }
+});
+
+playPauseBtn.addEventListener('click', function(){
+    showControls(true);
+    togglePlayPause();
+});
+
+backBtn.addEventListener('click', function(){
+    if(!youtubePlayer || !playerReady) return;
+    const current = youtubePlayer.getCurrentTime() || 0;
+    youtubePlayer.seekTo(Math.max(current - 10, 0), true);
+    updateProgress();
+    showControls(true);
+});
+
+forwardBtn.addEventListener('click', function(){
+    if(!youtubePlayer || !playerReady) return;
+    const current = youtubePlayer.getCurrentTime() || 0;
+    const duration = youtubePlayer.getDuration() || 0;
+    youtubePlayer.seekTo(Math.min(current + 10, duration), true);
+    updateProgress();
+    showControls(true);
+});
+
+muteBtn.addEventListener('click', function(){
+    if(!youtubePlayer || !playerReady) return;
+
+    if(youtubePlayer.isMuted()){
+        youtubePlayer.unMute();
+        muteBtn.textContent = '🔊 Audio';
+    }else{
+        youtubePlayer.mute();
+        muteBtn.textContent = '🔇 Silencio';
+    }
+    showControls(true);
+});
+
+progressBar.addEventListener('pointerdown', function(e){
+    e.preventDefault();
+    progressDragging = true;
+    progressBar.classList.add('dragging');
+    progressBar.setPointerCapture?.(e.pointerId);
+    seekFromClientX(e.clientX);
+});
+
+progressBar.addEventListener('pointermove', function(e){
+    if(!progressDragging) return;
+    e.preventDefault();
+    seekFromClientX(e.clientX);
+});
+
+function stopProgressDrag(e){
+    if(!progressDragging) return;
+    progressDragging = false;
+    progressBar.classList.remove('dragging');
+    try{ progressBar.releasePointerCapture?.(e.pointerId); }catch(err){}
+    updateProgress();
+    scheduleControlsHide();
+}
+
+progressBar.addEventListener('pointerup', stopProgressDrag);
+progressBar.addEventListener('pointercancel', stopProgressDrag);
+progressBar.addEventListener('lostpointercapture', function(){
+    progressDragging = false;
+    progressBar.classList.remove('dragging');
+});
+
+fullscreenBtn.addEventListener('click', function(){
+    showControls(true);
+    if(!document.fullscreenElement){
+        videoModal.requestFullscreen({navigationUI:'hide'}).catch(()=>{});
+        try{
+            if(screen.orientation && screen.orientation.lock){
+                screen.orientation.lock('landscape').catch(()=>{});
+            }
+        }catch(e){}
+    }else{
+        document.exitFullscreen().catch(()=>{});
+    }
+});
+
+document.addEventListener('fullscreenchange', function(){
+    if(document.fullscreenElement){
+        videoModal.classList.add('is-fullscreen','force-fullscreen');
+        fullscreenBtn.textContent = '⤢ Salir pantalla completa';
+        lockLandscape();
+    }else{
+        videoModal.classList.remove('is-fullscreen');
+        fullscreenBtn.textContent = '⛶ Pantalla completa';
+    }
+});
+
+/* CALLBACKS GLOBALES PARA APPCREATOR24 */
+window.anuncioCompletado = anuncioCompletado;
+window.rewardedAdCompleted = anuncioCompletado;
+window.onRewardedAdCompleted = anuncioCompletado;
+window.admobRewarded = anuncioCompletado;
+
+</script>
+
+</body>
+</html>

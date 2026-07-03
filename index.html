@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Productor Musical Pro</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+    -webkit-tap-highlight-color:transparent;
+}
+
+:root{
+    --bg:#000;
+    --gold:#FFD700;
+    --red:#ff0000;
+    --green:#00e676;
+    --muted:#bdbdbd;
+    --card:#111;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    background:var(--bg);
+    color:#fff;
+}
+
+/* PORTADA */
+
+.banner{
+    width:100%;
+    height:320px;
+    overflow:hidden;
+    position:relative;
+    background:#111;
+}
+
+.banner img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+}
+
+/* SECCIONES */
+
+.section{
+    padding:20px 15px;
+}
+
+.section-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:15px;
+    gap:12px;
+}
+
+.section-title{
+    color:var(--gold);
+    font-size:24px;
+    font-weight:bold;
+}
+
+.btn-more{
+    background:var(--gold);
+    color:#000;
+    text-decoration:none;
+    padding:10px 15px;
+    border-radius:8px;
+    font-weight:bold;
+    font-size:14px;
+    white-space:nowrap;
+}
+
+.btn-more:hover{
+    opacity:.9;
+}
+
+/* LISTAS HORIZONTALES */
+
+.scroll-container{
+    display:flex;
+    gap:15px;
+    overflow-x:auto;
+    scroll-behavior:smooth;
+    padding-bottom:12px;
+    scroll-snap-type:x mandatory;
+}
+
+.scroll-container::-webkit-scrollbar{
+    height:8px;
+}
+
+.scroll-container::-webkit-scrollbar-track{
+    background:#111;
+    border-radius:20px;
+}
+
+.scroll-container::-webkit-scrollbar-thumb{
+    background:var(--gold);
+    border-radius:20px;
+}
+
+/* TARJETAS */
+
+.card{
+    min-width:180px;
+    text-align:center;
+    scroll-snap-align:start;
+}
+
+.card-cover{
+    width:180px;
+    height:260px;
+    position:relative;
+    border-radius:12px;
+    overflow:hidden;
+    background:#111;
+    box-shadow:0 10px 30px rgba(0,0,0,.45);
+}
+
+.card-cover img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+    transition:.3s;
+}
+
+.card-cover:hover img{
+    transform:scale(1.05);
+}
+
+.badge{
+    position:absolute;
+    top:8px;
+    left:8px;
+    padding:6px 9px;
+    border-radius:999px;
+    font-size:10px;
+    font-weight:bold;
+    z-index:2;
+    box-shadow:0 4px 12px rgba(0,0,0,.35);
+}
+
+.badge-free{
+    background:var(--green);
+    color:#001b0b;
+}
+
+.badge-premium{
+    background:var(--red);
+    color:#fff;
+}
+
+.item-btn{
+    display:block;
+    margin-top:10px;
+    background:var(--gold);
+    color:#000;
+    text-decoration:none;
+    padding:10px;
+    border-radius:8px;
+    font-weight:bold;
+    font-size:13px;
+    transition:.3s;
+}
+
+.item-btn:hover{
+    opacity:.9;
+    transform:scale(1.03);
+}
+
+.item-btn.download{
+    background:var(--red);
+    color:#fff;
+}
+
+.card-title{
+    color:#fff;
+    margin-top:10px;
+    text-align:center;
+    font-size:14px;
+    line-height:1.3;
+}
+
+
+/* SECCIÓN SIMPLE TODOS LOS PACKS */
+
+.packs-cta{
+    background:#0b0b0b;
+    border:1px solid rgba(255,215,0,.18);
+    border-radius:14px;
+    padding:18px 15px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+}
+
+.packs-cta-title{
+    color:var(--gold);
+    font-size:22px;
+    font-weight:bold;
+    line-height:1.2;
+}
+
+@media(max-width:768px){
+    .packs-cta{
+        padding:16px 12px;
+    }
+
+    .packs-cta-title{
+        font-size:20px;
+    }
+}
+
+
+/* MODAL PARA DESBLOQUEAR DESCARGA */
+
+.download-ad-modal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.88);
+    z-index:99999;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+}
+
+.download-ad-modal.active{
+    display:flex;
+}
+
+.download-ad-box{
+    width:100%;
+    max-width:390px;
+    background:#111;
+    border:1px solid rgba(255,215,0,.28);
+    border-radius:22px;
+    padding:24px;
+    text-align:center;
+    position:relative;
+    box-shadow:0 0 50px rgba(0,0,0,.85);
+}
+
+.download-ad-close{
+    position:absolute;
+    top:12px;
+    right:12px;
+    width:36px;
+    height:36px;
+    border:none;
+    border-radius:50%;
+    background:#222;
+    color:#fff;
+    font-size:24px;
+    cursor:pointer;
+}
+
+.download-ad-icon{
+    width:70px;
+    height:70px;
+    margin:0 auto 15px;
+    border-radius:50%;
+    background:var(--gold);
+    color:#000;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:32px;
+    box-shadow:0 0 25px rgba(255,215,0,.35);
+}
+
+.download-ad-box h2{
+    color:#fff;
+    font-size:22px;
+    margin-bottom:8px;
+}
+
+.download-ad-box p{
+    color:#bdbdbd;
+    font-size:14px;
+    line-height:1.5;
+    margin-bottom:14px;
+}
+
+.download-pack-name{
+    color:var(--gold);
+    font-weight:bold;
+    margin-bottom:18px;
+    font-size:15px;
+}
+
+.download-ad-main{
+    width:100%;
+    border:none;
+    background:var(--gold);
+    color:#000;
+    padding:15px;
+    border-radius:14px;
+    font-weight:bold;
+    font-size:15px;
+    margin-bottom:10px;
+    cursor:pointer;
+}
+
+.download-ad-cancel{
+    width:100%;
+    border:none;
+    background:#222;
+    color:#fff;
+    padding:13px;
+    border-radius:14px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:768px){
+
+    .banner{
+        height:220px;
+    }
+
+    .card{
+        min-width:140px;
+    }
+
+    .card-cover{
+        width:140px;
+        height:210px;
+        border-radius:12px;
+    }
+
+    .section{
+        padding:18px 12px;
+    }
+
+    .section-title{
+        font-size:20px;
+    }
+
+    .btn-more{
+        font-size:12px;
+        padding:9px 12px;
+    }
+
+    .item-btn{
+        font-size:12px;
+        padding:9px;
+    }
+
+    .card-title{
+        font-size:13px;
+    }
+}
+
+</style>
+</head>
+<body>
+
+<!-- PORTADA -->
+
+<div class="banner">
+    <img src="https://archive.org/download/file_00000000f2ec71fb8e2871224cd4aa13/file_00000000f2ec71fb8e2871224cd4aa13.png" alt="Portada Productor Musical Pro">
+</div>
+
+<!-- CURSOS GENERALES -->
+
+<section class="section" id="cursos-generales">
+    <div class="section-header">
+        <h2 class="section-title">Cursos Generales</h2>
+        <a href="cursos_disponibles.html" class="btn-more">Ver Más</a>
+    </div>
+
+    <div class="scroll-container">
+<div class="card">
+            <div class="card-cover">
+                <span class="badge badge-free">GRATIS</span>
+                <img src="https://i.ytimg.com/vi/zXhb4Eh-Nns/maxresdefault.jpg" alt="Curso de Sound Design - Full Course">
+            </div>
+            <a href="curso_sound_design_full_course_gratis.html" class="item-btn">Ver Curso</a>
+            <div class="card-title">Curso de Sound Design - Full Course</div>
+        </div>
+
+
+        <div class="card">
+            <div class="card-cover">
+                <span class="badge badge-premium">PREMIUM</span>
+                <img src="https://archive.org/download/covers-curso-avanzado-de-cubase-sin-limites/Covers%20Curso%20Avanzado%20de%20Cubase%20Sin%20L%C3%ADmites.rar/Covers%2F1.jpg" alt="Curso Avanzado de Cubase Sin Límites">
+            </div>
+            <a href="curso_avanzado_cubase_sin_limites.html" class="item-btn">Ver Curso</a>
+            <div class="card-title">Curso Avanzado de Cubase Sin Límites</div>
+        </div>
+
+
+        <div class="card">
+            <div class="card-cover">
+                <span class="badge badge-premium">PREMIUM</span>
+                <img src="https://archive.org/download/vip-club-pro/VIP%20Club%20Pro.png" alt="VIP Club PRO">
+            </div>
+            <a href="curso_v5_premium_con_anuncios.html" class="item-btn">Ver Curso</a>
+            <div class="card-title">VIP Club PRO</div>
+        </div>
+
+        <div class="card">
+            <div class="card-cover">
+                <span class="badge badge-premium">PREMIUM</span>
+                <img src="https://archive.org/download/cursos-sonido-pro/Cursos%20Sonido%20PRO.rar/Grabaci%C3%B3n%20y%20Mezcla%20de%20voces-%20Sonido%20Pro1.png" alt="Grabación y Mezcla de voces">
+            </div>
+            <a href="curso_v5_premium_con_anuncios.html" class="item-btn">Ver Curso</a>
+            <div class="card-title">Grabación y Mezcla de voces</div>
+        </div>
+
+        <div class="card">
+            <div class="card-cover">
+                <span class="badge badge-premium">PREMIUM</span>
+                <img src="https://archive.org/download/cursos-sonido-pro/Cursos%20Sonido%20PRO.rar/Compresi%C3%B3n%20PRO%20-%20Sonido%20Pro1.png" alt="Compresión PRO">
+            </div>
+            <a href="curso_v5_premium_con_anuncios.html" class="item-btn">Ver Curso</a>
+            <div class="card-title">Compresión PRO</div>
+        </div>
+
+        <div class="card">
+            <div class="card-cover">
+                <span class="badge badge-free">GRATIS</span>
+                <img src="https://archive.org/download/vip-club-pro/VIP%20Club%20Pro.png" alt="Curso Gratis">
+            </div>
+            <a href="curso_v5_gratis_sin_anuncios.html" class="item-btn">Ver Curso</a>
+            <div class="card-title">Curso Gratis Demo</div>
+        </div>
+
+        <div class="card">
+            <div class="card-cover">
+                <span class="badge badge-premium">PREMIUM</span>
+                <img src="https://archive.org/download/vip-club-pro/VIP%20Club%20Pro.png" alt="Curso 5">
+            </div>
+            <a href="curso_v5_premium_con_anuncios.html" class="item-btn">Ver Curso</a>
+            <div class="card-title">Curso 5</div>
+        </div>
+
+        <div class="card">
+            <div class="card-cover">
+                <span class="badge badge-free">GRATIS</span>
+                <img src="https://archive.org/download/vip-club-pro/VIP%20Club%20Pro.png" alt="Curso 6">
+            </div>
+            <a href="curso_v5_gratis_sin_anuncios.html" class="item-btn">Ver Curso</a>
+            <div class="card-title">Curso 6</div>
+        </div>
+
+    </div>
+</section>
+
+<!-- CURSOS BEATMAKER -->
+
+<section class="section" id="beatmaker">
+    <div class="section-header">
+        <h2 class="section-title">Cursos Beatmaker</h2>
+        
+    </div>
+
+    <div class="scroll-container">
+
+        <div class="card">
+            <div class="card-cover">
+                <span class="badge badge-free">GRATIS</span>
+                <img src="https://i.ytimg.com/vi/EpxyGCVEpMs/maxresdefault.jpg" alt="FL STUDIO 20 Curso Profesional Completo by Olbaid">
+            </div>
+            <a href="curso_fl_studio_20_profesional_completo_olbaid_gratis.html" class="item-btn">Ver Curso</a>
+            <div class="card-title">FL STUDIO 20 Curso Profesional Completo by Olbaid</div>
+        </div>
+
+
+        <div class="card">
+            <div class="card-cover">
+                <span class="badge badge-free">GRATIS</span>
+                <img src="https://i.ytimg.com/vi/ZC7CpCveh9U/maxresdefault.jpg" alt="Curso Avanzado FL STUDIO 20 by Olbaid">
+            </div>
+            <a href="curso_avanzado_fl_studio_20_olbaid_gratis.html" class="item-btn">Ver Curso</a>
+            <div class="card-title">Curso Avanzado FL STUDIO 20 by Olbaid</div>
+        </div>
+
+
+        <div class="card">
+            <div class="card-cover">
+                <span class="badge badge-free">GRATIS</span>
+                <img src="https://archive.org/download/cursos-como-crear-beats/Cursos%20Como%20Crear%20Beats.png" alt="Curso Como Crear Beats">
+            </div>
+            <a href="curso_v5_gratis_sin_anuncios.html" class="item-btn">Ver Curso</a>
+            <div class="card-title">Curso Como Crear Beats</div>
+        </div>
+
+        <div class="card">
+            <div class="card-cover">
+                <span class="badge badge-premium">PREMIUM</span>
+                <img src="https://archive.org/download/cursos-sonido-pro/Cursos%20Sonido%20PRO.rar/Como%20Hacer%20Beats-Sonido%20PRO1.png" alt="Como Hacer Beats">
+            </div>
+            <a href="curso_v5_premium_con_anuncios.html" class="item-btn">Ver Curso</a>
+            <div class="card-title">Curso Como Hacer Beats</div>
+        </div>
+
+        <div class="card">
+            <div class="card-cover">
+                <span class="badge badge-free">GRATIS</span>
+                <img src="https://archive.org/download/como-crear-melodias-en-fl-studio/Como%20Crear%20Melodias%20en%20FL%20Studio.png" alt="Como Crear Melodías">
+            </div>
+            <a href="curso_v5_gratis_sin_anuncios.html" class="item-btn">Ver Curso</a>
+            <div class="card-title">Curso Como Crear Melodías</div>
+        </div>
+
+        <div class="card">
+            <div class="card-cover">
+                <span class="badge badge-premium">PREMIUM</span>
+                <img src="https://archive.org/download/cursos-sonido-pro/Cursos%20Sonido%20PRO.rar/Como%20Mezclar%20Beats-%20Sonido%20PRO1.png" alt="Cómo Mezclar Beats">
+            </div>
+            <a href="curso_v5_premium_con_anuncios.html" class="item-btn">Ver Curso</a>
+            <div class="card-title">Cómo Mezclar Beats</div>
+        </div>
+
+        <div class="card">
+            <div class="card-cover">
+                <span class="badge badge-premium">PREMIUM</span>
+                <img src="https://archive.org/download/cursos-sonido-pro/Cursos%20Sonido%20PRO.rar/Como%20Vender%20Beats%20-%20Sonido%20Pro1.png" alt="Cómo Vender Beats">
+            </div>
+            <a href="curso_v5_premium_con_anuncios.html" class="item-btn">Ver Curso</a>
+            <div class="card-title">Cómo Vender Beats</div>
+        </div>
+
+    </div>
+</section>
+
+<!-- MEZCLA -->
+
+<section class="section" id="mezcla">
+    <div class="section-header">
+        <h2 class="section-title">Cursos de Mezcla</h2>
+        
+    </div>
+
+    <div class="scroll-container">
+
+        <div class="card">
+            <div class="card-cover">
+                <span class="badge badge-premium">PREMIUM</span>
+                <img src="https://archive.org/download/cursos-sonido-pro/Cursos%20Sonido%20PRO.rar/Grabaci%C3%B3n%20y%20Mezcla%20de%20voces-%20Sonido%20Pro1.png" alt="Grabación y Mezcla de voces">
+            </div>
+            <a href="curso_v5_premium_con_anuncios.html" class="item-btn">Ver Curso</a>
+            <div class="card-title">Grabación y Mezcla de voces</div>
+        </div>
+
+        <div class="card">
+            <div class="card-cover">
+                <span class="badge badge-free">GRATIS</span>
+                <img src="https://archive.org/download/cursos-como-crear-beats/Cursos%20Como%20Crear%20Beats.png" alt="Curso de Mezcla">
+            </div>
+            <a href="curso_v5_gratis_sin_anuncios.html" class="item-btn">Ver Curso</a>
+            <div class="card-title">Curso de Mezcla Gratis</div>
+        </div>
+
+        <div class="card">
+            <div class="card-cover">
+                <span class="badge badge-premium">PREMIUM</span>
+                <img src="https://archive.org/download/cursos-como-crear-beats/Cursos%20Como%20Crear%20Beats.png" alt="Curso Premium">
+            </div>
+            <a href="curso_v5_premium_con_anuncios.html" class="item-btn">Ver Curso</a>
+            <div class="card-title">Curso de Mezcla Premium</div>
+        </div>
+
+    </div>
+</section>
+
+<!-- MASTERING -->
+
+<section class="section" id="mastering">
+    <div class="section-header">
+        <h2 class="section-title">Cursos de Mastering</h2>
+        
+    </div>
+
+    <div class="scroll-container">
+
+        <div class="card">
+            <div class="card-cover">
+                <span class="badge badge-premium">PREMIUM</span>
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMxBfBmo8LFzcmOvk8twqHp7G7t52MnNHQBgrXtkzc5SRdFeXxSyaQwq4&s=10" alt="Mastering Profesional con Plugins de Alta Calidad">
+            </div>
+            <a href="top_mastering_curso_mastering_profesional_con_plugins_de_alta_calidad_premium.html" class="item-btn">Ver Curso</a>
+            <div class="card-title">Mastering Profesional con Plugins de Alta Calidad</div>
+        </div>
+
+
+        <div class="card">
+            <div class="card-cover">
+                <span class="badge badge-premium">PREMIUM</span>
+                <img src="https://archive.org/download/cursos-sonido-pro/Cursos%20Sonido%20PRO.rar/Masterizaci%C3%B3n%20en%20Estudios%20Caseros%20-%20Sonido%20PRO1.png" alt="Masterización en Estudios Caseros">
+            </div>
+            <a href="curso_v5_premium_con_anuncios.html" class="item-btn">Ver Curso</a>
+            <div class="card-title">Masterización en Estudios Caseros</div>
+        </div>
+
+        <div class="card">
+            <div class="card-cover">
+                <span class="badge badge-free">GRATIS</span>
+                <img src="https://archive.org/download/cursos-como-crear-beats/Cursos%20Como%20Crear%20Beats.png" alt="Mastering Gratis">
+            </div>
+            <a href="curso_v5_gratis_sin_anuncios.html" class="item-btn">Ver Curso</a>
+            <div class="card-title">Mastering Gratis</div>
+        </div>
+
+        <div class="card">
+            <div class="card-cover">
+                <span class="badge badge-premium">PREMIUM</span>
+                <img src="https://archive.org/download/cursos-como-crear-beats/Cursos%20Como%20Crear%20Beats.png" alt="Mastering Premium">
+            </div>
+            <a href="curso_v5_premium_con_anuncios.html" class="item-btn">Ver Curso</a>
+            <div class="card-title">Mastering Premium</div>
+        </div>
+
+    </div>
+</section>
+
+
+
+<!-- TODOS LOS PACKS DISPONIBLES -->
+
+<section class="section" id="todos-los-packs">
+    <div class="packs-cta">
+        <div class="packs-cta-title">Todos los Packs Disponibles</div>
+        <a href="packs_disponibles.html" class="btn-more">Ver Packs</a>
+    </div>
+</section>
+
+<!-- DRUM KITS -->
+
+<section class="section" id="drum-kits">
+    <div class="section-header">
+        <h2 class="section-title">Drum Kits</h2>
+        
+    </div>
+
+    <div class="scroll-container">
+
+        <div class="card">
+            <div class="card-cover">
+                <img src="https://archive.org/download/untitled-design_20260610/Untitled%20design.png" alt="Drum Kit 1">
+            </div>
+            <a href="https://TU-LINK-DE-DESCARGA-AQUI.COM" class="item-btn download">⬇ Descargar</a>
+            <div class="card-title">Drum Kit 1</div>
+        </div>
+
+        <div class="card">
+            <div class="card-cover">
+                <img src="https://archive.org/download/untitled-design_20260610/Untitled%20design.png" alt="Drum Kit 2">
+            </div>
+            <a href="https://TU-LINK-DE-DESCARGA-AQUI.COM" class="item-btn download">⬇ Descargar</a>
+            <div class="card-title">Drum Kit 2</div>
+        </div>
+
+        <div class="card">
+            <div class="card-cover">
+                <img src="https://archive.org/download/untitled-design_20260610/Untitled%20design.png" alt="Drum Kit 3">
+            </div>
+            <a href="https://TU-LINK-DE-DESCARGA-AQUI.COM" class="item-btn download">⬇ Descargar</a>
+            <div class="card-title">Drum Kit 3</div>
+        </div>
+
+    </div>
+</section>
+
+<!-- SAMPLE PACKS -->
+
+<section class="section" id="sample-packs">
+    <div class="section-header">
+        <h2 class="section-title">Sample Packs</h2>
+        
+    </div>
+
+    <div class="scroll-container">
+
+        <div class="card">
+            <div class="card-cover">
+                <img src="https://archive.org/download/untitled-design_20260610/Untitled%20design.png" alt="Sample Pack 1">
+            </div>
+            <a href="https://TU-LINK-DE-DESCARGA-AQUI.COM" class="item-btn download">⬇ Descargar</a>
+            <div class="card-title">Sample Pack 1</div>
+        </div>
+
+        <div class="card">
+            <div class="card-cover">
+                <img src="https://archive.org/download/untitled-design_20260610/Untitled%20design.png" alt="Sample Pack 2">
+            </div>
+            <a href="https://TU-LINK-DE-DESCARGA-AQUI.COM" class="item-btn download">⬇ Descargar</a>
+            <div class="card-title">Sample Pack 2</div>
+        </div>
+
+        <div class="card">
+            <div class="card-cover">
+                <img src="https://archive.org/download/untitled-design_20260610/Untitled%20design.png" alt="Sample Pack 3">
+            </div>
+            <a href="https://TU-LINK-DE-DESCARGA-AQUI.COM" class="item-btn download">⬇ Descargar</a>
+            <div class="card-title">Sample Pack 3</div>
+        </div>
+
+    </div>
+</section>
+
+<!-- LOOP PACKS -->
+
+<section class="section" id="loop-packs">
+    <div class="section-header">
+        <h2 class="section-title">Loop Packs</h2>
+        
+    </div>
+
+    <div class="scroll-container">
+
+        <div class="card">
+            <div class="card-cover">
+                <img src="https://archive.org/download/untitled-design_20260610/Untitled%20design.png" alt="Loop Pack 1">
+            </div>
+            <a href="https://TU-LINK-DE-DESCARGA-AQUI.COM" class="item-btn download">⬇ Descargar</a>
+            <div class="card-title">Loop Pack 1</div>
+        </div>
+
+        <div class="card">
+            <div class="card-cover">
+                <img src="https://archive.org/download/untitled-design_20260610/Untitled%20design.png" alt="Loop Pack 2">
+            </div>
+            <a href="https://TU-LINK-DE-DESCARGA-AQUI.COM" class="item-btn download">⬇ Descargar</a>
+            <div class="card-title">Loop Pack 2</div>
+        </div>
+
+        <div class="card">
+            <div class="card-cover">
+                <img src="https://archive.org/download/untitled-design_20260610/Untitled%20design.png" alt="Loop Pack 3">
+            </div>
+            <a href="https://TU-LINK-DE-DESCARGA-AQUI.COM" class="item-btn download">⬇ Descargar</a>
+            <div class="card-title">Loop Pack 3</div>
+        </div>
+
+    </div>
+</section>
+
+<!-- MIDI PACKS -->
+
+<section class="section" id="midi-packs">
+    <div class="section-header">
+        <h2 class="section-title">Midi Packs</h2>
+        
+    </div>
+
+    <div class="scroll-container">
+
+        <div class="card">
+            <div class="card-cover">
+                <img src="https://archive.org/download/untitled-design_20260610_1554/Untitled%20design.png" alt="MIDI Pack 1">
+            </div>
+            <a href="https://TU-LINK-DE-DESCARGA-AQUI.COM" class="item-btn download">⬇ Descargar</a>
+            <div class="card-title">MIDI Pack 1</div>
+        </div>
+
+        <div class="card">
+            <div class="card-cover">
+                <img src="https://archive.org/download/untitled-design_20260610_1554/Untitled%20design.png" alt="MIDI Pack 2">
+            </div>
+            <a href="https://TU-LINK-DE-DESCARGA-AQUI.COM" class="item-btn download">⬇ Descargar</a>
+            <div class="card-title">MIDI Pack 2</div>
+        </div>
+
+        <div class="card">
+            <div class="card-cover">
+                <img src="https://archive.org/download/untitled-design_20260610_1554/Untitled%20design.png" alt="MIDI Pack 3">
+            </div>
+            <a href="https://TU-LINK-DE-DESCARGA-AQUI.COM" class="item-btn download">⬇ Descargar</a>
+            <div class="card-title">MIDI Pack 3</div>
+        </div>
+
+    </div>
+</section>
+
+<!-- ONE SHOTS -->
+
+<section class="section" id="one-shots">
+    <div class="section-header">
+        <h2 class="section-title">One Shots</h2>
+        
+    </div>
+
+    <div class="scroll-container">
+
+        <div class="card">
+            <div class="card-cover">
+                <img src="https://archive.org/download/untitled-design_20260610/Untitled%20design.png" alt="One Shot 1">
+            </div>
+            <a href="https://TU-LINK-DE-DESCARGA-AQUI.COM" class="item-btn download">⬇ Descargar</a>
+            <div class="card-title">One Shot 1</div>
+        </div>
+
+        <div class="card">
+            <div class="card-cover">
+                <img src="https://archive.org/download/untitled-design_20260610/Untitled%20design.png" alt="One Shot 2">
+            </div>
+            <a href="https://TU-LINK-DE-DESCARGA-AQUI.COM" class="item-btn download">⬇ Descargar</a>
+            <div class="card-title">One Shot 2</div>
+        </div>
+
+        <div class="card">
+            <div class="card-cover">
+                <img src="https://archive.org/download/untitled-design_20260610/Untitled%20design.png" alt="One Shot 3">
+            </div>
+            <a href="https://TU-LINK-DE-DESCARGA-AQUI.COM" class="item-btn download">⬇ Descargar</a>
+            <div class="card-title">One Shot 3</div>
+        </div>
+
+    </div>
+</section>
+
+
+<!-- MODAL DESBLOQUEAR DESCARGA -->
+
+<div class="download-ad-modal" id="downloadAdModal">
+    <div class="download-ad-box">
+        <button class="download-ad-close" onclick="cerrarModalDescarga()">×</button>
+
+        <div class="download-ad-icon">⬇</div>
+
+        <h2>Desbloquear descarga</h2>
+
+        <p>Para descargar este pack, mira un anuncio corto y después se abrirá el enlace de descarga.</p>
+
+        <div class="download-pack-name" id="downloadPackName">Pack seleccionado</div>
+
+        <button class="download-ad-main" id="downloadAdBtn" onclick="verAnuncioParaDescarga()">
+            ▶ Ver anuncio y descargar
+        </button>
+
+        <button class="download-ad-cancel" onclick="cerrarModalDescarga()">
+            Cancelar
+        </button>
+    </div>
+</div>
+
+<script>
+
+/* DESBLOQUEAR DESCARGAS CON ANUNCIO / VIDEO */
+
+const MODO_PRUEBA_DESCARGAS = true; 
+let enlaceDescargaPendiente = "";
+let nombrePackPendiente = "";
+
+function prepararDescargasConAnuncio(){
+    const botonesDescarga = document.querySelectorAll(".pack-btn, .item-btn.download");
+
+    botonesDescarga.forEach(boton=>{
+        boton.addEventListener("click", function(e){
+            e.preventDefault();
+
+            enlaceDescargaPendiente = this.getAttribute("href") || "";
+            const card = this.closest(".pack-card") || this.closest(".card");
+            const title = card ? (card.querySelector(".pack-title") || card.querySelector(".card-title")) : null;
+            nombrePackPendiente = title ? title.textContent.trim() : "Pack seleccionado";
+
+            abrirModalDescarga(nombrePackPendiente);
+        });
+    });
+}
+
+function abrirModalDescarga(nombre){
+    const modal = document.getElementById("downloadAdModal");
+    const packName = document.getElementById("downloadPackName");
+    const adBtn = document.getElementById("downloadAdBtn");
+
+    if(packName){
+        packName.textContent = nombre;
+    }
+
+    if(adBtn){
+        adBtn.textContent = "▶ Ver anuncio y descargar";
+        adBtn.disabled = false;
+        adBtn.style.opacity = "1";
+    }
+
+    if(modal){
+        modal.classList.add("active");
+    }
+}
+
+function cerrarModalDescarga(){
+    const modal = document.getElementById("downloadAdModal");
+
+    if(modal){
+        modal.classList.remove("active");
+    }
+}
+
+function verAnuncioParaDescarga(){
+    const adBtn = document.getElementById("downloadAdBtn");
+
+    if(adBtn){
+        adBtn.textContent = "Cargando anuncio...";
+        adBtn.disabled = true;
+        adBtn.style.opacity = ".7";
+    }
+
+    /*
+    CONEXIÓN CON APP CREATOR / ADMOB:
+    Cuando el anuncio recompensado termine, App Creator debe ejecutar:
+    descargaDesbloqueada();
+
+    Si tu App Creator permite elegir una función callback,
+    escribe exactamente: descargaDesbloqueada
+    */
+
+    if(window.Android && Android.showRewardedAdForDownload){
+        Android.showRewardedAdForDownload();
+    }else if(window.Android && Android.showRewardedAd){
+        Android.showRewardedAd();
+    }else if(MODO_PRUEBA_DESCARGAS){
+        setTimeout(()=>{
+            descargaDesbloqueada();
+        }, 2500);
+    }else{
+        alert("Activa el anuncio recompensado en App Creator para desbloquear la descarga.");
+        cerrarModalDescarga();
+    }
+}
+
+function descargaDesbloqueada(){
+    if(!enlaceDescargaPendiente){
+        cerrarModalDescarga();
+        return;
+    }
+
+    const enlaceFinal = enlaceDescargaPendiente;
+
+    cerrarModalDescarga();
+
+    enlaceDescargaPendiente = "";
+    nombrePackPendiente = "";
+
+    window.location.href = enlaceFinal;
+}
+
+document.addEventListener("DOMContentLoaded", prepararDescargasConAnuncio);
+
+</script>
+</body>
+</html>

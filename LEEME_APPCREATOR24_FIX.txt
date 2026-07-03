@@ -1,0 +1,22 @@
+FIX APPCREATOR24 - ANUNCIOS Y REPRODUCTOR
+
+CAMBIOS:
+1. El reproductor ahora se fuerza a pantalla completa tipo cover.
+   Ya no debe verse como mini reproductor en el centro con mucho margen negro.
+
+2. Las plantillas premium ya no se quedan trabadas si AppCreator24 no permite llamar
+   el anuncio recompensado desde JavaScript.
+
+IMPORTANTE:
+- AppCreator24 puede mostrar banners/intersticiales/recompensados desde su panel,
+  pero no siempre deja que una página HTML externa llame el anuncio directamente.
+- Por eso antes salía:
+  "No se pudo abrir el anuncio..."
+- Ahora al tocar "Ver anuncio y continuar" intenta llamar el puente nativo.
+  Si AppCreator24 no lo expone, continúa y abre la clase sin quedarse bloqueado.
+
+PARA MONETIZAR:
+- Mantén activados tus anuncios desde AppCreator24.
+- Usa banner/interstitial desde el panel de AppCreator24.
+- Si AppCreator24 te da un código o función exacta para llamar el Rewarded Ad desde HTML,
+  reemplaza dentro de verAnuncioParaDesbloquear() o pásamelo y lo integro.

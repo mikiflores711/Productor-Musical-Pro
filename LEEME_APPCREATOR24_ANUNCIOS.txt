@@ -1,0 +1,34 @@
+INSTRUCCIONES APPCREATOR24 - ANUNCIOS PREMIUM ACTIVOS
+
+1. Sube todos estos archivos a tu hosting o servidor.
+2. En AppCreator24 coloca como página principal:
+   index.html
+
+3. Las plantillas premium ya tienen:
+   const MODO_PRUEBA_ANUNCIO = false;
+
+4. Cada clase premium abre la ventana de anuncio.
+   Cuando el anuncio recompensado termine, AppCreator24 debe ejecutar esta función JavaScript:
+
+   anuncioCompletado();
+
+5. También quedan disponibles estos callbacks:
+   window.anuncioCompletado()
+   window.rewardedAdCompleted()
+   window.onRewardedAdCompleted()
+   window.admobRewarded()
+
+6. Para copiar y crear un nuevo curso premium usa:
+   PLANTILLA_COPIAR_CURSO_PREMIUM_ANUNCIOS_ACTIVOS.html
+
+7. Para un curso premium con algunas clases gratis usa:
+   PLANTILLA_COPIAR_CURSO_PREMIUM_CON_CLASES_GRATIS_ANUNCIOS_ACTIVOS.html
+
+8. Para que una clase sea premium:
+   <a href="https://youtu.be/IDVIDEO" class="video-card" data-tipo="premium">
+
+9. Para que una clase sea gratis aunque el curso sea premium:
+   <a href="https://youtu.be/IDVIDEO" class="video-card" data-tipo="gratis">
+
+10. Para probar sin anuncio real puedes cambiar temporalmente:
+    const MODO_PRUEBA_ANUNCIO = true;

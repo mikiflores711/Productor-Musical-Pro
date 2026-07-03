@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Packs Disponibles - Productor Musical Pro</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+    -webkit-tap-highlight-color:transparent;
+}
+
+:root{
+    --bg:#000;
+    --gold:#FFD700;
+    --red:#ff0000;
+    --muted:#bdbdbd;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    background:var(--bg);
+    color:#fff;
+}
+
+/* ENCABEZADO */
+
+.top-bar{
+    position:sticky;
+    top:0;
+    z-index:50;
+    background:rgba(0,0,0,.96);
+    border-bottom:1px solid rgba(255,215,0,.18);
+    padding:14px 15px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+}
+
+.back-btn{
+    background:var(--gold);
+    color:#000;
+    text-decoration:none;
+    padding:10px 14px;
+    border-radius:8px;
+    font-weight:bold;
+    font-size:14px;
+    white-space:nowrap;
+}
+
+.top-title{
+    color:#fff;
+    font-size:18px;
+    font-weight:bold;
+    text-align:right;
+}
+
+/* PORTADA */
+
+.banner{
+    width:100%;
+    height:260px;
+    overflow:hidden;
+    position:relative;
+    background:#111;
+}
+
+.banner img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+}
+
+.banner-info{
+    position:absolute;
+    inset:0;
+    background:linear-gradient(180deg,rgba(0,0,0,.15),rgba(0,0,0,.88));
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-end;
+    padding:22px 15px;
+}
+
+.banner-info h1{
+    color:var(--gold);
+    font-size:30px;
+    line-height:1.05;
+    margin-bottom:8px;
+}
+
+.banner-info p{
+    color:#e0e0e0;
+    font-size:14px;
+    line-height:1.5;
+    max-width:720px;
+}
+
+/* FILTROS */
+
+.filter-bar{
+    display:flex;
+    gap:10px;
+    overflow-x:auto;
+    padding:15px;
+    background:#050505;
+    border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.filter-bar::-webkit-scrollbar{
+    height:0;
+}
+
+.filter-btn{
+    border:none;
+    background:#151515;
+    color:#fff;
+    border:1px solid rgba(255,255,255,.12);
+    padding:10px 14px;
+    border-radius:999px;
+    font-weight:bold;
+    font-size:13px;
+    white-space:nowrap;
+    cursor:pointer;
+}
+
+.filter-btn.active{
+    background:var(--gold);
+    color:#000;
+    border-color:var(--gold);
+}
+
+/* SECCIONES */
+
+.section{
+    padding:20px 15px;
+}
+
+.section-title{
+    color:var(--gold);
+    font-size:24px;
+    font-weight:bold;
+    margin-bottom:15px;
+}
+
+/* GRID */
+
+.pack-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:16px;
+}
+
+.pack-card{
+    text-align:center;
+}
+
+.card-cover{
+    width:100%;
+    aspect-ratio:180/260;
+    position:relative;
+    border-radius:12px;
+    overflow:hidden;
+    background:#111;
+    box-shadow:0 10px 30px rgba(0,0,0,.45);
+}
+
+.card-cover img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+    transition:.3s;
+}
+
+.card-cover:hover img{
+    transform:scale(1.05);
+}
+
+.badge{
+    position:absolute;
+    top:8px;
+    left:8px;
+    padding:6px 9px;
+    border-radius:999px;
+    font-size:10px;
+    font-weight:bold;
+    z-index:2;
+    color:#000;
+    background:var(--gold);
+    box-shadow:0 4px 12px rgba(0,0,0,.35);
+}
+
+.pack-btn{
+    display:block;
+    margin-top:10px;
+    background:var(--red);
+    color:#fff;
+    text-decoration:none;
+    padding:10px;
+    border-radius:8px;
+    font-weight:bold;
+    font-size:13px;
+    transition:.3s;
+}
+
+.pack-btn:hover{
+    opacity:.9;
+    transform:scale(1.03);
+}
+
+.pack-title{
+    color:#fff;
+    margin-top:10px;
+    text-align:center;
+    font-size:14px;
+    line-height:1.3;
+}
+
+.pack-meta{
+    color:var(--muted);
+    margin-top:5px;
+    font-size:12px;
+    line-height:1.35;
+}
+
+
+/* MODAL PARA DESBLOQUEAR DESCARGA */
+
+.download-ad-modal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.88);
+    z-index:99999;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+}
+
+.download-ad-modal.active{
+    display:flex;
+}
+
+.download-ad-box{
+    width:100%;
+    max-width:390px;
+    background:#111;
+    border:1px solid rgba(255,215,0,.28);
+    border-radius:22px;
+    padding:24px;
+    text-align:center;
+    position:relative;
+    box-shadow:0 0 50px rgba(0,0,0,.85);
+}
+
+.download-ad-close{
+    position:absolute;
+    top:12px;
+    right:12px;
+    width:36px;
+    height:36px;
+    border:none;
+    border-radius:50%;
+    background:#222;
+    color:#fff;
+    font-size:24px;
+    cursor:pointer;
+}
+
+.download-ad-icon{
+    width:70px;
+    height:70px;
+    margin:0 auto 15px;
+    border-radius:50%;
+    background:var(--gold);
+    color:#000;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:32px;
+    box-shadow:0 0 25px rgba(255,215,0,.35);
+}
+
+.download-ad-box h2{
+    color:#fff;
+    font-size:22px;
+    margin-bottom:8px;
+}
+
+.download-ad-box p{
+    color:#bdbdbd;
+    font-size:14px;
+    line-height:1.5;
+    margin-bottom:14px;
+}
+
+.download-pack-name{
+    color:var(--gold);
+    font-weight:bold;
+    margin-bottom:18px;
+    font-size:15px;
+}
+
+.download-ad-main{
+    width:100%;
+    border:none;
+    background:var(--gold);
+    color:#000;
+    padding:15px;
+    border-radius:14px;
+    font-weight:bold;
+    font-size:15px;
+    margin-bottom:10px;
+    cursor:pointer;
+}
+
+.download-ad-cancel{
+    width:100%;
+    border:none;
+    background:#222;
+    color:#fff;
+    padding:13px;
+    border-radius:14px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:900px){
+    .pack-grid{
+        grid-template-columns:repeat(3,1fr);
+    }
+}
+
+@media(max-width:768px){
+    .banner{
+        height:220px;
+    }
+
+    .banner-info h1{
+        font-size:25px;
+    }
+
+    .section-title{
+        font-size:20px;
+    }
+
+    .pack-grid{
+        grid-template-columns:repeat(2,1fr);
+        gap:14px;
+    }
+
+    .top-title{
+        font-size:15px;
+    }
+}
+
+@media(max-width:420px){
+    .pack-grid{
+        gap:12px;
+    }
+
+    .pack-title{
+        font-size:13px;
+    }
+
+    .pack-meta{
+        font-size:11px;
+    }
+
+    .pack-btn{
+        font-size:12px;
+        padding:9px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header class="top-bar">
+    <a href="index.html" class="back-btn">← Inicio</a>
+    <div class="top-title">Packs Disponibles</div>
+</header>
+
+<div class="banner">
+    <img src="https://archive.org/download/untitled-design_20260610/Untitled%20design.png" alt="Packs disponibles">
+    <div class="banner-info">
+        <h1>Todos los packs disponibles</h1>
+        <p>Explora todos los recursos para producir música: Drum Kits, Sample Packs, Loop Packs, MIDI Packs y One Shots.</p>
+    </div>
+</div>
+
+<nav class="filter-bar">
+    <button class="filter-btn active" data-filter="todos">Todos</button>
+    <button class="filter-btn" data-filter="drum-kits">Drum Kits</button>
+    <button class="filter-btn" data-filter="sample-packs">Sample Packs</button>
+    <button class="filter-btn" data-filter="loop-packs">Loop Packs</button>
+    <button class="filter-btn" data-filter="midi-packs">MIDI Packs</button>
+    <button class="filter-btn" data-filter="one-shots">One Shots</button>
+</nav>
+
+<section class="section">
+    <h2 class="section-title">Packs disponibles</h2>
+
+    <div class="pack-grid">
+
+        <!-- DRUM KITS -->
+
+        <div class="pack-card" data-category="drum-kits">
+            <div class="card-cover">
+                <span class="badge">DRUM KIT</span>
+                <img src="https://archive.org/download/untitled-design_20260610/Untitled%20design.png" alt="Drum Kit 1">
+            </div>
+            <a href="https://TU-LINK-DE-DESCARGA-AQUI.COM" class="pack-btn">⬇ Descargar</a>
+            <div class="pack-title">Drum Kit 1</div>
+            <div class="pack-meta">Kicks, snares, claps, hats</div>
+        </div>
+
+        <div class="pack-card" data-category="drum-kits">
+            <div class="card-cover">
+                <span class="badge">DRUM KIT</span>
+                <img src="https://archive.org/download/untitled-design_20260610/Untitled%20design.png" alt="Drum Kit 2">
+            </div>
+            <a href="https://TU-LINK-DE-DESCARGA-AQUI.COM" class="pack-btn">⬇ Descargar</a>
+            <div class="pack-title">Drum Kit 2</div>
+            <div class="pack-meta">Percusiones, 808s y drums</div>
+        </div>
+
+        <div class="pack-card" data-category="drum-kits">
+            <div class="card-cover">
+                <span class="badge">DRUM KIT</span>
+                <img src="https://archive.org/download/untitled-design_20260610/Untitled%20design.png" alt="Drum Kit 3">
+            </div>
+            <a href="https://TU-LINK-DE-DESCARGA-AQUI.COM" class="pack-btn">⬇ Descargar</a>
+            <div class="pack-title">Drum Kit 3</div>
+            <div class="pack-meta">Drums para rap y trap</div>
+        </div>
+
+        <!-- SAMPLE PACKS -->
+
+        <div class="pack-card" data-category="sample-packs">
+            <div class="card-cover">
+                <span class="badge">SAMPLES</span>
+                <img src="https://archive.org/download/untitled-design_20260610/Untitled%20design.png" alt="Sample Pack 1">
+            </div>
+            <a href="https://TU-LINK-DE-DESCARGA-AQUI.COM" class="pack-btn">⬇ Descargar</a>
+            <div class="pack-title">Sample Pack 1</div>
+            <div class="pack-meta">Melodías, texturas y samples</div>
+        </div>
+
+        <div class="pack-card" data-category="sample-packs">
+            <div class="card-cover">
+                <span class="badge">SAMPLES</span>
+                <img src="https://archive.org/download/untitled-design_20260610/Untitled%20design.png" alt="Sample Pack 2">
+            </div>
+            <a href="https://TU-LINK-DE-DESCARGA-AQUI.COM" class="pack-btn">⬇ Descargar</a>
+            <div class="pack-title">Sample Pack 2</div>
+            <div class="pack-meta">Samples para crear beats</div>
+        </div>
+
+        <div class="pack-card" data-category="sample-packs">
+            <div class="card-cover">
+                <span class="badge">SAMPLES</span>
+                <img src="https://archive.org/download/untitled-design_20260610/Untitled%20design.png" alt="Sample Pack 3">
+            </div>
+            <a href="https://TU-LINK-DE-DESCARGA-AQUI.COM" class="pack-btn">⬇ Descargar</a>
+            <div class="pack-title">Sample Pack 3</div>
+            <div class="pack-meta">Loops, melodías y acordes</div>
+        </div>
+
+        <!-- LOOP PACKS -->
+
+        <div class="pack-card" data-category="loop-packs">
+            <div class="card-cover">
+                <span class="badge">LOOPS</span>
+                <img src="https://archive.org/download/untitled-design_20260610/Untitled%20design.png" alt="Loop Pack 1">
+            </div>
+            <a href="https://TU-LINK-DE-DESCARGA-AQUI.COM" class="pack-btn">⬇ Descargar</a>
+            <div class="pack-title">Loop Pack 1</div>
+            <div class="pack-meta">Loops melódicos por BPM</div>
+        </div>
+
+        <div class="pack-card" data-category="loop-packs">
+            <div class="card-cover">
+                <span class="badge">LOOPS</span>
+                <img src="https://archive.org/download/untitled-design_20260610/Untitled%20design.png" alt="Loop Pack 2">
+            </div>
+            <a href="https://TU-LINK-DE-DESCARGA-AQUI.COM" class="pack-btn">⬇ Descargar</a>
+            <div class="pack-title">Loop Pack 2</div>
+            <div class="pack-meta">Loops para rap y reggaetón</div>
+        </div>
+
+        <div class="pack-card" data-category="loop-packs">
+            <div class="card-cover">
+                <span class="badge">LOOPS</span>
+                <img src="https://archive.org/download/untitled-design_20260610/Untitled%20design.png" alt="Loop Pack 3">
+            </div>
+            <a href="https://TU-LINK-DE-DESCARGA-AQUI.COM" class="pack-btn">⬇ Descargar</a>
+            <div class="pack-title">Loop Pack 3</div>
+            <div class="pack-meta">Loops listos para producir</div>
+        </div>
+
+        <!-- MIDI PACKS -->
+
+        <div class="pack-card" data-category="midi-packs">
+            <div class="card-cover">
+                <span class="badge">MIDI</span>
+                <img src="https://archive.org/download/untitled-design_20260610_1554/Untitled%20design.png" alt="MIDI Pack 1">
+            </div>
+            <a href="https://TU-LINK-DE-DESCARGA-AQUI.COM" class="pack-btn">⬇ Descargar</a>
+            <div class="pack-title">MIDI Pack 1</div>
+            <div class="pack-meta">Acordes, bajos y melodías</div>
+        </div>
+
+        <div class="pack-card" data-category="midi-packs">
+            <div class="card-cover">
+                <span class="badge">MIDI</span>
+                <img src="https://archive.org/download/untitled-design_20260610_1554/Untitled%20design.png" alt="MIDI Pack 2">
+            </div>
+            <a href="https://TU-LINK-DE-DESCARGA-AQUI.COM" class="pack-btn">⬇ Descargar</a>
+            <div class="pack-title">MIDI Pack 2</div>
+            <div class="pack-meta">Progresiones para beats</div>
+        </div>
+
+        <div class="pack-card" data-category="midi-packs">
+            <div class="card-cover">
+                <span class="badge">MIDI</span>
+                <img src="https://archive.org/download/untitled-design_20260610_1554/Untitled%20design.png" alt="MIDI Pack 3">
+            </div>
+            <a href="https://TU-LINK-DE-DESCARGA-AQUI.COM" class="pack-btn">⬇ Descargar</a>
+            <div class="pack-title">MIDI Pack 3</div>
+            <div class="pack-meta">MIDI para FL Studio y Cubase</div>
+        </div>
+
+        <!-- ONE SHOTS -->
+
+        <div class="pack-card" data-category="one-shots">
+            <div class="card-cover">
+                <span class="badge">ONE SHOTS</span>
+                <img src="https://archive.org/download/untitled-design_20260610/Untitled%20design.png" alt="One Shots 1">
+            </div>
+            <a href="https://TU-LINK-DE-DESCARGA-AQUI.COM" class="pack-btn">⬇ Descargar</a>
+            <div class="pack-title">One Shots 1</div>
+            <div class="pack-meta">Pianos, guitars, synths y FX</div>
+        </div>
+
+        <div class="pack-card" data-category="one-shots">
+            <div class="card-cover">
+                <span class="badge">ONE SHOTS</span>
+                <img src="https://archive.org/download/untitled-design_20260610/Untitled%20design.png" alt="One Shots 2">
+            </div>
+            <a href="https://TU-LINK-DE-DESCARGA-AQUI.COM" class="pack-btn">⬇ Descargar</a>
+            <div class="pack-title">One Shots 2</div>
+            <div class="pack-meta">Instrumentos sueltos y efectos</div>
+        </div>
+
+        <div class="pack-card" data-category="one-shots">
+            <div class="card-cover">
+                <span class="badge">ONE SHOTS</span>
+                <img src="https://archive.org/download/untitled-design_20260610/Untitled%20design.png" alt="One Shots 3">
+            </div>
+            <a href="https://TU-LINK-DE-DESCARGA-AQUI.COM" class="pack-btn">⬇ Descargar</a>
+            <div class="pack-title">One Shots 3</div>
+            <div class="pack-meta">Sonidos para crear melodías</div>
+        </div>
+
+    </div>
+</section>
+
+<script>
+const filterButtons = document.querySelectorAll(".filter-btn");
+const cards = document.querySelectorAll(".pack-card");
+
+filterButtons.forEach(button=>{
+    button.addEventListener("click", ()=>{
+        const filter = button.dataset.filter;
+
+        filterButtons.forEach(btn=>btn.classList.remove("active"));
+        button.classList.add("active");
+
+        cards.forEach(card=>{
+            const categories = card.dataset.category || "";
+
+            if(filter === "todos" || categories.includes(filter)){
+                card.style.display = "";
+            }else{
+                card.style.display = "none";
+            }
+        });
+    });
+});
+</script>
+
+
+<!-- MODAL DESBLOQUEAR DESCARGA -->
+
+<div class="download-ad-modal" id="downloadAdModal">
+    <div class="download-ad-box">
+        <button class="download-ad-close" onclick="cerrarModalDescarga()">×</button>
+
+        <div class="download-ad-icon">⬇</div>
+
+        <h2>Desbloquear descarga</h2>
+
+        <p>Para descargar este pack, mira un anuncio corto y después se abrirá el enlace de descarga.</p>
+
+        <div class="download-pack-name" id="downloadPackName">Pack seleccionado</div>
+
+        <button class="download-ad-main" id="downloadAdBtn" onclick="verAnuncioParaDescarga()">
+            ▶ Ver anuncio y descargar
+        </button>
+
+        <button class="download-ad-cancel" onclick="cerrarModalDescarga()">
+            Cancelar
+        </button>
+    </div>
+</div>
+
+<script>
+
+/* DESBLOQUEAR DESCARGAS CON ANUNCIO / VIDEO */
+
+const MODO_PRUEBA_DESCARGAS = true; 
+let enlaceDescargaPendiente = "";
+let nombrePackPendiente = "";
+
+function prepararDescargasConAnuncio(){
+    const botonesDescarga = document.querySelectorAll(".pack-btn, .item-btn.download");
+
+    botonesDescarga.forEach(boton=>{
+        boton.addEventListener("click", function(e){
+            e.preventDefault();
+
+            enlaceDescargaPendiente = this.getAttribute("href") || "";
+            const card = this.closest(".pack-card") || this.closest(".card");
+            const title = card ? (card.querySelector(".pack-title") || card.querySelector(".card-title")) : null;
+            nombrePackPendiente = title ? title.textContent.trim() : "Pack seleccionado";
+
+            abrirModalDescarga(nombrePackPendiente);
+        });
+    });
+}
+
+function abrirModalDescarga(nombre){
+    const modal = document.getElementById("downloadAdModal");
+    const packName = document.getElementById("downloadPackName");
+    const adBtn = document.getElementById("downloadAdBtn");
+
+    if(packName){
+        packName.textContent = nombre;
+    }
+
+    if(adBtn){
+        adBtn.textContent = "▶ Ver anuncio y descargar";
+        adBtn.disabled = false;
+        adBtn.style.opacity = "1";
+    }
+
+    if(modal){
+        modal.classList.add("active");
+    }
+}
+
+function cerrarModalDescarga(){
+    const modal = document.getElementById("downloadAdModal");
+
+    if(modal){
+        modal.classList.remove("active");
+    }
+}
+
+function verAnuncioParaDescarga(){
+    const adBtn = document.getElementById("downloadAdBtn");
+
+    if(adBtn){
+        adBtn.textContent = "Cargando anuncio...";
+        adBtn.disabled = true;
+        adBtn.style.opacity = ".7";
+    }
+
+    /*
+    CONEXIÓN CON APP CREATOR / ADMOB:
+    Cuando el anuncio recompensado termine, App Creator debe ejecutar:
+    descargaDesbloqueada();
+
+    Si tu App Creator permite elegir una función callback,
+    escribe exactamente: descargaDesbloqueada
+    */
+
+    if(window.Android && Android.showRewardedAdForDownload){
+        Android.showRewardedAdForDownload();
+    }else if(window.Android && Android.showRewardedAd){
+        Android.showRewardedAd();
+    }else if(MODO_PRUEBA_DESCARGAS){
+        setTimeout(()=>{
+            descargaDesbloqueada();
+        }, 2500);
+    }else{
+        alert("Activa el anuncio recompensado en App Creator para desbloquear la descarga.");
+        cerrarModalDescarga();
+    }
+}
+
+function descargaDesbloqueada(){
+    if(!enlaceDescargaPendiente){
+        cerrarModalDescarga();
+        return;
+    }
+
+    const enlaceFinal = enlaceDescargaPendiente;
+
+    cerrarModalDescarga();
+
+    enlaceDescargaPendiente = "";
+    nombrePackPendiente = "";
+
+    window.location.href = enlaceFinal;
+}
+
+document.addEventListener("DOMContentLoaded", prepararDescargasConAnuncio);
+
+</script>
+</body>
+</html>

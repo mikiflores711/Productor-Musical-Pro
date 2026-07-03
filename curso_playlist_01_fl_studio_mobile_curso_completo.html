@@ -1,0 +1,1372 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>FL Studio Mobile - Curso completo</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#000;
+    color:#fff;
+}
+
+/* BANNER */
+
+.banner{
+    width:100%;
+    height:320px;
+    overflow:hidden;
+}
+
+.banner img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+/* TITULO */
+
+.course-title{
+    padding:25px 20px 10px;
+    font-size:32px;
+    font-weight:Bold;
+    color:#fff;
+}
+
+/* INFO DEL CURSO */
+
+.course-info{
+    padding:0 20px 20px;
+    color:#fff;
+    font-size:16px;
+    line-height:1.8;
+}
+
+.course-info strong{
+    color:#FFD700;
+}
+
+/* DESCARGAR RECURSOS */
+
+.download-section{
+    padding:0 20px 25px;
+    text-align:center;
+}
+
+.download-section h3{
+    color:#fff;
+    margin-bottom:15px;
+    font-size:14px;
+}
+
+.download-btn{
+    display:inline-block;
+    background:#ff0000;
+    color:#fff;
+    text-decoration:none;
+    padding:14px 35px;
+    border-radius:12px;
+    font-weight:bold;
+    font-size:16px;
+    transition:.3s;
+}
+
+.download-btn:hover{
+    background:#cc0000;
+    transform:scale(1.05);
+}
+
+/* SUBTITULO */
+
+.course-subtitle{
+    padding:0 20px 30px;
+    color:#bdbdbd;
+    font-size:16px;
+    line-height:1.7;
+}
+
+/* MODULOS */
+
+.module{
+    padding:0 20px 35px;
+}
+
+.module-title{
+    font-size:24px;
+    color:#fff;
+    font-weight:bold;
+    margin-bottom:15px;
+}
+
+.module-count{
+    color:#bdbdbd;
+    font-size:14px;
+    font-weight:normal;
+    margin-left:6px;
+}
+
+/* SCROLL */
+
+.video-scroll{
+    display:flex;
+    gap:15px;
+    overflow-x:auto;
+    padding-bottom:15px;
+    scroll-behavior:smooth;
+    scroll-snap-type:x mandatory;
+}
+
+.video-scroll::-webkit-scrollbar{
+    height:15px;
+}
+
+.video-scroll::-webkit-scrollbar-track{
+    background:#111;
+}
+
+.video-scroll::-webkit-scrollbar-thumb{
+    background:#bdbdbd;
+    border-radius:20px;
+}
+
+/* TARJETAS */
+
+.video-card{
+    min-width:280px;
+    text-decoration:none;
+    color:#bdbdbd;
+    scroll-snap-align:start;
+}
+
+.video-thumb{
+    position:relative;
+    overflow:hidden;
+    border-radius:20px;
+    background:#111;
+}
+
+.video-thumb img{
+    width:280px;
+    height:160px;
+    object-fit:cover;
+    transition:.50s;
+    display:block;
+}
+
+/* BOTON PLAY */
+
+.play-btn{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    width:60px;
+    height:60px;
+    border-radius:50%;
+    background:rgba(255,215,0,.95);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:35px;
+    color:#000;
+    box-shadow:0 0 35px rgba(255,215,0,.6);
+    transition:.3s;
+}
+
+.video-card:hover .play-btn{
+    transform:translate(-50%,-50%) scale(1.15);
+}
+
+.video-card:hover img{
+    transform:scale(1.08);
+}
+
+.video-name{
+    margin-top:10px;
+    text-align:center;
+    font-size:13px;
+    line-height:1.35;
+}
+
+.video-card:hover .video-name{
+    color:#FFD700;
+}
+
+.video-thumb::before{
+    content:"GRATIS";
+    position:absolute;
+    top:10px;
+    left:10px;
+    z-index:5;
+    background:linear-gradient(135deg,#00e676,#00a651);
+    color:#001b0b;
+    font-size:11px;
+    font-weight:bold;
+    letter-spacing:.5px;
+    padding:6px 10px;
+    border-radius:999px;
+    box-shadow:0 0 18px rgba(0,230,118,.35);
+}
+
+.lesson-badge{
+    display:none;
+}
+
+.episode-number{
+    position:absolute;
+    right:8px;
+    bottom:8px;
+    background:rgba(0,0,0,.78);
+    color:#FFD700;
+    font-size:12px;
+    font-weight:bold;
+    padding:5px 8px;
+    border-radius:999px;
+    box-shadow:0 4px 12px rgba(0,0,0,.45);
+}
+
+.loading-box{
+    background:#111;
+    border:1px solid rgba(255,215,0,.25);
+    border-radius:16px;
+    padding:16px;
+    color:#bdbdbd;
+    font-size:14px;
+    line-height:1.6;
+}
+
+/* ==============================
+   REPRODUCTOR YOUTUBE RESPONSIVE
+   Pantalla completa + controles auto-ocultables
+   ============================== */
+
+.video-modal{
+    position:fixed;
+    inset:0;
+    z-index:9999;
+    display:none;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+    background:rgba(0,0,0,.88);
+    backdrop-filter:blur(8px);
+}
+
+.video-modal.active{
+    display:flex;
+}
+
+.player-window{
+    position:relative;
+    width:min(100%,980px);
+    background:#080808;
+    border:1px solid rgba(255,215,0,.35);
+    border-radius:20px;
+    overflow:hidden;
+    box-shadow:0 0 60px rgba(0,0,0,.9), 0 0 25px rgba(255,215,0,.15);
+    animation:playerZoom .25s ease;
+}
+
+@keyframes playerZoom{
+    from{transform:scale(.92); opacity:0;}
+    to{transform:scale(1); opacity:1;}
+}
+
+.player-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+    padding:14px 16px;
+    background:linear-gradient(180deg,rgba(18,18,18,.98),rgba(10,10,10,.92));
+    border-bottom:1px solid rgba(255,255,255,.08);
+    transition:opacity .35s ease, transform .35s ease;
+}
+
+.player-title-box{
+    min-width:0;
+}
+
+.player-label{
+    font-size:11px;
+    color:#FFD700;
+    font-weight:bold;
+    letter-spacing:.8px;
+    text-transform:uppercase;
+    margin-bottom:4px;
+}
+
+.player-title{
+    font-size:16px;
+    color:#fff;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.close-player{
+    width:40px;
+    height:40px;
+    border:none;
+    border-radius:50%;
+    background:#ff0000;
+    color:#fff;
+    font-size:22px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:.25s;
+}
+
+.close-player:hover{
+    background:#cc0000;
+    transform:scale(1.08);
+}
+
+.player-frame-wrap{
+    position:relative;
+    width:100%;
+    aspect-ratio:16/9;
+    background:#000;
+    overflow:hidden;
+}
+
+#youtubePlayer,
+#youtubePlayer iframe{
+    width:100%;
+    height:100%;
+}
+
+.player-block-layer{
+    position:absolute;
+    inset:0;
+    z-index:3;
+    background:transparent;
+    cursor:pointer;
+    -webkit-tap-highlight-color:transparent;
+}
+
+.player-toast{
+    position:absolute;
+    top:16px;
+    left:50%;
+    z-index:11;
+    transform:translateX(-50%) translateY(-10px);
+    background:rgba(0,0,0,.75);
+    color:#fff;
+    border:1px solid rgba(255,215,0,.4);
+    border-radius:999px;
+    padding:9px 14px;
+    font-size:13px;
+    opacity:0;
+    pointer-events:none;
+    transition:.25s ease;
+}
+
+.player-toast.show{
+    opacity:1;
+    transform:translateX(-50%) translateY(0);
+}
+
+.player-controls{
+    position:absolute;
+    left:0;
+    right:0;
+    bottom:0;
+    z-index:10;
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    padding:48px 14px 18px;
+    background:linear-gradient(180deg,rgba(0,0,0,0),rgba(0,0,0,.82) 32%,rgba(0,0,0,.95));
+    transition:opacity .35s ease, transform .35s ease;
+}
+
+.player-progress{
+    position:relative;
+    flex:0 0 100%;
+    width:100%;
+    height:10px;
+    z-index:12;
+    background:rgba(255,255,255,.22);
+    border-radius:999px;
+    cursor:pointer;
+    overflow:hidden;
+    touch-action:none;
+    margin:0 0 8px;
+    transition:height .25s ease, opacity .25s ease;
+}
+
+.player-progress:hover,
+.player-progress.dragging{
+    height:14px;
+}
+
+.player-progress-fill{
+    width:0%;
+    height:100%;
+    background:#FFD700;
+    box-shadow:0 0 18px rgba(255,215,0,.8);
+    transition:width .08s linear;
+}
+
+.control-btn{
+    border:none;
+    outline:none;
+    background:rgba(26,26,26,.95);
+    color:#fff;
+    border:1px solid rgba(255,255,255,.16);
+    padding:11px 15px;
+    border-radius:12px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:.25s;
+    white-space:nowrap;
+}
+
+.control-btn:hover{
+    background:#FFD700;
+    color:#000;
+    transform:translateY(-2px);
+}
+
+.play-control{
+    background:#FFD700;
+    color:#000;
+    min-width:115px;
+}
+
+.time-view{
+    color:#fff;
+    font-size:13px;
+    padding:0 8px;
+    min-width:110px;
+    text-align:center;
+    text-shadow:0 2px 5px #000;
+}
+
+.player-note{
+    width:100%;
+    text-align:center;
+    font-size:12px;
+    color:#aaa;
+    margin-top:2px;
+}
+
+.player-window.controls-hidden{
+    cursor:none;
+}
+
+.player-window.controls-hidden .player-header{
+    opacity:0;
+    pointer-events:none;
+    transform:translateY(-18px);
+}
+
+.player-window.controls-hidden .player-controls{
+    opacity:0;
+    pointer-events:none;
+    transform:translateY(28px);
+}
+
+.video-modal.is-fullscreen,
+.video-modal.force-fullscreen{
+    padding:0;
+    overflow:hidden;
+}
+
+.video-modal.is-fullscreen .player-window,
+.video-modal.force-fullscreen .player-window{
+    width:100vw;
+    height:100vh;
+    height:100dvh;
+    max-width:none;
+    border-radius:0;
+    border:none;
+}
+
+.video-modal.is-fullscreen .player-frame-wrap,
+.video-modal.force-fullscreen .player-frame-wrap{
+    height:100vh;
+    height:100dvh;
+    aspect-ratio:auto;
+}
+
+.video-modal.is-fullscreen .player-header,
+.video-modal.force-fullscreen .player-header{
+    position:absolute;
+    left:0;
+    right:0;
+    top:0;
+    z-index:12;
+    border-bottom:none;
+    background:linear-gradient(180deg,rgba(0,0,0,.88),rgba(0,0,0,.35),rgba(0,0,0,0));
+}
+
+@media(max-width:900px) and (orientation:portrait){
+    .video-modal.force-fullscreen .player-window{
+        width:100dvh;
+        height:100dvw;
+        transform:rotate(90deg);
+        transform-origin:center center;
+    }
+
+    .video-modal.force-fullscreen .player-frame-wrap{
+        height:100dvw;
+    }
+}
+
+@media(max-width:768px){
+
+.video-modal{
+    padding:10px;
+}
+
+.player-window{
+    border-radius:14px;
+}
+
+.player-header{
+    padding:10px 12px;
+}
+
+.player-title{
+    font-size:14px;
+}
+
+.close-player{
+    width:36px;
+    height:36px;
+    font-size:20px;
+}
+
+.player-controls{
+    gap:7px;
+    padding:38px 10px 15px;
+}
+
+.control-btn{
+    padding:9px 10px;
+    font-size:12px;
+}
+
+.time-view{
+    width:100%;
+    margin-top:3px;
+}
+
+.banner{
+    height:220px;
+}
+
+.course-title{
+    font-size:24px;
+}
+
+.course-subtitle{
+    font-size:14px;
+}
+
+.module-title{
+    font-size:20px;
+}
+
+.video-card{
+    min-width:220px;
+}
+
+.video-thumb img{
+    width:220px;
+    height:125px;
+}
+
+.play-btn{
+    width:50px;
+    height:50px;
+    font-size:30px;
+}
+
+}
+
+/* ==========================================================
+   FIX APPCREATOR24 - REPRODUCTOR FULLSCREEN SIN MARGEN NEGRO
+   ========================================================== */
+
+.video-modal.force-fullscreen,
+.video-modal.is-fullscreen{
+    padding:0 !important;
+    margin:0 !important;
+    background:#000 !important;
+    align-items:stretch !important;
+    justify-content:stretch !important;
+    overflow:hidden !important;
+}
+
+.video-modal.force-fullscreen .player-window,
+.video-modal.is-fullscreen .player-window{
+    position:fixed !important;
+    inset:0 !important;
+    width:100vw !important;
+    height:100vh !important;
+    height:100dvh !important;
+    max-width:none !important;
+    border:none !important;
+    border-radius:0 !important;
+    box-shadow:none !important;
+    background:#000 !important;
+}
+
+.video-modal.force-fullscreen .player-frame-wrap,
+.video-modal.is-fullscreen .player-frame-wrap{
+    position:absolute !important;
+    inset:0 !important;
+    width:100vw !important;
+    height:100vh !important;
+    height:100dvh !important;
+    aspect-ratio:auto !important;
+    background:#000 !important;
+    overflow:hidden !important;
+}
+
+.video-modal.force-fullscreen #youtubePlayer,
+.video-modal.is-fullscreen #youtubePlayer{
+    position:absolute !important;
+    inset:0 !important;
+    width:100% !important;
+    height:100% !important;
+    background:#000 !important;
+    overflow:hidden !important;
+}
+
+/* Hace que el iframe cubra toda la pantalla como modo "cover".
+   Si el video no tiene la misma proporción exacta que el teléfono,
+   se recorta un poco en lugar de verse como mini reproductor. */
+.video-modal.force-fullscreen #youtubePlayer iframe,
+.video-modal.is-fullscreen #youtubePlayer iframe{
+    position:absolute !important;
+    top:50% !important;
+    left:50% !important;
+    width:100vw !important;
+    height:56.25vw !important;
+    min-width:177.78vh !important;
+    min-width:177.78dvh !important;
+    min-height:100vh !important;
+    min-height:100dvh !important;
+    transform:translate(-50%,-50%) !important;
+    border:0 !important;
+    background:#000 !important;
+}
+
+/* En AppCreator24 algunos WebView reportan portrait aunque se vea horizontal.
+   Este bloque evita que el reproductor quede pequeño o descentrado. */
+@media(max-width:900px) and (orientation:portrait){
+    .video-modal.force-fullscreen .player-window,
+    .video-modal.is-fullscreen .player-window{
+        position:fixed !important;
+        top:50% !important;
+        left:50% !important;
+        width:100dvh !important;
+        height:100dvw !important;
+        max-width:none !important;
+        transform:translate(-50%,-50%) rotate(90deg) !important;
+        transform-origin:center center !important;
+    }
+
+    .video-modal.force-fullscreen .player-frame-wrap,
+    .video-modal.is-fullscreen .player-frame-wrap{
+        width:100dvh !important;
+        height:100dvw !important;
+    }
+
+    .video-modal.force-fullscreen #youtubePlayer iframe,
+    .video-modal.is-fullscreen #youtubePlayer iframe{
+        width:100dvh !important;
+        height:56.25dvh !important;
+        min-width:177.78dvw !important;
+        min-height:100dvw !important;
+    }
+}
+
+</style>
+</head>
+
+<body data-curso="gratis">
+
+<!-- BANNER -->
+
+<div class="banner">
+<img src="https://i.ytimg.com/vi/07U8WluUuz4/maxresdefault.jpg" alt="FL Studio Mobile - Curso completo">
+</div>
+
+<!-- TITULO -->
+
+<div class="course-title">
+FL Studio Mobile - Curso completo
+</div>
+
+<!-- INFO CURSO -->
+
+<div class="course-info">
+<strong>Este curso incluye:</strong><br>
+📁 1 Módulo<br>
+🎬 Videos separados<br>
+🟢 Curso Gratis: abre directo sin anuncios<br>
+<strong>Curso cargado desde lista de reproducción</strong><br>
+</div>
+
+<!-- DESCARGAR RECURSOS -->
+
+<div class="download-section">
+    <h3> 📥 Descargar recursos del Curso</h3>
+
+    <a href="https://TU-SITIO-AQUI.COM" class="download-btn">
+        🔗 Descargar Recursos
+    </a>
+</div>
+
+<!-- SUBTITULO -->
+
+<div class="course-subtitle">
+Cada video se muestra por separado, con su miniatura individual y título real. Ejemplo de formato: <strong>0. Presentation</strong>, <strong>1. Interface</strong>.
+</div>
+
+<!-- MODULO 01 -->
+
+<section class="module">
+<h2 class="module-title">Módulo 01 - Videos del curso <span class="module-count" id="moduleCount">Cargando videos...</span></h2>
+
+<div id="loadingBox" class="loading-box">
+Cargando miniaturas y títulos de cada video...
+</div>
+
+<div class="video-scroll" id="videoScroll"></div>
+</section>
+
+<!-- REPRODUCTOR EMERGENTE YOUTUBE -->
+<div class="video-modal" id="videoModal" aria-hidden="true">
+    <div class="player-window" id="playerWindow">
+
+        <div class="player-header">
+            <div class="player-title-box">
+                <div class="player-label">Reproduciendo clase</div>
+                <div class="player-title" id="playerTitle">Selecciona un video</div>
+            </div>
+            <button class="close-player" id="closePlayer" type="button" aria-label="Cerrar reproductor">×</button>
+        </div>
+
+        <div class="player-frame-wrap" id="playerFrameWrap">
+            <div id="youtubePlayer"></div>
+
+            <div class="player-block-layer" id="playerBlockLayer" title="Clic para reproducir o pausar"></div>
+
+            <div class="player-toast" id="playerToast">Listo</div>
+
+            <div class="player-controls" id="playerControls">
+                <div class="player-progress" id="progressBar" title="Toca o arrastra para avanzar">
+                    <div class="player-progress-fill" id="progressFill"></div>
+                </div>
+
+                <button class="control-btn" id="backBtn" type="button">⏪ 10s</button>
+                <button class="control-btn play-control" id="playPauseBtn" type="button">▶ Play</button>
+                <button class="control-btn" id="forwardBtn" type="button">10s ⏩</button>
+                <button class="control-btn" id="muteBtn" type="button">🔊 Audio</button>
+                <button class="control-btn" id="fullscreenBtn" type="button">⛶ Pantalla completa</button>
+                <div class="time-view" id="timeView">00:00 / 00:00</div>
+                <div class="player-note">El reproductor abre en pantalla completa. Los controles se ocultan solos. Toca la barra para avanzar.</div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+/* ==============================
+   DATOS DEL CURSO
+   ============================== */
+
+const COURSE_TITLE = 'FL Studio Mobile - Curso completo';
+const PLAYLIST_ID = 'PLP4s-7pqyN6E';
+const FIRST_VIDEO_ID = '07U8WluUuz4';
+
+const videoScroll = document.getElementById('videoScroll');
+const loadingBox = document.getElementById('loadingBox');
+const moduleCount = document.getElementById('moduleCount');
+
+/* ==============================
+   CARGAR VIDEOS REALES DE PLAYLIST
+   ============================== */
+
+document.addEventListener('DOMContentLoaded', cargarVideosDelCurso);
+
+async function cargarVideosDelCurso(){
+    try{
+        const videos = await obtenerVideosDesdeFeed(PLAYLIST_ID);
+
+        if(!videos || videos.length === 0){
+            throw new Error('No se encontraron videos');
+        }
+
+        renderVideos(videos);
+    }catch(error){
+        console.log(error);
+        renderFallback();
+    }
+}
+
+async function obtenerVideosDesdeFeed(playlistId){
+    const feedUrl = 'https://www.youtube.com/feeds/videos.xml?playlist_id=' + encodeURIComponent(playlistId);
+
+    const urls = [
+        feedUrl,
+        'https://api.allorigins.win/raw?url=' + encodeURIComponent(feedUrl),
+        'https://api.allorigins.win/get?url=' + encodeURIComponent(feedUrl)
+    ];
+
+    for(const url of urls){
+        try{
+            const res = await fetch(url);
+            if(!res.ok) continue;
+
+            let text = await res.text();
+
+            if(text.trim().startsWith('{')){
+                const json = JSON.parse(text);
+                text = json.contents || '';
+            }
+
+            const videos = parseYouTubeFeed(text);
+            if(videos.length > 0){
+                return videos;
+            }
+        }catch(e){
+            console.log('Intento fallido:', e);
+        }
+    }
+
+    return [];
+}
+
+function parseYouTubeFeed(xmlText){
+    const parser = new DOMParser();
+    const xml = parser.parseFromString(xmlText, 'text/xml');
+    const entries = Array.from(xml.querySelectorAll('entry'));
+    const videos = [];
+
+    entries.forEach((entry, index)=>{
+        const videoId = getText(entry, 'videoId') || getText(entry, 'yt\\:videoId');
+        const rawTitle = getText(entry, 'title') || 'Episodio ' + index;
+
+        if(videoId){
+            videos.push({
+                videoId:videoId,
+                title:limpiarTitulo(rawTitle),
+                number:index
+            });
+        }
+    });
+
+    return videos;
+}
+
+function getText(parent, selector){
+    const el = parent.querySelector(selector);
+    return el ? el.textContent.trim() : '';
+}
+
+function limpiarTitulo(title){
+    title = String(title || '').replace(/\s+/g, ' ').trim();
+
+    title = title
+        .replace(/^FL\s*Studio\s*Mobile\s*[-–|:]?\s*/i, '')
+        .replace(/^FL\s*Studio\s*20\s*[-–|:]?\s*/i, '')
+        .replace(/^FL\s*Studio\s*Advanced\s*[-–|:]?\s*/i, '')
+        .replace(/^Curso\s*[-–|:]?\s*/i, '')
+        .replace(/^Tutorial\s*[-–|:]?\s*/i, '')
+        .trim();
+
+    return title || 'Episodio';
+}
+
+function renderVideos(videos){
+    videoScroll.innerHTML = '';
+    loadingBox.style.display = 'none';
+    moduleCount.textContent = 'Episodios 0-' + (videos.length - 1);
+
+    videos.forEach((video, i)=>{
+        const card = crearTarjetaVideo(video.videoId, i, video.title);
+        videoScroll.appendChild(card);
+    });
+}
+
+function crearTarjetaVideo(videoId, number, title){
+    const card = document.createElement('a');
+    card.href = 'https://www.youtube.com/watch?v=' + videoId;
+    card.className = 'video-card';
+    card.setAttribute('data-tipo','gratis');
+
+    const titleFinal = number + '. ' + title;
+
+    card.innerHTML = `
+<div class="video-thumb">
+<img src="https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg" onerror="this.src='https://i.ytimg.com/vi/${videoId}/hqdefault.jpg'" alt="${escapeHtml(titleFinal)}">
+<div class="play-btn">▶</div>
+<div class="lesson-badge">GRATIS</div>
+<div class="episode-number">#${String(number).padStart(2,'0')}</div>
+</div>
+<div class="video-name">${escapeHtml(titleFinal)}</div>`;
+
+    card.addEventListener('click', function(e){
+        e.preventDefault();
+        loadVideo(videoId, titleFinal);
+    });
+
+    return card;
+}
+
+function renderFallback(){
+    loadingBox.innerHTML = `
+No se pudo leer la playlist automáticamente. Revisa tu conexión o prueba dentro de App Creator con internet activo.<br><br>
+Se dejó una tarjeta inicial para abrir el curso.
+`;
+
+    moduleCount.textContent = 'Modo respaldo';
+
+    const card = crearTarjetaVideo(FIRST_VIDEO_ID, 0, 'Abrir curso');
+    videoScroll.appendChild(card);
+}
+
+function escapeHtml(text){
+    return String(text || '').replace(/[&<>"']/g, function(m){
+        return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'})[m];
+    });
+}
+
+/* ==============================
+   YOUTUBE PLAYER API
+   ============================== */
+
+let youtubePlayer;
+let playerReady = false;
+let pendingVideo = null;
+let progressInterval = null;
+let hideControlsTimer = null;
+let toastTimer = null;
+let progressDragging = false;
+
+const videoModal = document.getElementById('videoModal');
+const playerWindow = document.getElementById('playerWindow');
+const playerBlockLayer = document.getElementById('playerBlockLayer');
+const playerControls = document.getElementById('playerControls');
+const playerTitle = document.getElementById('playerTitle');
+const closePlayer = document.getElementById('closePlayer');
+const playPauseBtn = document.getElementById('playPauseBtn');
+const backBtn = document.getElementById('backBtn');
+const forwardBtn = document.getElementById('forwardBtn');
+const muteBtn = document.getElementById('muteBtn');
+const fullscreenBtn = document.getElementById('fullscreenBtn');
+const progressBar = document.getElementById('progressBar');
+const progressFill = document.getElementById('progressFill');
+const timeView = document.getElementById('timeView');
+const playerToast = document.getElementById('playerToast');
+
+const tag = document.createElement('script');
+tag.src = "https://www.youtube.com/iframe_api";
+document.body.appendChild(tag);
+
+function onYouTubeIframeAPIReady(){
+    youtubePlayer = new YT.Player('youtubePlayer', {
+        width:'100%',
+        height:'100%',
+        videoId:'',
+        playerVars:{
+            autoplay:0,
+            controls:0,
+            rel:0,
+            modestbranding:1,
+            playsinline:0,
+            iv_load_policy:3,
+            fs:0,
+            disablekb:1,
+            cc_load_policy:0
+        },
+        events:{
+            onReady:onPlayerReady,
+            onStateChange:onPlayerStateChange
+        }
+    });
+}
+
+function onPlayerReady(){
+    playerReady = true;
+    blockSubtitles();
+
+    if(pendingVideo){
+        loadVideo(pendingVideo.id, pendingVideo.title);
+        pendingVideo = null;
+    }
+}
+
+function onPlayerStateChange(event){
+    if(event.data === YT.PlayerState.PLAYING){
+        playPauseBtn.textContent = '⏸ Pausar';
+        startProgressTimer();
+        blockSubtitles();
+        scheduleControlsHide();
+    }
+
+    if(event.data === YT.PlayerState.PAUSED){
+        playPauseBtn.textContent = '▶ Play';
+        showControls(false);
+    }
+
+    if(event.data === YT.PlayerState.ENDED){
+        playPauseBtn.textContent = '▶ Repetir';
+        updateProgress();
+        showControls(false);
+    }
+
+    if(event.data === YT.PlayerState.BUFFERING){
+        showControls(true);
+    }
+}
+
+function blockSubtitles(){
+    if(!youtubePlayer || !playerReady) return;
+
+    try{
+        if(typeof youtubePlayer.unloadModule === 'function'){
+            youtubePlayer.unloadModule('captions');
+        }
+    }catch(e){}
+}
+
+function openModal(){
+    videoModal.classList.add('active','force-fullscreen');
+    videoModal.setAttribute('aria-hidden','false');
+    document.body.style.overflow = 'hidden';
+    showControls(false);
+    requestFullscreenLandscape();
+}
+
+function lockLandscape(){
+    try{
+        if(screen.orientation && screen.orientation.lock){
+            screen.orientation.lock('landscape').catch(()=>{});
+        }
+    }catch(e){}
+}
+
+function requestFullscreenLandscape(){
+    try{
+        if(!document.fullscreenElement && videoModal.requestFullscreen){
+            const fsPromise = videoModal.requestFullscreen({navigationUI:'hide'});
+            if(fsPromise && typeof fsPromise.then === 'function'){
+                fsPromise.then(lockLandscape).catch(lockLandscape);
+            }else{
+                lockLandscape();
+            }
+        }else{
+            lockLandscape();
+        }
+    }catch(e){
+        lockLandscape();
+    }
+}
+
+function closeModal(){
+    if(youtubePlayer && playerReady){
+        youtubePlayer.stopVideo();
+    }
+
+    videoModal.classList.remove('active','is-fullscreen','force-fullscreen');
+    videoModal.setAttribute('aria-hidden','true');
+    document.body.style.overflow = '';
+    progressFill.style.width = '0%';
+    timeView.textContent = '00:00 / 00:00';
+    playPauseBtn.textContent = '▶ Play';
+    stopProgressTimer();
+    clearControlsHideTimer();
+    playerWindow.classList.remove('controls-hidden');
+
+    try{
+        if(screen.orientation && screen.orientation.unlock){
+            screen.orientation.unlock();
+        }
+    }catch(e){}
+
+    if(document.fullscreenElement){
+        document.exitFullscreen().catch(()=>{});
+    }
+}
+
+function loadVideo(videoId, title){
+    openModal();
+    playerTitle.textContent = title || 'Clase del curso';
+
+    if(!playerReady || !youtubePlayer){
+        pendingVideo = {id:videoId, title:title};
+        return;
+    }
+
+    youtubePlayer.loadVideoById(videoId);
+
+    setTimeout(()=>{
+        try{
+            youtubePlayer.playVideo();
+            blockSubtitles();
+        }catch(e){}
+    },350);
+
+    setTimeout(blockSubtitles,1000);
+    startProgressTimer();
+}
+
+function formatTime(seconds){
+    seconds = Math.floor(seconds || 0);
+    const min = Math.floor(seconds / 60);
+    const sec = seconds % 60;
+    return String(min).padStart(2,'0') + ':' + String(sec).padStart(2,'0');
+}
+
+function updateProgress(){
+    if(!youtubePlayer || !playerReady || typeof youtubePlayer.getCurrentTime !== 'function') return;
+
+    const current = youtubePlayer.getCurrentTime() || 0;
+    const duration = youtubePlayer.getDuration() || 0;
+    const percent = duration > 0 ? (current / duration) * 100 : 0;
+
+    progressFill.style.width = Math.min(percent,100) + '%';
+    timeView.textContent = formatTime(current) + ' / ' + formatTime(duration);
+}
+
+function startProgressTimer(){
+    stopProgressTimer();
+    progressInterval = setInterval(updateProgress,500);
+}
+
+function stopProgressTimer(){
+    if(progressInterval){
+        clearInterval(progressInterval);
+        progressInterval = null;
+    }
+}
+
+function isPlaying(){
+    if(!youtubePlayer || !playerReady) return false;
+    return youtubePlayer.getPlayerState() === YT.PlayerState.PLAYING;
+}
+
+function clearControlsHideTimer(){
+    if(hideControlsTimer){
+        clearTimeout(hideControlsTimer);
+        hideControlsTimer = null;
+    }
+}
+
+function showControls(autoHide=true){
+    playerWindow.classList.remove('controls-hidden');
+    clearControlsHideTimer();
+
+    if(autoHide){
+        scheduleControlsHide();
+    }
+}
+
+function scheduleControlsHide(){
+    clearControlsHideTimer();
+
+    if(!isPlaying()) return;
+
+    hideControlsTimer = setTimeout(()=>{
+        if(isPlaying() && !progressDragging){
+            playerWindow.classList.add('controls-hidden');
+        }
+    },2800);
+}
+
+function showToast(text){
+    playerToast.textContent = text;
+    playerToast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(()=>{
+        playerToast.classList.remove('show');
+    },1600);
+}
+
+function togglePlayPause(){
+    if(!youtubePlayer || !playerReady) return;
+
+    const state = youtubePlayer.getPlayerState();
+
+    if(state === YT.PlayerState.PLAYING){
+        youtubePlayer.pauseVideo();
+    }else{
+        youtubePlayer.playVideo();
+        blockSubtitles();
+    }
+}
+
+function seekFromClientX(clientX){
+    if(!youtubePlayer || !playerReady) return;
+
+    const duration = youtubePlayer.getDuration() || 0;
+    if(duration <= 0) return;
+
+    const rect = progressBar.getBoundingClientRect();
+    const clickX = Math.min(Math.max(clientX - rect.left, 0), rect.width);
+    const percent = clickX / rect.width;
+    const newTime = duration * percent;
+
+    youtubePlayer.seekTo(newTime, true);
+    progressFill.style.width = (percent * 100) + '%';
+    timeView.textContent = formatTime(newTime) + ' / ' + formatTime(duration);
+    showControls(true);
+}
+
+closePlayer.addEventListener('click', closeModal);
+
+videoModal.addEventListener('click', function(e){
+    if(e.target === videoModal){
+        closeModal();
+    }
+});
+
+playerWindow.addEventListener('mousemove', ()=>showControls(true));
+playerWindow.addEventListener('touchstart', ()=>showControls(true), {passive:true});
+playerControls.addEventListener('mouseenter', ()=>showControls(false));
+playerControls.addEventListener('mouseleave', ()=>scheduleControlsHide());
+
+playerBlockLayer.addEventListener('click', function(){
+    showControls(true);
+    togglePlayPause();
+});
+
+playerBlockLayer.addEventListener('dblclick', function(){
+    fullscreenBtn.click();
+});
+
+document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape' && videoModal.classList.contains('active')){
+        closeModal();
+    }
+
+    if(!videoModal.classList.contains('active')) return;
+
+    if(e.code === 'Space'){
+        e.preventDefault();
+        showControls(true);
+        togglePlayPause();
+    }
+
+    if(e.key === 'ArrowLeft'){
+        backBtn.click();
+    }
+
+    if(e.key === 'ArrowRight'){
+        forwardBtn.click();
+    }
+});
+
+playPauseBtn.addEventListener('click', function(){
+    showControls(true);
+    togglePlayPause();
+});
+
+backBtn.addEventListener('click', function(){
+    if(!youtubePlayer || !playerReady) return;
+    const current = youtubePlayer.getCurrentTime() || 0;
+    youtubePlayer.seekTo(Math.max(current - 10, 0), true);
+    updateProgress();
+    showControls(true);
+});
+
+forwardBtn.addEventListener('click', function(){
+    if(!youtubePlayer || !playerReady) return;
+    const current = youtubePlayer.getCurrentTime() || 0;
+    const duration = youtubePlayer.getDuration() || 0;
+    youtubePlayer.seekTo(Math.min(current + 10, duration), true);
+    updateProgress();
+    showControls(true);
+});
+
+muteBtn.addEventListener('click', function(){
+    if(!youtubePlayer || !playerReady) return;
+
+    if(youtubePlayer.isMuted()){
+        youtubePlayer.unMute();
+        muteBtn.textContent = '🔊 Audio';
+    }else{
+        youtubePlayer.mute();
+        muteBtn.textContent = '🔇 Silencio';
+    }
+    showControls(true);
+});
+
+progressBar.addEventListener('pointerdown', function(e){
+    e.preventDefault();
+    progressDragging = true;
+    progressBar.classList.add('dragging');
+    progressBar.setPointerCapture?.(e.pointerId);
+    seekFromClientX(e.clientX);
+});
+
+progressBar.addEventListener('pointermove', function(e){
+    if(!progressDragging) return;
+    e.preventDefault();
+    seekFromClientX(e.clientX);
+});
+
+function stopProgressDrag(e){
+    if(!progressDragging) return;
+    progressDragging = false;
+    progressBar.classList.remove('dragging');
+    try{ progressBar.releasePointerCapture?.(e.pointerId); }catch(err){}
+    updateProgress();
+    scheduleControlsHide();
+}
+
+progressBar.addEventListener('pointerup', stopProgressDrag);
+progressBar.addEventListener('pointercancel', stopProgressDrag);
+progressBar.addEventListener('lostpointercapture', function(){
+    progressDragging = false;
+    progressBar.classList.remove('dragging');
+});
+
+fullscreenBtn.addEventListener('click', function(){
+    showControls(true);
+    if(!document.fullscreenElement){
+        videoModal.requestFullscreen({navigationUI:'hide'}).catch(()=>{});
+        try{
+            if(screen.orientation && screen.orientation.lock){
+                screen.orientation.lock('landscape').catch(()=>{});
+            }
+        }catch(e){}
+    }else{
+        document.exitFullscreen().catch(()=>{});
+    }
+});
+
+document.addEventListener('fullscreenchange', function(){
+    if(document.fullscreenElement){
+        videoModal.classList.add('is-fullscreen','force-fullscreen');
+        fullscreenBtn.textContent = '⤢ Salir pantalla completa';
+        lockLandscape();
+    }else{
+        videoModal.classList.remove('is-fullscreen');
+        fullscreenBtn.textContent = '⛶ Pantalla completa';
+    }
+});
+</script>
+
+</body>
+</html>
