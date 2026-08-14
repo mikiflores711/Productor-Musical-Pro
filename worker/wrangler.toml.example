@@ -1,0 +1,12 @@
+name = "productor-musical-pro-cms"
+main = "worker.js"
+compatibility_date = "2026-08-01"
+
+[[kv_namespaces]]
+binding = "PMP_CONTENT"
+id = "REEMPLAZA_CON_TU_KV_NAMESPACE_ID"
+
+# NO pongas ADMIN_TOKEN aquí si el repo será público.
+# Créalo como secret desde Cloudflare/Wrangler.
+# ADMIN_ORIGIN puede configurarse como variable en Cloudflare, por ejemplo:
+# https://TUUSUARIO.github.io

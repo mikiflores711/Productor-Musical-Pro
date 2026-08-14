@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Gestor de contenido · Productor Musical Pro</title>
+<style>
+:root{--bg:#050505;--panel:#0d0d0d;--panel2:#151515;--gold:#ffd700;--green:#00e676;--red:#ff3b3b;--muted:#a9a9a9;--line:rgba(255,215,0,.24)}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#191300 0,#050505 32%);color:#fff;font-family:Arial,sans-serif;min-height:100vh}.wrap{max-width:1180px;margin:auto;padding:22px 16px 60px}.brand{display:flex;align-items:center;gap:14px;margin-bottom:18px}.brand img{width:82px;height:82px;object-fit:contain;border-radius:20px;background:#000;border:1px solid var(--line)}.brand h1{margin:0;color:var(--gold);font-size:28px}.brand p{margin:5px 0 0;color:var(--muted)}.toolbar,.course{background:rgba(13,13,13,.97);border:1px solid var(--line);border-radius:20px;padding:16px;margin-bottom:16px;box-shadow:0 14px 42px rgba(0,0,0,.35)}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}input,textarea,select{width:100%;background:#111;border:1px solid #303030;color:#fff;border-radius:11px;padding:12px;font:inherit;outline:none}input:focus,textarea:focus,select:focus{border-color:var(--gold);box-shadow:0 0 0 2px rgba(255,215,0,.08)}textarea{min-height:105px;resize:vertical}.actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:12px}button{border:0;border-radius:11px;padding:11px 14px;font-weight:900;cursor:pointer;background:var(--gold);color:#000}button.secondary{background:#262626;color:#fff;border:1px solid #444}button.green{background:var(--green);color:#001b0b}button.red{background:var(--red);color:#fff}button.small{padding:8px 10px}.muted{color:var(--muted);font-size:13px;line-height:1.55}.course-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}.course-head h2{margin:0;color:var(--gold);font-size:21px}.badge{display:inline-flex;padding:6px 10px;border-radius:999px;font-size:11px;font-weight:900}.free{background:var(--green);color:#001b0b}.premium{background:#ff2c2c;color:#fff}.lesson{display:grid;grid-template-columns:70px 1.15fr 1fr auto;gap:8px;align-items:center;padding:9px;background:#101010;border:1px solid #252525;border-radius:13px;margin:8px 0}.lesson img{width:70px;height:44px;object-fit:cover;border-radius:8px;background:#222}.lesson-num{font-size:11px;color:#888;margin-top:4px}.empty{padding:30px;text-align:center;color:#999;border:1px dashed #333;border-radius:16px}.status{margin-top:10px;padding:10px 12px;border-radius:10px;display:none}.status.ok{display:block;background:rgba(0,230,118,.12);border:1px solid rgba(0,230,118,.35);color:#8cffb8}.status.err{display:block;background:rgba(255,59,59,.12);border:1px solid rgba(255,59,59,.35);color:#ff9e9e}.section-title{margin:18px 0 8px;color:#fff;font-size:16px}.switchrow{display:flex;align-items:center;gap:8px;color:#ddd}.switchrow input{width:auto}.bulk{margin-top:10px;background:#0a0a0a;border:1px dashed #3a3a3a;border-radius:14px;padding:12px}.bulk textarea{min-height:90px}.topnote{background:rgba(255,215,0,.07);border:1px solid var(--line);border-radius:13px;padding:12px;margin:10px 0 0;color:#ddd;font-size:13px;line-height:1.55}
+@media(max-width:780px){.grid,.grid3{grid-template-columns:1fr}.lesson{grid-template-columns:1fr}.lesson img{width:120px;height:68px}.course-head{align-items:flex-start;flex-direction:column}.brand h1{font-size:23px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="brand"><img src="../assets/logo.png" alt="Productor Musical Pro"><div><h1>Gestor de contenido</h1><p>Productor Musical Pro · Cursos Free y Premium</p></div></div>
+  <div class="toolbar">
+    <div class="grid">
+      <input id="endpoint" placeholder="https://tu-worker.workers.dev" autocomplete="url">
+      <input id="token" type="password" placeholder="Token de administrador" autocomplete="off">
+    </div>
+    <div class="actions">
+      <button onclick="loadData()">Cargar contenido</button>
+      <button class="green" onclick="saveData()">Guardar cambios</button>
+      <button class="secondary" onclick="addCourse()">+ Agregar curso</button>
+      <button class="secondary" onclick="exportBackup()">Exportar respaldo</button>
+      <label style="display:inline-flex;align-items:center"><input id="importFile" type="file" accept="application/json" hidden onchange="importBackup(event)"><span style="background:#262626;border:1px solid #444;padding:11px 14px;border-radius:11px;font-weight:900;cursor:pointer">Importar respaldo</span></label>
+    </div>
+    <div class="topnote">El endpoint se guarda solamente en este navegador. El token se mantiene solo durante esta pestaña y no debe subirse a GitHub.</div>
+    <div id="status" class="status"></div>
+  </div>
+  <div id="courses"></div>
+</div>
+<script>
+let data={appName:'Productor Musical Pro',version:1,courses:[]};
+const $=s=>document.querySelector(s);
+const endpointEl=$('#endpoint'), tokenEl=$('#token');
+endpointEl.value=localStorage.getItem('pmp_endpoint')||'';
+tokenEl.value=sessionStorage.getItem('pmp_token')||'';
+endpointEl.addEventListener('input',()=>localStorage.setItem('pmp_endpoint',endpointEl.value.trim()));
+tokenEl.addEventListener('input',()=>sessionStorage.setItem('pmp_token',tokenEl.value));
+function esc(v=''){return String(v).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
+function uid(prefix='id'){return prefix+'-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,7)}
+function normalizeEndpoint(){return endpointEl.value.trim().replace(/\/$/,'')}
+function ytId(v=''){v=String(v).trim();let m=v.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|^)([A-Za-z0-9_-]{11})(?:[?&/#].*)?$/);if(m)return m[1];m=v.match(/[?&]v=([A-Za-z0-9_-]{11})/);return m?m[1]:(/^[A-Za-z0-9_-]{11}$/.test(v)?v:'')}
+function thumb(id){return id?'https://i.ytimg.com/vi/'+id+'/hqdefault.jpg':''}
+function setStatus(msg,ok=true){let s=$('#status');s.textContent=msg;s.className='status '+(ok?'ok':'err')}
+async function loadData(){try{let e=normalizeEndpoint();if(!e)throw new Error('Escribe la URL del Worker.');setStatus('Cargando...',true);let r=await fetch(e+'/api/content',{cache:'no-store'});if(!r.ok)throw new Error('HTTP '+r.status);data=await r.json();if(!Array.isArray(data.courses))data.courses=[];render();setStatus('Contenido cargado correctamente.',true)}catch(err){setStatus('No se pudo cargar: '+err.message,false)}}
+function updateCourse(i,key,val){data.courses[i][key]=val;renderBadgeOnly(i)}
+function renderBadgeOnly(i){let el=document.querySelector('[data-course-badge="'+i+'"]');if(!el)return;let t=data.courses[i].type==='premium'?'PREMIUM':'FREE';el.className='badge '+(data.courses[i].type==='premium'?'premium':'free');el.textContent=t}
+function render(){let root=$('#courses');root.innerHTML='';if(!data.courses.length){root.innerHTML='<div class="empty">No hay cursos. Pulsa <b>+ Agregar curso</b>.</div>';return}
+ data.courses.forEach((c,i)=>{c.lessons=c.lessons||[];let d=document.createElement('section');d.className='course';d.innerHTML=`
+ <div class="course-head"><div><h2>Curso ${i+1}</h2><div class="lesson-num">ID: ${esc(c.id||'')}</div></div><span data-course-badge="${i}" class="badge ${c.type==='premium'?'premium':'free'}">${c.type==='premium'?'PREMIUM':'FREE'}</span></div>
+ <div class="grid3">
+   <input data-k="title" value="${esc(c.title||'')}" placeholder="Título del curso">
+   <select data-k="type"><option value="free" ${c.type==='free'?'selected':''}>Free</option><option value="premium" ${c.type==='premium'?'selected':''}>Premium</option></select>
+   <input data-k="category" value="${esc(c.category||'')}" placeholder="Categoría (Beatmaker, Mezcla...)">
+   <input data-k="instructor" value="${esc(c.instructor||'')}" placeholder="Instructor">
+   <input data-k="banner" value="${esc(c.banner||'')}" placeholder="URL portada / banner">
+   <label class="switchrow"><input data-k="enabled" type="checkbox" ${c.enabled!==false?'checked':''}> Curso visible en la app</label>
+ </div>
+ <textarea data-k="description" placeholder="Descripción del curso">${esc(c.description||'')}</textarea>
+ <div class="section-title">Clases (${c.lessons.length})</div><div class="lessons"></div>
+ <div class="actions"><button class="secondary" onclick="addLesson(${i})">+ Agregar clase</button><button class="secondary" onclick="duplicateCourse(${i})">Duplicar curso</button><button class="red" onclick="delCourse(${i})">Eliminar curso</button></div>
+ <div class="bulk"><div class="muted">Agregar varias clases de una vez: una por línea. Puedes pegar <b>Título | URL de YouTube</b> o solamente la URL.</div><textarea id="bulk-${i}" placeholder="1: Introducción | https://youtu.be/XXXXXXXXXXX\n2: Siguiente clase | https://www.youtube.com/watch?v=YYYYYYYYYYY"></textarea><button class="small" onclick="bulkAdd(${i})">Agregar líneas</button></div>`;
+ d.querySelectorAll('[data-k]').forEach(el=>{el.addEventListener(el.type==='checkbox'?'change':'input',()=>{let v=el.type==='checkbox'?el.checked:el.value;c[el.dataset.k]=v;if(el.dataset.k==='type')renderBadgeOnly(i)})});
+ let ls=d.querySelector('.lessons');c.lessons.forEach((l,j)=>{let x=document.createElement('div');x.className='lesson';x.innerHTML=`<div><img src="${esc(l.thumbnail||thumb(l.videoId))}" alt=""><div class="lesson-num">Clase ${j+1}</div></div><input class="ltitle" value="${esc(l.title||'')}" placeholder="Título de la clase"><input class="lvideo" value="${esc(l.videoId||'')}" placeholder="URL o ID de YouTube"><button class="red small" title="Eliminar">×</button>`;let title=x.querySelector('.ltitle'),video=x.querySelector('.lvideo'),img=x.querySelector('img');title.oninput=()=>l.title=title.value;video.onchange=()=>{let id=ytId(video.value);if(!id){alert('No pude reconocer ese enlace de YouTube.');return}l.videoId=id;l.thumbnail=thumb(id);video.value=id;img.src=l.thumbnail};x.querySelector('button').onclick=()=>{c.lessons.splice(j,1);renumberLessons(c);render()};ls.appendChild(x)});root.appendChild(d)})}
+function renumberLessons(c){(c.lessons||[]).forEach((l,j)=>{if(!l.id)l.id=c.id+'-'+(j+1)})}
+function addCourse(){data.courses.push({id:uid('curso'),title:'Nuevo curso',type:'free',category:'',instructor:'',banner:'',description:'',enabled:true,lessons:[]});render();window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'})}
+function duplicateCourse(i){let c=JSON.parse(JSON.stringify(data.courses[i]));c.id=uid('curso');c.title+=' (copia)';c.lessons.forEach((l,j)=>l.id=c.id+'-'+(j+1));data.courses.splice(i+1,0,c);render()}
+function delCourse(i){if(confirm('¿Eliminar este curso y todas sus clases?')){data.courses.splice(i,1);render()}}
+function addLesson(i){let c=data.courses[i];c.lessons.push({id:c.id+'-'+(c.lessons.length+1),title:'Nueva clase',videoId:'',thumbnail:''});render()}
+function bulkAdd(i){let ta=document.getElementById('bulk-'+i);let lines=ta.value.split(/\r?\n/).map(x=>x.trim()).filter(Boolean),c=data.courses[i],added=0;for(let line of lines){let parts=line.split('|');let source=parts.length>1?parts.pop().trim():line;let id=ytId(source);if(!id)continue;let title=parts.length?parts.join('|').trim():('Clase '+(c.lessons.length+1));c.lessons.push({id:c.id+'-'+(c.lessons.length+1),title,videoId:id,thumbnail:thumb(id)});added++}ta.value='';render();setStatus('Se agregaron '+added+' clases.',true)}
+async function saveData(){try{let e=normalizeEndpoint(),t=tokenEl.value.trim();if(!e||!t)throw new Error('Falta endpoint o token.');data.appName='Productor Musical Pro';data.courses.forEach(c=>{if(!c.id)c.id=uid('curso');renumberLessons(c)});setStatus('Guardando...',true);let r=await fetch(e+'/api/admin/content',{method:'POST',headers:{'content-type':'application/json','authorization':'Bearer '+t},body:JSON.stringify(data)});let res=await r.json().catch(()=>({}));if(!r.ok||!res.ok)throw new Error(res.error||('HTTP '+r.status));data.version=res.version||data.version;setStatus('Guardado correctamente. La app recibirá los cambios al volver a cargar el catálogo.',true)}catch(err){setStatus('No se pudo guardar: '+err.message,false)}}
+function exportBackup(){let blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='productor-musical-pro-contenido.json';a.click();URL.revokeObjectURL(a.href)}
+function importBackup(ev){let f=ev.target.files&&ev.target.files[0];if(!f)return;let rd=new FileReader();rd.onload=()=>{try{let x=JSON.parse(rd.result);if(!Array.isArray(x.courses))throw new Error('JSON inválido');data=x;render();setStatus('Respaldo importado. Pulsa Guardar cambios para publicarlo.',true)}catch(e){setStatus('No se pudo importar: '+e.message,false)}};rd.readAsText(f);ev.target.value=''}
+render();
+</script>
+</body>
+</html>

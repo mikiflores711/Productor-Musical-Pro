@@ -1,0 +1,364 @@
+{
+  "appName": "Productor Musical Pro",
+  "version": 1,
+  "courses": [
+    {
+      "id": "sound-design-olbaid",
+      "title": "Curso de Sound Design - Full Course",
+      "type": "free",
+      "instructor": "Olbaid",
+      "banner": "https://i.ytimg.com/vi/zXhb4Eh-Nns/maxresdefault.jpg",
+      "description": "Curso Completo de Sound Design con Olbaid Este curso gratuito de Sound Design o Diseño de Sonido , impartido por Olbaid , está diseñado para comprender de forma progresiva cómo nace, se transforma y se controla un sonido dentro de una producción musical. El objetivo es ir más allá del uso de presets: aprender a reconocer las partes que forman un sonido, entender por qué suena de determinada manera y adquirir herramientas para modificarlo o construirlo desde cero. A lo largo de las clases se estudian conceptos esenciales como amplitud, frecuencia, fase, envolventes, modulación, movimiento, espacialidad y otros elementos fundamentales para trabajar con sintetizadores, samplers, efectos y procesadores. Cada tema se presenta como una pieza del proceso de diseño sonoro, ayudando a relacionar teoría y práctica para tomar decisiones con mayor intención. El curso también profundiza en recursos utilizados para crear textura, profundidad, dinámica y carácter. Esto permite comprender cómo se construyen sonidos musicales y efectos, cómo se transforman materiales existentes y cómo distintas herramientas pueden combinarse para obtener resultados más complejos. La formación está pensada para productores musicales, beatmakers, compositores y cualquier persona interesada en aprender diseño sonoro desde sus fundamentos. Los principios estudiados son útiles independientemente del DAW o plugin utilizado, porque se concentran en entender el comportamiento del sonido y las técnicas detrás del procesamiento. ¿Qué aprenderás? Comprender las propiedades fundamentales que forman y modifican un sonido. Analizar amplitud, frecuencia, fase y evolución temporal. Trabajar con envolventes, modulación, LFO y movimiento. Entender técnicas de síntesis y procesamiento aplicadas al diseño sonoro. Construir sonidos con mayor intención en lugar de depender únicamente de presets. Crear texturas, ambientes, efectos y elementos útiles para producción musical. Desarrollar criterio para identificar qué procesos necesita un sonido. Aplicar los principios aprendidos en diferentes DAW, sintetizadores y plugins.",
+      "lessons": [
+        {
+          "id": "sound-design-olbaid-1",
+          "title": "0: Clase",
+          "videoId": "zXhb4Eh-Nns",
+          "thumbnail": "https://i.ytimg.com/vi/zXhb4Eh-Nns/hqdefault.jpg"
+        },
+        {
+          "id": "sound-design-olbaid-2",
+          "title": "1: Clase",
+          "videoId": "scGFYN5KJpM",
+          "thumbnail": "https://i.ytimg.com/vi/scGFYN5KJpM/hqdefault.jpg"
+        },
+        {
+          "id": "sound-design-olbaid-3",
+          "title": "2: Clase",
+          "videoId": "8i9BWDYOYZI",
+          "thumbnail": "https://i.ytimg.com/vi/8i9BWDYOYZI/hqdefault.jpg"
+        },
+        {
+          "id": "sound-design-olbaid-4",
+          "title": "3: Clase",
+          "videoId": "FN9B6IMxu_o",
+          "thumbnail": "https://i.ytimg.com/vi/FN9B6IMxu_o/hqdefault.jpg"
+        },
+        {
+          "id": "sound-design-olbaid-5",
+          "title": "4: Clase",
+          "videoId": "2DSjvT4Mo3A",
+          "thumbnail": "https://i.ytimg.com/vi/2DSjvT4Mo3A/hqdefault.jpg"
+        },
+        {
+          "id": "sound-design-olbaid-6",
+          "title": "5: Clase",
+          "videoId": "XZHxKKvyX-k",
+          "thumbnail": "https://i.ytimg.com/vi/XZHxKKvyX-k/hqdefault.jpg"
+        },
+        {
+          "id": "sound-design-olbaid-7",
+          "title": "6: Clase",
+          "videoId": "xgFxKTWBEZw",
+          "thumbnail": "https://i.ytimg.com/vi/xgFxKTWBEZw/hqdefault.jpg"
+        },
+        {
+          "id": "sound-design-olbaid-8",
+          "title": "7: Clase",
+          "videoId": "4k1W0d6pOhQ",
+          "thumbnail": "https://i.ytimg.com/vi/4k1W0d6pOhQ/hqdefault.jpg"
+        },
+        {
+          "id": "sound-design-olbaid-9",
+          "title": "8: Clase",
+          "videoId": "lrZy3srPT7M",
+          "thumbnail": "https://i.ytimg.com/vi/lrZy3srPT7M/hqdefault.jpg"
+        },
+        {
+          "id": "sound-design-olbaid-10",
+          "title": "9: Clase",
+          "videoId": "d2lyauR0WeY",
+          "thumbnail": "https://i.ytimg.com/vi/d2lyauR0WeY/hqdefault.jpg"
+        },
+        {
+          "id": "sound-design-olbaid-11",
+          "title": "10: Clase",
+          "videoId": "fM3r8F-VQf0",
+          "thumbnail": "https://i.ytimg.com/vi/fM3r8F-VQf0/hqdefault.jpg"
+        },
+        {
+          "id": "sound-design-olbaid-12",
+          "title": "11: Clase",
+          "videoId": "St2JbaJgTto",
+          "thumbnail": "https://i.ytimg.com/vi/St2JbaJgTto/hqdefault.jpg"
+        },
+        {
+          "id": "sound-design-olbaid-13",
+          "title": "12: Clase",
+          "videoId": "Cl5_EEUxDjw",
+          "thumbnail": "https://i.ytimg.com/vi/Cl5_EEUxDjw/hqdefault.jpg"
+        },
+        {
+          "id": "sound-design-olbaid-14",
+          "title": "13: Clase",
+          "videoId": "4jwYG5fp1dk",
+          "thumbnail": "https://i.ytimg.com/vi/4jwYG5fp1dk/hqdefault.jpg"
+        },
+        {
+          "id": "sound-design-olbaid-15",
+          "title": "14: Clase",
+          "videoId": "UfMuhrMbwc8",
+          "thumbnail": "https://i.ytimg.com/vi/UfMuhrMbwc8/hqdefault.jpg"
+        },
+        {
+          "id": "sound-design-olbaid-16",
+          "title": "15: Clase",
+          "videoId": "YhXr81nAdE4",
+          "thumbnail": "https://i.ytimg.com/vi/YhXr81nAdE4/hqdefault.jpg"
+        },
+        {
+          "id": "sound-design-olbaid-17",
+          "title": "16: Clase",
+          "videoId": "DmOovqy6IgI",
+          "thumbnail": "https://i.ytimg.com/vi/DmOovqy6IgI/hqdefault.jpg"
+        },
+        {
+          "id": "sound-design-olbaid-18",
+          "title": "17: Clase",
+          "videoId": "ERKpZ1hjlxo",
+          "thumbnail": "https://i.ytimg.com/vi/ERKpZ1hjlxo/hqdefault.jpg"
+        },
+        {
+          "id": "sound-design-olbaid-19",
+          "title": "18: Clase",
+          "videoId": "oe5M61CHpqA",
+          "thumbnail": "https://i.ytimg.com/vi/oe5M61CHpqA/hqdefault.jpg"
+        },
+        {
+          "id": "sound-design-olbaid-20",
+          "title": "19: Clase",
+          "videoId": "FCdxxVStZPY",
+          "thumbnail": "https://i.ytimg.com/vi/FCdxxVStZPY/hqdefault.jpg"
+        },
+        {
+          "id": "sound-design-olbaid-21",
+          "title": "20: Clase",
+          "videoId": "TcERP3rk1L0",
+          "thumbnail": "https://i.ytimg.com/vi/TcERP3rk1L0/hqdefault.jpg"
+        },
+        {
+          "id": "sound-design-olbaid-22",
+          "title": "21: Clase",
+          "videoId": "WZKZdkTvfIw",
+          "thumbnail": "https://i.ytimg.com/vi/WZKZdkTvfIw/hqdefault.jpg"
+        },
+        {
+          "id": "sound-design-olbaid-23",
+          "title": "22: Clase",
+          "videoId": "R8ozaElvDBM",
+          "thumbnail": "https://i.ytimg.com/vi/R8ozaElvDBM/hqdefault.jpg"
+        },
+        {
+          "id": "sound-design-olbaid-24",
+          "title": "23: Clase",
+          "videoId": "MjZ7qzyeZLc",
+          "thumbnail": "https://i.ytimg.com/vi/MjZ7qzyeZLc/hqdefault.jpg"
+        },
+        {
+          "id": "sound-design-olbaid-25",
+          "title": "24: Clase",
+          "videoId": "wSS0MVYluYQ",
+          "thumbnail": "https://i.ytimg.com/vi/wSS0MVYluYQ/hqdefault.jpg"
+        },
+        {
+          "id": "sound-design-olbaid-26",
+          "title": "25: Clase",
+          "videoId": "gkcsUh4kToA",
+          "thumbnail": "https://i.ytimg.com/vi/gkcsUh4kToA/hqdefault.jpg"
+        },
+        {
+          "id": "sound-design-olbaid-27",
+          "title": "26: Clase",
+          "videoId": "7_4aEr0nOTA",
+          "thumbnail": "https://i.ytimg.com/vi/7_4aEr0nOTA/hqdefault.jpg"
+        },
+        {
+          "id": "sound-design-olbaid-28",
+          "title": "27: Clase",
+          "videoId": "Fjknnx181NI",
+          "thumbnail": "https://i.ytimg.com/vi/Fjknnx181NI/hqdefault.jpg"
+        },
+        {
+          "id": "sound-design-olbaid-29",
+          "title": "28: Clase",
+          "videoId": "t1mUPt5PpxI",
+          "thumbnail": "https://i.ytimg.com/vi/t1mUPt5PpxI/hqdefault.jpg"
+        },
+        {
+          "id": "sound-design-olbaid-30",
+          "title": "29: Clase",
+          "videoId": "7xyJpZENlB4",
+          "thumbnail": "https://i.ytimg.com/vi/7xyJpZENlB4/hqdefault.jpg"
+        },
+        {
+          "id": "sound-design-olbaid-31",
+          "title": "30: Clase",
+          "videoId": "IVTqr--VXks",
+          "thumbnail": "https://i.ytimg.com/vi/IVTqr--VXks/hqdefault.jpg"
+        },
+        {
+          "id": "sound-design-olbaid-32",
+          "title": "31: Clase",
+          "videoId": "8jnxwUJdd7M",
+          "thumbnail": "https://i.ytimg.com/vi/8jnxwUJdd7M/hqdefault.jpg"
+        },
+        {
+          "id": "sound-design-olbaid-33",
+          "title": "32: Clase",
+          "videoId": "ozSxS_J_TNQ",
+          "thumbnail": "https://i.ytimg.com/vi/ozSxS_J_TNQ/hqdefault.jpg"
+        },
+        {
+          "id": "sound-design-olbaid-34",
+          "title": "33: Clase",
+          "videoId": "EBA2WNhBSDk",
+          "thumbnail": "https://i.ytimg.com/vi/EBA2WNhBSDk/hqdefault.jpg"
+        },
+        {
+          "id": "sound-design-olbaid-35",
+          "title": "34: Clase",
+          "videoId": "6U_6qFNI60I",
+          "thumbnail": "https://i.ytimg.com/vi/6U_6qFNI60I/hqdefault.jpg"
+        },
+        {
+          "id": "sound-design-olbaid-36",
+          "title": "35: Clase",
+          "videoId": "LH-6cZI_Iq8",
+          "thumbnail": "https://i.ytimg.com/vi/LH-6cZI_Iq8/hqdefault.jpg"
+        },
+        {
+          "id": "sound-design-olbaid-37",
+          "title": "36: Clase",
+          "videoId": "HDnx9LHhmA4",
+          "thumbnail": "https://i.ytimg.com/vi/HDnx9LHhmA4/hqdefault.jpg"
+        },
+        {
+          "id": "sound-design-olbaid-38",
+          "title": "37: Clase",
+          "videoId": "4_BUPezotrs",
+          "thumbnail": "https://i.ytimg.com/vi/4_BUPezotrs/hqdefault.jpg"
+        },
+        {
+          "id": "sound-design-olbaid-39",
+          "title": "38: Clase",
+          "videoId": "Jk1fI7jTRZs",
+          "thumbnail": "https://i.ytimg.com/vi/Jk1fI7jTRZs/hqdefault.jpg"
+        },
+        {
+          "id": "sound-design-olbaid-40",
+          "title": "39: Clase",
+          "videoId": "XWsy-4adLm4",
+          "thumbnail": "https://i.ytimg.com/vi/XWsy-4adLm4/hqdefault.jpg"
+        },
+        {
+          "id": "sound-design-olbaid-41",
+          "title": "40: Clase",
+          "videoId": "rUA9BGafImg",
+          "thumbnail": "https://i.ytimg.com/vi/rUA9BGafImg/hqdefault.jpg"
+        }
+      ],
+      "enabled": true
+    },
+    {
+      "id": "top-mastering",
+      "title": "Mastering Profesional con Plugins de Alta Calidad",
+      "type": "premium",
+      "instructor": "Paco Rincón y Edy Williams (Top Mastering)",
+      "banner": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMxBfBmo8LFzcmOvk8twqHp7G7t52MnNHQBgrXtkzc5SRdFeXxSyaQwq4&s=10",
+      "description": "Descripción de Mastering Profesional con Plugins de Alta Calidad ofrece una formación práctica enfocada en lograr un sonido comercial competitivo desde un Home Studio. La metodología destaca por el uso de técnicas de equilibrio frecuencial, la integración de procesos de mezcla y mastering, y el dominio de cadenas de procesamiento mediante plugins de alta calidad. Contenido del curso 1 módulo organizado en 15 clases. Enfoque práctico de mastering desde un Home Studio. Equilibrio frecuencial, procesos de mezcla y mastering. Uso de cadenas de procesamiento con plugins de alta calidad.",
+      "lessons": [
+        {
+          "id": "top-mastering-1",
+          "title": "00. Intro/Bienvenida",
+          "videoId": "IKTIVXgvACM",
+          "thumbnail": "https://i.ytimg.com/vi/IKTIVXgvACM/hqdefault.jpg"
+        },
+        {
+          "id": "top-mastering-2",
+          "title": "01. Analizadores",
+          "videoId": "G2Oks8Sci3U",
+          "thumbnail": "https://i.ytimg.com/vi/G2Oks8Sci3U/hqdefault.jpg"
+        },
+        {
+          "id": "top-mastering-3",
+          "title": "02. Configurar el proyecto",
+          "videoId": "BVYZQJDUZY0",
+          "thumbnail": "https://i.ytimg.com/vi/BVYZQJDUZY0/hqdefault.jpg"
+        },
+        {
+          "id": "top-mastering-4",
+          "title": "03. Cancion de referencia",
+          "videoId": "kpy3Dx2FifU",
+          "thumbnail": "https://i.ytimg.com/vi/kpy3Dx2FifU/hqdefault.jpg"
+        },
+        {
+          "id": "top-mastering-5",
+          "title": "04. Limitador",
+          "videoId": "vZW6Hc590go",
+          "thumbnail": "https://i.ytimg.com/vi/vZW6Hc590go/hqdefault.jpg"
+        },
+        {
+          "id": "top-mastering-6",
+          "title": "05. Ajuste Equilibrio Frecuencial",
+          "videoId": "LfJlnJS4KlY",
+          "thumbnail": "https://i.ytimg.com/vi/LfJlnJS4KlY/hqdefault.jpg"
+        },
+        {
+          "id": "top-mastering-7",
+          "title": "06. Correcion de la mezcla en mastering",
+          "videoId": "2QbHQD8vXN4",
+          "thumbnail": "https://i.ytimg.com/vi/2QbHQD8vXN4/hqdefault.jpg"
+        },
+        {
+          "id": "top-mastering-8",
+          "title": "07. Compresion",
+          "videoId": "PL_dJswoThY",
+          "thumbnail": "https://i.ytimg.com/vi/PL_dJswoThY/hqdefault.jpg"
+        },
+        {
+          "id": "top-mastering-9",
+          "title": "08. Remanentes",
+          "videoId": "UoI9gP7ki0c",
+          "thumbnail": "https://i.ytimg.com/vi/UoI9gP7ki0c/hqdefault.jpg"
+        },
+        {
+          "id": "top-mastering-10",
+          "title": "09. Curva Psico",
+          "videoId": "vfhkTNAQj4w",
+          "thumbnail": "https://i.ytimg.com/vi/vfhkTNAQj4w/hqdefault.jpg"
+        },
+        {
+          "id": "top-mastering-11",
+          "title": "10. Color",
+          "videoId": "oXQ_tfd3UUA",
+          "thumbnail": "https://i.ytimg.com/vi/oXQ_tfd3UUA/hqdefault.jpg"
+        },
+        {
+          "id": "top-mastering-12",
+          "title": "11. Bounce",
+          "videoId": "73dasboskbg",
+          "thumbnail": "https://i.ytimg.com/vi/73dasboskbg/hqdefault.jpg"
+        },
+        {
+          "id": "top-mastering-13",
+          "title": "12. Caso Practico 2",
+          "videoId": "s8A3K3dP_YQ",
+          "thumbnail": "https://i.ytimg.com/vi/s8A3K3dP_YQ/hqdefault.jpg"
+        },
+        {
+          "id": "top-mastering-14",
+          "title": "13. Caso Practico 3",
+          "videoId": "sW4H2WYWiJA",
+          "thumbnail": "https://i.ytimg.com/vi/sW4H2WYWiJA/hqdefault.jpg"
+        },
+        {
+          "id": "top-mastering-15",
+          "title": "14. Final",
+          "videoId": "rLDuFo540_U",
+          "thumbnail": "https://i.ytimg.com/vi/rLDuFo540_U/hqdefault.jpg"
+        }
+      ],
+      "enabled": true
+    }
+  ]
+}

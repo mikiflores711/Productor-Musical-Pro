@@ -1,0 +1,55 @@
+PRODUCTOR MUSICAL PRO - CONFIGURACION DEL GESTOR
+
+1) SUBIR A GITHUB
+   Sube todo el contenido de esta carpeta a un repositorio nuevo.
+   Activa GitHub Pages desde la rama main / root.
+
+2) CLOUDFLARE
+   Crea un Worker nuevo y copia worker/worker.js.
+   Crea un KV Namespace y enlázalo al Worker con el binding:
+      PMP_CONTENT
+
+3) TOKEN ADMIN
+   En Cloudflare crea un Secret llamado:
+      ADMIN_TOKEN
+   Usa una contraseña/token largo que solo tú conozcas.
+   NO lo escribas en los archivos de GitHub.
+
+4) ORIGEN DEL ADMIN
+   En variables del Worker puedes crear:
+      ADMIN_ORIGIN
+   Valor ejemplo:
+      https://TUUSUARIO.github.io
+   Si luego usas dominio propio, reemplaza ese valor por tu dominio oficial.
+
+5) ABRIR EL GESTOR
+   Tu URL será aproximadamente:
+      https://TUUSUARIO.github.io/NOMBRE-REPO/admin/
+
+   En Endpoint escribe la URL del Worker, por ejemplo:
+      https://productor-musical-pro-cms.TUCUENTA.workers.dev
+
+   En Token escribe el ADMIN_TOKEN.
+
+6) CONTENIDO INICIAL
+   Puedes pulsar Importar respaldo en el gestor y seleccionar:
+      data/content-inicial.json
+   Luego pulsa Guardar cambios.
+
+7) APP ANDROID
+   La app debe consultar:
+      https://TU-WORKER.workers.dev/api/content
+   Ese enlace lo conectaremos en Config.java después de comprobar el Worker.
+
+8) CURSOS PREMIUM
+   El campo type debe ser:
+      premium
+   Los cursos gratis usan:
+      free
+
+9) VIDEOS YOUTUBE
+   En cada clase puedes pegar el enlace completo o el ID.
+   Ejemplos:
+      https://youtu.be/zXhb4Eh-Nns
+      https://www.youtube.com/watch?v=zXhb4Eh-Nns
+      zXhb4Eh-Nns
