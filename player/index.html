@@ -55,6 +55,8 @@ body{font-family:Arial,sans-serif;color:#fff;touch-action:manipulation;-webkit-u
   function showError(msg){errorText.textContent=msg;error.style.display='flex';}
   window.toggle=function(){if(!ready||!player)return;try{player.getPlayerState()===1?player.pauseVideo():player.playVideo();}catch(_){}};
   window.seek=function(seconds){if(!ready||!player)return;try{player.seekTo(Math.max(0,player.getCurrentTime()+Number(seconds||0)),true);}catch(_){}};
+  window.seekFraction=function(f){if(!ready||!player)return;try{const d=player.getDuration()||0;player.seekTo(Math.max(0,Math.min(1,Number(f||0)))*d,true);}catch(_){}};
+  window.playerInfo=function(){if(!ready||!player)return JSON.stringify({current:0,duration:0,state:-1});try{return JSON.stringify({current:player.getCurrentTime()||0,duration:player.getDuration()||0,state:player.getPlayerState()});}catch(_){return JSON.stringify({current:0,duration:0,state:-1});}};
   window.muteToggle=function(){if(!ready||!player)return;try{player.isMuted()?player.unMute():player.mute();}catch(_){}};
   window.captionsToggle=function(){
     if(!ready||!player)return 'unavailable';
