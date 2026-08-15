@@ -6,16 +6,20 @@
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <title>Productor Musical Pro Player</title>
 <style>
-html,body,#player{margin:0;width:100%;height:100%;background:#000;overflow:hidden}
-body{font-family:Arial,sans-serif;color:#fff;touch-action:manipulation;-webkit-user-select:none;user-select:none}
-#player iframe{width:100%!important;height:100%!important;display:block;border:0;pointer-events:none}
+:root{color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;background:#000;overflow:hidden}
+body{font-family:Arial,sans-serif;color:#fff;touch-action:manipulation;-webkit-user-select:none;user-select:none;display:flex;align-items:center;justify-content:center}
+#stage{position:relative;background:#000;width:min(100vw,calc(100vh * 16 / 9));height:min(100vh,calc(100vw * 9 / 16));max-width:100vw;max-height:100vh;overflow:hidden}
+#player,#player>div,#player iframe{width:100%!important;height:100%!important;display:block!important;border:0!important}
+#player iframe{pointer-events:none!important;background:#000!important}
 #loading,#error{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:30px;background:#000;z-index:2}
 #error{display:none;color:#fff}
 #error strong{color:#ffd700;display:block;font-size:24px;margin-bottom:10px}
 </style>
 </head>
 <body oncontextmenu="return false">
-<div id="player"></div>
+<div id="stage"><div id="player"></div></div>
 <div id="loading">Cargando clase…</div>
 <div id="error"><div><strong>No se pudo reproducir</strong><span id="errorText">Comprueba el video de YouTube.</span></div></div>
 <script>
@@ -24,8 +28,7 @@ body{font-family:Arial,sans-serif;color:#fff;touch-action:manipulation;-webkit-u
   const params=new URLSearchParams(location.search);
   const raw=(params.get('v')||'').trim();
   const videoId=/^[A-Za-z0-9_-]{11}$/.test(raw)?raw:'';
-  let player=null;
-  let ready=false;
+  let player=null,ready=false,captionsEnabled=false;
   const loading=document.getElementById('loading');
   const error=document.getElementById('error');
   const errorText=document.getElementById('errorText');
@@ -33,10 +36,18 @@ body{font-family:Arial,sans-serif;color:#fff;touch-action:manipulation;-webkit-u
   window.onYouTubeIframeAPIReady=function(){
     if(!videoId){showError('ID de video inválido.');return;}
     player=new YT.Player('player',{
-      width:'100%',height:'100%',videoId:videoId,
-      playerVars:{autoplay:1,controls:0,disablekb:1,fs:0,rel:0,playsinline:1,enablejsapi:1,origin:location.origin},
+      width:'100%',height:'100%',videoId,
+      playerVars:{
+        autoplay:1,controls:0,disablekb:1,fs:0,rel:0,playsinline:1,
+        enablejsapi:1,origin:location.origin,iv_load_policy:3,cc_load_policy:0,
+        modestbranding:1
+      },
       events:{
-        onReady:function(e){ready=true;loading.style.display='none';try{e.target.playVideo();}catch(_){}},
+        onReady:function(e){
+          ready=true;loading.style.display='none';
+          try{e.target.loadModule('captions');}catch(_){}
+          try{e.target.playVideo();}catch(_){}
+        },
         onError:function(e){loading.style.display='none';showError('YouTube rechazó la reproducción. Código: '+e.data);}
       }
     });
@@ -45,6 +56,23 @@ body{font-family:Arial,sans-serif;color:#fff;touch-action:manipulation;-webkit-u
   window.toggle=function(){if(!ready||!player)return;try{player.getPlayerState()===1?player.pauseVideo():player.playVideo();}catch(_){}};
   window.seek=function(seconds){if(!ready||!player)return;try{player.seekTo(Math.max(0,player.getCurrentTime()+Number(seconds||0)),true);}catch(_){}};
   window.muteToggle=function(){if(!ready||!player)return;try{player.isMuted()?player.unMute():player.mute();}catch(_){}};
+  window.captionsToggle=function(){
+    if(!ready||!player)return 'unavailable';
+    try{
+      player.loadModule('captions');
+      if(captionsEnabled){
+        player.setOption('captions','track',{});
+        captionsEnabled=false;
+        return 'off';
+      }
+      const tracks=player.getOption('captions','tracklist')||[];
+      if(!tracks.length)return 'unavailable';
+      const t=tracks.find(x=>x.languageCode==='es'||x.languageCode==='es-419')||tracks[0];
+      player.setOption('captions','track',t);
+      captionsEnabled=true;
+      return 'on';
+    }catch(_){return 'unavailable';}
+  };
   window.stopPmpPlayer=function(){if(player){try{player.stopVideo();}catch(_){}}};
   const tag=document.createElement('script');tag.src='https://www.youtube.com/iframe_api';tag.async=true;document.head.appendChild(tag);
 })();
