@@ -6,78 +6,114 @@
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <title>Productor Musical Pro Player</title>
 <style>
-:root{color-scheme:dark}
-*{box-sizing:border-box}
-html,body{margin:0;width:100%;height:100%;background:#000;overflow:hidden}
-body{font-family:Arial,sans-serif;color:#fff;touch-action:manipulation;-webkit-user-select:none;user-select:none;display:flex;align-items:center;justify-content:center}
-#stage{position:relative;background:#000;width:min(100vw,calc(100vh * 16 / 9));height:min(100vh,calc(100vw * 9 / 16));max-width:100vw;max-height:100vh;overflow:hidden}
+:root{color-scheme:dark;--yt-red:#ff0000;--yt-white:#fff;--yt-dim:rgba(0,0,0,.68)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;width:100%;height:100%;background:#000;overflow:hidden;font-family:Arial,sans-serif;color:#fff;-webkit-user-select:none;user-select:none}
+body{display:flex;align-items:center;justify-content:center}
+#shell{position:fixed;inset:0;background:#000;overflow:hidden}
+#stage{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:#000}
+#videoBox{position:relative;width:min(100vw,calc(100vh * 16 / 9));height:min(100vh,calc(100vw * 9 / 16));max-width:100vw;max-height:100vh;background:#000;overflow:hidden}
 #player,#player>div,#player iframe{width:100%!important;height:100%!important;display:block!important;border:0!important}
 #player iframe{pointer-events:none!important;background:#000!important}
-#loading,#error{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:30px;background:#000;z-index:2}
-#error{display:none;color:#fff}
-#error strong{color:#ffd700;display:block;font-size:24px;margin-bottom:10px}
+#touchLayer{position:absolute;inset:0;z-index:4;background:transparent}
+
+/* Barra superior: única zona Liquid Glass, usada para cubrir visualmente el título/canal de YouTube. */
+#top{position:fixed;top:max(10px,env(safe-area-inset-top));left:12px;right:12px;z-index:10;display:flex;align-items:center;gap:10px;padding:9px 11px;border-radius:18px;background:linear-gradient(135deg,rgba(36,36,36,.62),rgba(20,20,20,.38));border:1px solid rgba(255,255,255,.18);box-shadow:0 8px 26px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.12);backdrop-filter:blur(18px) saturate(150%);-webkit-backdrop-filter:blur(18px) saturate(150%);transition:opacity .18s ease,transform .18s ease}
+#back{width:42px;height:42px;border:0;background:transparent;color:#fff;font-size:28px;line-height:1;border-radius:50%;font-weight:400;cursor:pointer}
+#back:active{background:rgba(255,255,255,.12)}
+#titleWrap{min-width:0;flex:1}
+#title{font-size:15px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#module{font-size:12px;color:#d7d7d7;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* Controles inferiores estilo YouTube: sin Liquid Glass, solo gradiente oscuro. */
+#bottom{position:fixed;left:0;right:0;bottom:0;z-index:10;padding:44px 14px max(10px,env(safe-area-inset-bottom));background:linear-gradient(to top,rgba(0,0,0,.86) 0%,rgba(0,0,0,.54) 45%,rgba(0,0,0,0) 100%);transition:opacity .18s ease,transform .18s ease}
+#seekRow{display:flex;align-items:center;gap:10px;width:100%;margin-bottom:8px}
+#seek{appearance:none;-webkit-appearance:none;width:100%;height:18px;background:transparent;cursor:pointer;margin:0}
+#seek::-webkit-slider-runnable-track{height:3px;border-radius:99px;background:linear-gradient(to right,var(--yt-red) 0 var(--p,0%),rgba(255,255,255,.38) var(--p,0%) 100%)}
+#seek::-webkit-slider-thumb{-webkit-appearance:none;width:13px;height:13px;border-radius:50%;background:var(--yt-red);margin-top:-5px;border:0}
+#seek::-moz-range-track{height:3px;background:rgba(255,255,255,.38);border-radius:99px}
+#seek::-moz-range-progress{height:3px;background:var(--yt-red);border-radius:99px}
+#seek::-moz-range-thumb{width:13px;height:13px;border-radius:50%;background:var(--yt-red);border:0}
+#time{font-size:12px;white-space:nowrap;color:#fff;min-width:88px;text-align:right;text-shadow:0 1px 3px #000}
+#buttons{display:flex;justify-content:center;align-items:center;gap:18px}
+.ytbtn{width:48px;height:48px;border:0;border-radius:50%;background:transparent;color:#fff;display:flex;align-items:center;justify-content:center;font-size:23px;font-weight:700;cursor:pointer;text-shadow:0 2px 5px rgba(0,0,0,.9)}
+.ytbtn:active{background:rgba(255,255,255,.14);transform:scale(.94)}
+#play{font-size:30px}
+#cc{font-size:18px;font-weight:800;border-radius:7px;width:46px;height:34px;border:2px solid currentColor;margin-left:2px}
+#cc.active{color:#fff;background:rgba(255,255,255,.18)}
+.seek15{font-size:15px;position:relative}
+.seek15::before{content:"";position:absolute;width:25px;height:25px;border:2px solid #fff;border-radius:50%;opacity:.95}
+.seek15 span{position:relative;z-index:1;font-size:11px;line-height:1}
+#back15::after{content:"↶";position:absolute;font-size:16px;transform:translate(-12px,-12px)}
+#fwd15::after{content:"↷";position:absolute;font-size:16px;transform:translate(12px,-12px)}
+.hidden{opacity:0;pointer-events:none}
+#top.hidden{transform:translateY(-10px)}
+#bottom.hidden{transform:translateY(10px)}
+#loading,#error{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:30px;background:#000;z-index:20}
+#error{display:none}.accent{color:#fff;font-size:24px;font-weight:900;display:block;margin-bottom:10px}
+@media(max-height:520px){#top{top:6px;left:8px;right:8px;padding:7px 9px}#back{width:36px;height:36px}.ytbtn{width:42px;height:42px}#buttons{gap:14px}#bottom{padding-bottom:6px}}
 </style>
 </head>
 <body oncontextmenu="return false">
-<div id="stage"><div id="player"></div></div>
+<div id="shell">
+  <div id="stage"><div id="videoBox"><div id="player"></div><div id="touchLayer"></div></div></div>
+  <div id="top">
+    <button id="back" aria-label="Volver">←</button>
+    <div id="titleWrap"><div id="title">Clase</div><div id="module"></div></div>
+  </div>
+  <div id="bottom">
+    <div id="seekRow"><input id="seek" type="range" min="0" max="1000" value="0"><div id="time">0:00 / 0:00</div></div>
+    <div id="buttons">
+      <button id="back15" class="ytbtn seek15" aria-label="Retroceder 15 segundos"><span>15</span></button>
+      <button id="play" class="ytbtn" aria-label="Play o pausa">▶</button>
+      <button id="fwd15" class="ytbtn seek15" aria-label="Adelantar 15 segundos"><span>15</span></button>
+      <button id="cc" class="ytbtn" aria-label="Subtítulos">CC</button>
+    </div>
+  </div>
+</div>
 <div id="loading">Cargando clase…</div>
-<div id="error"><div><strong>No se pudo reproducir</strong><span id="errorText">Comprueba el video de YouTube.</span></div></div>
+<div id="error"><div><span class="accent">No se pudo reproducir</span><span id="errorText">Comprueba el video.</span></div></div>
 <script>
-(function(){
-  'use strict';
-  const params=new URLSearchParams(location.search);
-  const raw=(params.get('v')||'').trim();
-  const videoId=/^[A-Za-z0-9_-]{11}$/.test(raw)?raw:'';
-  let player=null,ready=false,captionsEnabled=false;
-  const loading=document.getElementById('loading');
-  const error=document.getElementById('error');
-  const errorText=document.getElementById('errorText');
-
-  window.onYouTubeIframeAPIReady=function(){
-    if(!videoId){showError('ID de video inválido.');return;}
-    player=new YT.Player('player',{
-      width:'100%',height:'100%',videoId,
-      playerVars:{
-        autoplay:1,controls:0,disablekb:1,fs:0,rel:0,playsinline:1,
-        enablejsapi:1,origin:location.origin,iv_load_policy:3,cc_load_policy:0,
-        modestbranding:1
-      },
-      events:{
-        onReady:function(e){
-          ready=true;loading.style.display='none';
-          try{e.target.loadModule('captions');}catch(_){}
-          try{e.target.playVideo();}catch(_){}
-        },
-        onError:function(e){loading.style.display='none';showError('YouTube rechazó la reproducción. Código: '+e.data);}
-      }
-    });
-  };
-  function showError(msg){errorText.textContent=msg;error.style.display='flex';}
-  window.toggle=function(){if(!ready||!player)return;try{player.getPlayerState()===1?player.pauseVideo():player.playVideo();}catch(_){}};
-  window.seek=function(seconds){if(!ready||!player)return;try{player.seekTo(Math.max(0,player.getCurrentTime()+Number(seconds||0)),true);}catch(_){}};
-  window.seekFraction=function(f){if(!ready||!player)return;try{const d=player.getDuration()||0;player.seekTo(Math.max(0,Math.min(1,Number(f||0)))*d,true);}catch(_){}};
-  window.playerInfo=function(){if(!ready||!player)return JSON.stringify({current:0,duration:0,state:-1});try{return JSON.stringify({current:player.getCurrentTime()||0,duration:player.getDuration()||0,state:player.getPlayerState()});}catch(_){return JSON.stringify({current:0,duration:0,state:-1});}};
-  window.muteToggle=function(){if(!ready||!player)return;try{player.isMuted()?player.unMute():player.mute();}catch(_){}};
-  window.captionsToggle=function(){
-    if(!ready||!player)return 'unavailable';
-    try{
-      player.loadModule('captions');
-      if(captionsEnabled){
-        player.setOption('captions','track',{});
-        captionsEnabled=false;
-        return 'off';
-      }
-      const tracks=player.getOption('captions','tracklist')||[];
-      if(!tracks.length)return 'unavailable';
-      const t=tracks.find(x=>x.languageCode==='es'||x.languageCode==='es-419')||tracks[0];
-      player.setOption('captions','track',t);
-      captionsEnabled=true;
-      return 'on';
-    }catch(_){return 'unavailable';}
-  };
-  window.stopPmpPlayer=function(){if(player){try{player.stopVideo();}catch(_){}}};
-  const tag=document.createElement('script');tag.src='https://www.youtube.com/iframe_api';tag.async=true;document.head.appendChild(tag);
+(()=>{'use strict';
+const q=new URLSearchParams(location.search);
+const raw=(q.get('v')||'').trim();
+const videoId=/^[A-Za-z0-9_-]{11}$/.test(raw)?raw:'';
+const title=(q.get('title')||'Clase').trim();
+const moduleTitle=(q.get('module')||'').trim();
+let player=null,ready=false,captions=false,dragging=false,hideTimer=null;
+const $=s=>document.querySelector(s),top=$('#top'),bottom=$('#bottom'),seek=$('#seek'),time=$('#time'),play=$('#play'),cc=$('#cc');
+$('#title').textContent=title;
+$('#module').textContent=moduleTitle;
+$('#module').style.display=moduleTitle?'block':'none';
+function fmt(x){x=Math.max(0,Math.floor(Number(x)||0));return Math.floor(x/60)+':'+String(x%60).padStart(2,'0')}
+function setProgress(p){p=Math.max(0,Math.min(100,p||0));seek.style.setProperty('--p',p+'%')}
+function showControls(){clearTimeout(hideTimer);top.classList.remove('hidden');bottom.classList.remove('hidden');hideTimer=setTimeout(hideControls,3000)}
+function hideControls(){top.classList.add('hidden');bottom.classList.add('hidden')}
+function toggleControls(){if(top.classList.contains('hidden'))showControls();else hideControls()}
+$('#touchLayer').addEventListener('click',toggleControls,{passive:true});
+$('#back').onclick=()=>{try{if(window.PMPAndroid&&PMPAndroid.closePlayer){PMPAndroid.closePlayer();return}}catch(_){} history.length>1?history.back():location.href='../';};
+function safe(fn){try{if(ready&&player)fn()}catch(_){}}
+$('#back15').onclick=()=>{safe(()=>player.seekTo(Math.max(0,player.getCurrentTime()-15),true));showControls()};
+$('#fwd15').onclick=()=>{safe(()=>player.seekTo(Math.min(player.getDuration()||1e9,player.getCurrentTime()+15),true));showControls()};
+play.onclick=()=>{safe(()=>player.getPlayerState()===YT.PlayerState.PLAYING?player.pauseVideo():player.playVideo());showControls()};
+cc.onclick=()=>{safe(()=>{player.loadModule('captions');if(captions){player.setOption('captions','track',{});captions=false;cc.classList.remove('active');return}let list=player.getOption('captions','tracklist')||[];if(!list.length)return;let track=list.find(a=>a.languageCode==='es'||a.languageCode==='es-419')||list[0];player.setOption('captions','track',track);captions=true;cc.classList.add('active')});showControls()};
+seek.addEventListener('pointerdown',()=>{dragging=true;clearTimeout(hideTimer)});
+seek.addEventListener('input',()=>{let d=ready&&player?(player.getDuration()||0):0,p=Number(seek.value)/10;setProgress(p);time.textContent=fmt(d*seek.value/1000)+' / '+fmt(d)});
+seek.addEventListener('change',()=>{safe(()=>{let d=player.getDuration()||0;player.seekTo(d*seek.value/1000,true)});dragging=false;showControls()});
+seek.addEventListener('pointerup',()=>{dragging=false;showControls()});
+function updatePlayIcon(state){play.textContent=state===YT.PlayerState.PLAYING?'❚❚':'▶'}
+window.onYouTubeIframeAPIReady=()=>{
+ if(!videoId){showError('ID de video inválido.');return}
+ player=new YT.Player('player',{width:'100%',height:'100%',videoId,playerVars:{autoplay:1,controls:0,disablekb:1,fs:0,rel:0,playsinline:1,enablejsapi:1,origin:location.origin,iv_load_policy:3,cc_load_policy:0},events:{
+  onReady:e=>{ready=true;$('#loading').style.display='none';try{e.target.loadModule('captions')}catch(_){}try{e.target.playVideo()}catch(_){}showControls()},
+  onStateChange:e=>{updatePlayIcon(e.data);if(e.data===YT.PlayerState.PLAYING)showControls()},
+  onError:e=>showError('YouTube rechazó la reproducción. Código: '+e.data)
+ }});
+};
+function showError(m){$('#loading').style.display='none';$('#errorText').textContent=m;$('#error').style.display='flex'}
+setInterval(()=>{if(!ready||!player||dragging)return;try{let c=player.getCurrentTime()||0,d=player.getDuration()||0,p=d>0?c/d*100:0;seek.value=Math.round(p*10);setProgress(p);time.textContent=fmt(c)+' / '+fmt(d)}catch(_){}},400);
+window.stopPmpPlayer=()=>{try{player&&player.stopVideo()}catch(_){}};
+const tag=document.createElement('script');tag.src='https://www.youtube.com/iframe_api';tag.async=true;document.head.appendChild(tag);
 })();
 </script>
-</body>
-</html>
+</body></html>
